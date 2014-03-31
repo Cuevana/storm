@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+	<!-- inject:css -->
+	<link rel="stylesheet" href="/css/main-4f4b7fd6.css">
+	<!-- endinject -->
+	
+	<script type="text/javascript">
+
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-2752072-3']);
+	  _gaq.push(['_setDomainName', 'none']);
+	  _gaq.push(['_trackPageview', '/app/index']);
+
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+
+	</script>
+  </head>
+  <body>
+
+  	<div id="init-load"></div>
+
+  	<div id="toolbar">
+		<ul class="icons">
+			<li class="min"></li>
+			<li class="max"></li>
+			<li class="close"></li>
+		</ul>
+  		<span>Cuevana</span>
+  	</div>
+	
+	<div id="app-alert" class="app-alert">
+		<button>Actualizar</button> Hay una nueva versión de Cuevana Storm disponible. Actualiza ahora para disfrutar de las últimas novedades.
+	</div>
+	
+	<!-- Menu -->
+	<div id="menu" class="col_left">
+		<ul class="scrollbar scrollbar-light gap">
+			<li data-type="featured" data-action="movies" data-style="normal"><i class="icon-flash"></i>Destacado</li>
+			<li data-type="history" data-action="" data-style="history"><i class="icon-clock"></i>Historial</li>
+			<li class="title">Películas</li>
+			<!-- <li data-type="movies" data-action="recent" data-style="normal"><i class="icon-alert"></i>Recientes</li> -->
+			<li data-type="movies" data-action="releases" data-style="normal"><i class="icon-ticket"></i>Estrenos</li>
+			<li data-type="movies" data-action="popular" data-style="normal"><i class="icon-chart-bar"></i>Populares del mes</li>
+			<li data-type="movies" data-action="ranking" data-style="numbered"><i class="icon-star"></i>Ranking</li>
+			<li data-type="movies" data-action="all" data-style="normal"><i class="icon-layout"></i>Todas</li>
+			<li class="title">Series</li>
+			<li data-type="tvshows" data-action="newepisodes" data-style="normal"><i class="icon-alert"></i>Nuevos episodios</li>
+			<li data-type="tvshows" data-action="popular" data-style="normal"><i class="icon-chart-bar"></i>Populares</li>
+			<li data-type="tvshows" data-action="ranking" data-style="numbered"><i class="icon-star"></i>Ranking</li>
+			<li data-type="tvshows" data-action="all" data-style="normal"><i class="icon-layout"></i>Todas</li>
+		</ul>
+	</div>
+
+	<!-- Main -->
+	<div id="main" class="col_right">
+		<div id="dark-main" class="dark-bg"></div>
+
+		<!-- Searchbox -->
+		<div id="searchbox">
+			<i class="icon-search"></i>
+			<input id="q" type="text" placeholder="Buscar por título, actor, director, género...">
+		</div>
+
+		<!-- Featured -->
+		<div id="featured">
+			<ul class="preview"></ul>
+			<div class="main">
+				<div class="shadow"></div>
+				<div class="content"><h2></h2><p></p></div>
+			</div>
+		</div>
+
+		<!-- Grid -->
+		<div class="top-buttons history-buttons clearfix">
+			<a id="clean-history" class="grid-button">Limpiar historial</a>
+		</div>
+		<div class="top-buttons movie-buttons clearfix">
+			<a id="select-genre" class="grid-button menu-handler" data-menu="genre"><span class="arrow"></span><span class="text">Género</span></a>
+			<ul class="orderby">
+				<li class="default">Ordenar por</li>
+				<li data-type="name" class="name asc"><span class="arrow"></span><span class="text">Nombre</span></li>
+				<li data-type="score" class="score"><span class="arrow"></span><span class="text">Puntaje</span></li>
+				<li data-type="year" class="year"><span class="arrow"></span><span class="text">Año</span></li>
+				<li data-type="duration" class="duration"><span class="arrow"></span><span class="text">Duración</span></li>
+			</ul>
+		</div>
+		<div class="top-buttons featured-buttons clearfix">
+			<a class="grid-tab sel" data-type="movies">Películas</a>
+			<a class="grid-tab" data-type="tvshows">Series</a>
+		</div>
+		<div id="history-noitems" class="mainview-msg" style="display:none">
+			<h1>No se encontraron elementos en tu historial</h1>
+			<p>Elige una opción del menú de la izquierda para ver contenidos disponibles para su reproducción.</p>
+		</div>
+		<div id="grid-container" class="scrollbar big gap">
+			<ul class="grid-example">
+				<li>
+					<span class="over"><i class="icon-eye fa-3x"></i></span>
+					<img src="" class="poster" />
+					<span class="title"></span>
+					<span class="subtitle"></span>
+				</li>
+			</ul>
+			<ul class="grid clearfix"></ul>
+		</div>
+
+		<!-- Detail view -->
+		<div id="detail-view" class="closed scrollbar scrollbar-light gap">
+			<div class="wrap">
+				<div class="clearfix">
+					<div class="left">
+						<div class="poster"></div>
+					</div>
+					<div class="head_info show_info">
+						<a class="close_button"></a>
+						<h1 class="name"></h1>
+						<h2 class="year"></h2>
+
+						<div class="episode-info">
+							<span>Temporada <span class="season"></span></span><span>Episodio <span class="episode"></span></span>
+						</div>
+
+						<div class="rating-score clearfix">
+							<div class="rating">
+								<span></span>
+							</div>
+							<div class="score"><span></span> / 5</div>
+						</div>
+
+						<div class="tags clearfix">
+							<span class="genre tag"></span>
+							<span class="language tag"></span>
+							<span class="tag"><span class="duration"></span> min</span>
+						</div>
+					</div>
+				</div>
+				<div class="seasons">
+					<div class="example">
+						<h3>Temporada <span class="number"></span></h3>
+						<ul>
+							<li class="example">
+								<div class="rating small">
+									<span></span>
+								</div>
+								<span class="number"></span><span class="name"></span>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="nextprevious clearfix">
+					<a class="prev"><i class="icon-left-open-big"></i>Anterior episodio</a>
+					<a class="gotoshow">Ir a serie</a>
+					<a class="next">Siguiente episodio<i class="icon-right-open-big"></i></a>
+				</div>
+				<div class="action_buttons">
+					<ul class="clearfix">
+						<li class="play-button green">Reproducir</li>
+						<li class="source-audio half menu-handler" data-menu="audio"><span><i class="arrow"></i><span class="text"></span></span></li>
+						<li class="source-def half menu-handler" data-menu="def"><span><i class="arrow"></i><span class="text"></span></span></li>
+					</ul>
+				</div>
+				<div class="separator"></div>
+				<div class="show_info">
+					<div class="info"><span class="label">Reparto:</span> <span class="cast"></span></div>
+					<div class="info"><span class="label">Director:</span> <span class="director"></span></div>
+				</div>
+				<div class="separator"></div>
+				<div class="plot show_info"></div>
+			</div>
+		</div>
+
+		<!-- Detail view -->
+		<div id="reviews-view" class="closed scrollbar gap">
+
+		</div>
+
+	</div>
+
+	<!-- Popup layers -->
+	<div id="dark-bg" class="dark-bg"></div>
+
+	<div id="loader"><img src="img/loader.gif" /></div>
+
+	<div id="loading-bar" class="popup-window">
+		<div class="head"></div>
+		<div class="msg"></div>
+		<div class="bar"><span></span></div>
+		<div class="slow">Parece que la carga está demorando más de lo habitual. <a>Recargar</a>.</div>
+		<div class="foot"><button class="button cancel grey">Cancelar</button><span class="download-info"></span></div>
+	</div>
+
+	<div id="alert-msg" class="popup-window">
+		<div class="head"></div>
+		<div class="msg"></div>
+		<div class="foot"><button class="button close grey">Cerrar</button></div>
+	</div>
+
+
+	<!-- Menu drop -->
+	<div id="menu_audio" class="menu-drop audio fittowidth right">
+		<div class="arrow"><span></span></div>
+		<ul>
+			<li class="title">Idioma de audio</li>
+		</ul>
+	</div>
+	<div id="menu_def" class="menu-drop def fittowidth right">
+		<div class="arrow"><span></span></div>
+		<ul>
+			<li class="title">Definición</li>
+		</ul>
+	</div>
+	<div id="menu_genre" class="menu-drop fittowidth withscroll">
+		<div class="arrow"><span></span></div>
+		<ul class="gap"></ul>
+	</div>
+
+    <script src="js/vendor/jquery-2.1.0.min.js"></script>
+    <script src="js/vendor/jquery-ui-1.10.4.custom.min.js"></script>
+
+	<!-- inject:js -->
+	<script src="/js/lib-1f33ad39.js"></script>
+	<script src="/js/main.js"></script>
+	<script src="/js/playtorrent.js"></script>
+	<script src="/js/winstate.js"></script>
+	<!-- endinject -->
+  </body>
+</html>

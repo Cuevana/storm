@@ -1,0 +1,36 @@
+{
+  "name": "Cuevana",
+  "version": "0.1.0",
+  "main": "app://cuevana/index.html",
+  "window": {
+    "title": "Cuevana Storm",
+    "toolbar": false,
+    "frame": true,
+    "width": 960,
+    "height": 645,
+    "min_width": 960,
+    "min_height": 645,
+    "resizable": true,
+    "show": false,
+    "icon": "icons/512x512.png"
+  },
+  "dependencies": {
+    "peerflix": "~0.4.0",
+    "network-address": "0.0.4",
+    "request": "~2.34.0",
+    "moment": "~2.5.1",
+    "read-torrent": "~0.2.0",
+    "magnet-uri": "~1.1.0"
+  },
+  "devDependencies": {
+    "gulp": "~3.5.6",
+    "gulp-minify-css": "~0.3.0",
+    "gulp-rev": "~0.3.0",
+    "gulp-inject": "~0.4.1",
+    "gulp-clean": "~0.2.4",
+    "gulp-concat": "~2.2.0",
+    "gulp-uglify": "~0.2.1",
+    "gulp-notify": "~1.2.4",
+    "gulp-less": "~1.2.3"
+  }
+}
