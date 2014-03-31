@@ -20,7 +20,9 @@
     "request": "~2.34.0",
     "moment": "~2.5.1",
     "read-torrent": "~0.2.0",
-    "magnet-uri": "~1.1.0"
+    "magnet-uri": "~1.1.0",
+    "numeral": "^1.5.3",
+    "clivas": "^0.1.4"
   },
   "devDependencies": {
     "gulp": "~3.5.6",
