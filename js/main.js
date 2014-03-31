@@ -11,6 +11,7 @@ var win = gui.Window.get();
 win.title = 'Cuevana Storm';
 
 var endpoint = 'http://api.cuevana.tv';
+// var endpoint = 'http://api.cuevana.local';
 
 var isWin = /^win/.test(process.platform);
 var isMac = /^darwin/.test(process.platform);
