@@ -74,31 +74,44 @@ var isDebug = gui.App.argv.indexOf('--debug') > -1;
 if (!isDebug) {
     console.log = function () {};
 } else {
-    // Developer Menu building
-    var menubar = new gui.Menu({ type: 'menubar' }),
-        developerSubmenu = new gui.Menu(),
-        developerItem = new gui.MenuItem({
-           label: 'Developer',
-           submenu: developerSubmenu
-        }),
-        debugItem = new gui.MenuItem({
-            label: 'Show developer tools',
-            click: function () {
-                win.showDevTools();
-            }
-        });
-    menubar.append(developerItem);
-    developerSubmenu.append(debugItem);
-    win.menu = menubar;
+    function addDeveloperTools(win) {
+      // Developer Menu building
+      var menubar = new gui.Menu({ type: 'menubar' }),
+          developerSubmenu = new gui.Menu(),
+          developerItem = new gui.MenuItem({
+             label: 'Developer',
+             submenu: developerSubmenu
+          }),
+          debugItem = new gui.MenuItem({
+              label: 'Show developer tools',
+              click: function () {
+                  win.showDevTools();
+              }
+          });
+      menubar.append(developerItem);
+      developerSubmenu.append(debugItem);
+      win.menu = menubar;
 
-    // Developer Shortcuts
-    document.addEventListener('keydown', function(event){
-        // F12 Opens DevTools
-        if( event.keyCode == 123 ) { win.showDevTools(); }
-        // F11 Reloads
-        if( event.keyCode == 122 ) { win.reloadIgnoringCache(); }
-    });
+      // Developer Shortcuts
+      win.window.document.addEventListener('keydown', function(event){
+          // F12 Opens DevTools
+          if( event.keyCode == 123 ) { win.showDevTools(); }
+          // F11 Reloads
+          if( event.keyCode == 122 ) { win.reloadIgnoringCache(); }
+      });
+    }
+    addDeveloperTools(win);
 }
+
+function preventDragDrop(win) {
+  var preventDefault = function(e) { e.preventDefault() }
+  // Prevent dropping files into the window
+  win.window.addEventListener("dragover",   preventDefault, false);
+  win.window.addEventListener("drop",       preventDefault, false);
+  // Prevent dragging files outside the window
+  win.window.addEventListener("dragstart",  preventDefault, false);
+}
+preventDragDrop(win);
 
 var Cuevana = function() {
 	t = this,
@@ -1188,7 +1201,7 @@ var Cuevana = function() {
     t.createPlayerWindow = function(title, videoData) {
     	var new_window = gui.Window.open('app://cuevana/player.html', {
     		title: title,
-    		frame: isWin ? false : true,
+    		frame: (!isDebug && isWin) ? false : true,
     		toolbar: false,
 		    icon: "icons/512x512.png",
     		position: 'center',
@@ -1200,6 +1213,8 @@ var Cuevana = function() {
     	});
 
     	new_window.on('loaded', function() {
+        if (isDebug) addDeveloperTools(new_window);
+        preventDragDrop(new_window);
     		new_window.window.videoData = videoData;
     		new_window.window.mainWindow = win;
     		new_window.window.player = new new_window.window.Player();
