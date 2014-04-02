@@ -95,8 +95,9 @@ var Player = function() {
 
 	    video.mediaelementplayer({
 			videoVolume: 'horizontal',
-			features: ['playpause','current','progress','duration','fullscreen','volume','tracks','torrentinfo','fontawesome'],
+			features: ['playpause','current','progress','duration','fullscreen','volume','tracks','torrentinfo','fontawesome', 'customtracks'],
 			success : function(mediaElement, domObject, player) {
+        t.mePlayer = player;
 				// $(mediaElement).on('ended', function(){
 				// }).on('loadeddata',function() {
 				// });
