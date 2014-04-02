@@ -8,20 +8,57 @@
       // Check if 'tracks'
       if (!t.captionsButton) return
 
-      // Add custom track button
+      // TODO: DESIGN ME! Button?
       t.captionsButton.find('div.arrow').before(
-        $('<div class="head">Custom</div>')
+        $('<div class="head">DROP TO ADD</div>')
       )
 
-
-      // Debugging purposes
-      setTimeout(function() {
-        t.addTextTrack('test2.srt');
-      }, 1000)
+      // Drag&Drop support
+      $('body').on('drop', function(e) {
+        if (e.originalEvent.dataTransfer && e.originalEvent.dataTransfer.files.length) {
+          var file = e.originalEvent.dataTransfer.files[0]
+          var fileExt = file.name.toLowerCase().substr((~-file.name.lastIndexOf(".") >>> 0) + 2)
+          if (fileExt == 'srt') {
+            t.addTextTrackFromFile(file, 'ISO-8859-1')
+            e.preventDefault()
+            e.stopPropagation()
+          }
+        }
+      });
 
     },
 
-    addTextTrack: function (src, kind) {
+    addTextTrackFromFile: function(file, charset, kind) {
+      var t = this;
+
+      var track = {
+        kind:     (kind || 'subtitles'),
+        src:      file.name,
+        srclang:  'file',
+        label:    file.name,
+        default:  true,
+        isLoaded: false
+      }
+
+      // ensure a different srclang for each file
+      track.srclang =+ t.tracks.push(track)-1 
+      t.addTrackButton(track.srclang, track.label)
+
+      var reader = new FileReader();
+      reader.readAsText(file, charset);
+      reader.onload = function() {
+        var d = reader.result
+        track.entries = mejs.TrackFormatParser.webvvt.parse(d)
+        track.isLoaded = true
+        t.enableTrackButton(track.srclang, track.label)
+        t.setTrack(track.srclang)
+      }
+    },
+
+    /* Dynamically add a new TextTrack (instead of <track src=... />) 
+       Won't work on local files (Cross origins)
+    */
+    addTextTrack: function (src, kind, srclang, label) {
       var t = this
 
       var track = {
@@ -29,17 +66,14 @@
         src:      src,
         isLoaded: false,
         default:  true,
-        label:    'Custom Track', // TODO filename
-        srclang:  'custom'
+        label:    label,
+        srclang:  srclang
       }
 
-      var trackId = t.tracks.push(track)-1
-
       t.addTrackButton(track.srclang, track.label)
-
-      t.loadTrack(trackId)
+      t.trackToLoad = t.tracks.push(track)-1
+      t.loadTrack(t.trackToLoad)
     }
 
   })
-
 })(mejs.$);
