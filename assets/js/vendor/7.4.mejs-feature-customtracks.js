@@ -8,21 +8,33 @@
       // Check if 'tracks'
       if (!t.captionsButton) return
 
-      // TODO: DESIGN ME! Button?
-      t.captionsButton.find('div.arrow').before(
-        $('<div class="head">DROP TO ADD</div>')
-      )
+      // Open File Dialog Button 
+      // TODO: DESIGN ME! Change class="head" to a custom class
+      var customSubButton = $('<div class="head" style="cursor: pointer;">Abrir otro..</div>');
+      var fileInput = $('<input type="file" accept=".srt" style="display: none;" multiple>');
+      t.captionsButton.find('div.arrow').before(customSubButton);
+      t.captionsButton.append(fileInput);
+      customSubButton.on('click', function() {
+        fileInput.trigger('click');
+      })
+      fileInput.on('change', function(e) {
+        var files = fileInput.get(0).files;
+        $.each(files, function(i, file) {
+          var fileExt = file.name.toLowerCase().substr((~-file.name.lastIndexOf(".") >>> 0) + 2)
+          if (fileExt == 'srt')
+            t.addTextTrackFromFile(file, 'ISO-8859-1')
+        })
+      })
 
       // Drag&Drop support
       $('body').on('drop', function(e) {
-        if (e.originalEvent.dataTransfer && e.originalEvent.dataTransfer.files.length) {
-          var file = e.originalEvent.dataTransfer.files[0]
-          var fileExt = file.name.toLowerCase().substr((~-file.name.lastIndexOf(".") >>> 0) + 2)
-          if (fileExt == 'srt') {
-            t.addTextTrackFromFile(file, 'ISO-8859-1')
-            e.preventDefault()
-            e.stopPropagation()
-          }
+        if (e.originalEvent.dataTransfer && e.originalEvent.dataTransfer.files) {
+          var files = e.originalEvent.dataTransfer.files
+          $.each(files, function(i, file) {
+            var fileExt = file.name.toLowerCase().substr((~-file.name.lastIndexOf(".") >>> 0) + 2)
+            if (fileExt == 'srt') 
+              t.addTextTrackFromFile(file, 'ISO-8859-1')
+          });
         }
       });
 
