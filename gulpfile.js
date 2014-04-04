@@ -1,12 +1,8 @@
 var gulp = require('gulp'),
-	notify = require('gulp-notify'),
 	less = require('gulp-less'),
-	minifycss = require('gulp-minify-css'),
-	uglify = require('gulp-uglify'),
     clean = require('gulp-clean'),
     concat = require('gulp-concat'),
-    inject = require("gulp-inject"),
-    rev = require("gulp-rev");
+    inject = require("gulp-inject");
 
 var target_css = './css';
 var target_js = './js';
@@ -21,13 +17,13 @@ var paths = {
 // 1. Injectar referencias al HTML
 gulp.task('inject-index', ['styles', 'scripts', 'clean-tmp'], function() {
 	return gulp.src('./index.html')
-		.pipe(inject(gulp.src([target_css+'/*.css', target_js+'/*.js', '!./js/player.js'], {read:false})))
+		.pipe(inject(gulp.src([target_css+'/*.css', target_js+'/vendor/*.js', target_js+'/*.js', '!./js/player.js'], {read:false})))
 		.pipe(gulp.dest('./'));
 })
 
 gulp.task('inject-player', ['styles', 'scripts', 'clean-tmp'], function() {
 	return gulp.src('./player.html')
-		.pipe(inject(gulp.src([target_css+'/*.css', './js/lib-*.js', './js/player.js'], {read:false})))
+		.pipe(inject(gulp.src([target_css+'/*.css', './js/vendor/*.js', './js/player.js'], {read:false})))
 		.pipe(gulp.dest('./'));
 })
 
@@ -35,14 +31,12 @@ gulp.task('inject-player', ['styles', 'scripts', 'clean-tmp'], function() {
 gulp.task('styles', ['clean-old-styles','build-css', 'build-less'], function() {
 	return gulp.src('./assets/tmp/*.css')
 		.pipe(concat('main.css'))
-		.pipe(minifycss())
-   		.pipe(rev())
 		.pipe(gulp.dest(target_css))
 });
 
 // Limpia viejos CSS
 gulp.task('clean-old-styles', function() {
-	return gulp.src(target_css+'/main-*.css', {read:false})
+	return gulp.src(target_css+'/*.css', {read:false})
 		.pipe(clean({force: true}));
 });
 
@@ -70,24 +64,18 @@ gulp.task('clean-tmp', function() {
 // Scripts JS
 gulp.task('scripts', ['clean-old-scripts','vendor-scripts'], function() {
 	return gulp.src(paths.scripts)
-   		// .pipe(concat('main.js'))
-   		// .pipe(uglify())
-   		// .pipe(rev())
 		.pipe(gulp.dest(target_js));
 });
 
 // Limpiar viejos JS
 gulp.task('clean-old-scripts', function() {
-	return gulp.src([target_js+'/main-*.js',target_js+'/lib-*.js'], {read:false})
+	return gulp.src(target_js+'/**/*.js', {read:false})
 		.pipe(clean({force: true}));
 });
 
 gulp.task('vendor-scripts', function() {
   gulp.src(paths.vendorscripts)
-  	.pipe(concat('lib.js'))
-   	.pipe(uglify())
-   	.pipe(rev())
-    .pipe(gulp.dest(target_js));
+    .pipe(gulp.dest(target_js+'/vendor'));
 });
 
 // Watch
