@@ -3,24 +3,28 @@ var request = require('request'),
 	fs = require('fs'),
 	path = require('path'),
     os = require('os'),
-    moment = require('moment');
+    moment = require('moment'),
+    express = require('express'),
+    i18n = require("i18n"),
+    gui = require('nw.gui');
 
-var gui = require('nw.gui');
-
+// Window
 var win = gui.Window.get();
 win.title = 'Cuevana Storm';
+var windows = [];
 
+// API endpoint
 var endpoint = 'http://api.cuevana.tv';
-// var endpoint = 'http://api.cuevana.local';
-
-var isWin = /^win/.test(process.platform);
-var isMac = /^darwin/.test(process.platform);
-var isMaximized = false;
 
 // App version
 var version = '0.1b';
 
-var windows = [];
+// Platform 
+var isWin = /^win/.test(process.platform);
+var isMac = /^darwin/.test(process.platform);
+var isMaximized = false;
+
+// App extra variables
 var videoData = {};
 var languages = {
 	'ES': 'Español',
@@ -57,6 +61,7 @@ var genres = [
 	{ key: '28', name: 'Cortometraje'}
 ];
 
+// Scrollbar config
 var scrollbarOptions = {
 	verticalDragMinHeight: 30,
 	verticalGutter: 0,
@@ -65,10 +70,11 @@ var scrollbarOptions = {
 	mouseWheelSpeed: isWin ? 30 : 3
 }
 
-var tmpDir = path.join(os.tmpDir(), 'Cuevana');
+// Create tmp dir
+var tmpDir = path.join(os.tmpDir(), 'Cuevana Storm');
 if(!fs.existsSync(tmpDir)) { fs.mkdirSync(tmpDir); }
 
-
+// Debug
 var isDebug = gui.App.argv.indexOf('--debug') > -1;
 
 if (!isDebug) {

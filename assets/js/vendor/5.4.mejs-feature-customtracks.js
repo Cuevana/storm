@@ -10,7 +10,7 @@
 
       // Open File Dialog Button 
       // TODO: DESIGN ME! Change class="head" to a custom class
-      var customSubButton = $('<div class="head" style="cursor: pointer;">Abrir otro..</div>');
+      var customSubButton = $('<div class="head" style="cursor: pointer;">Cargar subtítulo desde archivo</div>');
       var fileInput = $('<input type="file" accept=".srt" style="display: none;" multiple>');
       t.captionsButton.find('div.arrow').before(customSubButton);
       t.captionsButton.append(fileInput);

@@ -1,21 +1,23 @@
-var
-    // Minimum percentage to open video
-    MIN_PERCENTAGE_LOADED = 0.5,
-
-    // Minimum bytes loaded to open video
-    MIN_SIZE_LOADED = 10 * 1024 * 1024;
-
 var peerflix = require('peerflix'),
     child_process = require('child_process'),
     address = require('network-address'),
     numeral = require('numeral'),
-    clivas = require('clivas'),
     readTorrent = require('read-torrent'),
     magnet = require('magnet-uri');
 
-var videos_last_id = 0;
+// Minimum percentage to open video
+var MIN_PERCENTAGE_LOADED = 0.5;
+
+// Minimum bytes loaded to open video
+var MIN_SIZE_LOADED = 10 * 1024 * 1024;
+
+// Video array (store open videos)
 var videos = [];
 
+// Last video id loaded
+var videos_last_id = 0;
+
+// Format bytes to readable format
 var bytes = function(num) {
     return numeral(num).format('0.0b');
 };
@@ -29,6 +31,7 @@ var playTorrent = function (torrent, callback, statsCallback) {
     tmpFilename = tmpFilename.replace(/([^a-zA-Z0-9-_])/g, '_') +'-'+ (new Date()*1) +'.mp4';
     var tmpFile = path.join(tmpDir, tmpFilename);
 
+    // Set new video ID
     videos_last_id++;
     var video_id = videos_last_id;
 
@@ -85,9 +88,11 @@ var playTorrent = function (torrent, callback, statsCallback) {
                 fire_start = true;
             }
             if (now < total && !timeout) {
+                // If download choked (no peers), send timeout for restart
                 if (runtime > 40 && !wires.length) {
                     timeout = true;
                 }
+                // Send streaming stats callback
                 typeof statsCallback == 'function' ? statsCallback( percent, fire_start, bytes(swarm.downloadSpeed()), swarm.wires.filter(active).length, wires.length, timeout, video_id) : null;
                 loadedTimeout = setTimeout(checkLoadingStats, 500);
             }
@@ -112,9 +117,11 @@ var playTorrent = function (torrent, callback, statsCallback) {
         }
     })
 
+    // Close video listener
     $(document).on('closeVideo'+video_id, function() {
         if (loadedTimeout) { clearTimeout(loadedTimeout); }
 
+        // Delete video ID
         for (var i in window.videos) {
             if (window.videos[i].id == video_id) {
                 window.videos.splice(i, 1);
@@ -123,7 +130,7 @@ var playTorrent = function (torrent, callback, statsCallback) {
 
         swarm.destroy();
 
-        // Clean dir
+        // Clean dir in tmp cache
         if (fs.existsSync(tmpFile)) {
             fs.readdir(tmpFile, function(err, files) {
                 if (!err) {
@@ -148,6 +155,7 @@ var playTorrent = function (torrent, callback, statsCallback) {
         delete engine;
     });
 
+    // Add new video to array
     videos.push({id: video_id, engine: engine});
 
 };
