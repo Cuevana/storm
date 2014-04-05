@@ -97,10 +97,14 @@ var Player = function() {
 			videoVolume: 'horizontal',
 			features: ['playpause','current','progress','duration','fullscreen','volume','tracks','torrentinfo','fontawesome', 'customtracks'],
 			success : function(mediaElement, domObject, player) {
-        t.mePlayer = player;
-				// $(mediaElement).on('ended', function(){
-				// }).on('loadeddata',function() {
-				// });
+        		t.mePlayer = player;
+        		// TODO: Move me into a mediaelement plugin?
+				player.container.bind('controlsshown', function() {
+					player.container.css('cursor', 'auto')
+				})
+				player.container.bind('controlshidden', function() {
+					player.container.css('cursor', 'none')
+				})
 			}
 		});
 
