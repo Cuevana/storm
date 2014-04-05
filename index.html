@@ -21,25 +21,24 @@
   	</div>
 	
 	<div id="app-alert" class="app-alert">
-		<button>Actualizar</button> Hay una nueva versión de Cuevana Storm disponible. Actualiza ahora para disfrutar de las últimas novedades.
+		<button translate>UPDATE</button> <span translate>NEW_UPDATE_AVAILABLE</span>
 	</div>
 	
 	<!-- Menu -->
 	<div id="menu" class="col_left">
 		<ul class="scrollbar scrollbar-light gap">
-			<li data-type="featured" data-action="movies" data-style="normal"><i class="icon-flash"></i>Destacado</li>
-			<li data-type="history" data-action="" data-style="history"><i class="icon-clock"></i>Historial</li>
-			<li class="title">Películas</li>
-			<!-- <li data-type="movies" data-action="recent" data-style="normal"><i class="icon-alert"></i>Recientes</li> -->
-			<li data-type="movies" data-action="releases" data-style="normal"><i class="icon-ticket"></i>Estrenos</li>
-			<li data-type="movies" data-action="popular" data-style="normal"><i class="icon-chart-bar"></i>Populares del mes</li>
-			<li data-type="movies" data-action="ranking" data-style="numbered"><i class="icon-star"></i>Ranking</li>
-			<li data-type="movies" data-action="all" data-style="normal"><i class="icon-layout"></i>Todas</li>
-			<li class="title">Series</li>
-			<li data-type="tvshows" data-action="newepisodes" data-style="normal"><i class="icon-alert"></i>Nuevos episodios</li>
-			<li data-type="tvshows" data-action="popular" data-style="normal"><i class="icon-chart-bar"></i>Populares</li>
-			<li data-type="tvshows" data-action="ranking" data-style="numbered"><i class="icon-star"></i>Ranking</li>
-			<li data-type="tvshows" data-action="all" data-style="normal"><i class="icon-layout"></i>Todas</li>
+			<li data-type="featured" data-action="movies" data-style="normal"><i class="icon-flash"></i><span translate>FEATURED</span></li>
+			<li data-type="history" data-action="" data-style="history"><i class="icon-clock"></i><span translate>HISTORY</span></li>
+			<li class="title" translate>MOVIES</li>
+			<li data-type="movies" data-action="releases" data-style="normal"><i class="icon-ticket"></i><span translate>RELEASES</span></li>
+			<li data-type="movies" data-action="popular" data-style="normal"><i class="icon-chart-bar"></i><span translate>TOP_MONTH</span></li>
+			<li data-type="movies" data-action="ranking" data-style="numbered"><i class="icon-star"></i><span translate>RANKING</span></li>
+			<li data-type="movies" data-action="all" data-style="normal"><i class="icon-layout"></i><span translate>ALL_MOVIES</span></li>
+			<li class="title"><span translate>TVSHOWS</span></li>
+			<li data-type="tvshows" data-action="newepisodes" data-style="normal"><i class="icon-alert"></i><span translate>NEW_EPISODES</span></li>
+			<li data-type="tvshows" data-action="popular" data-style="normal"><i class="icon-chart-bar"></i><span translate>TOP_MONTH</span></li>
+			<li data-type="tvshows" data-action="ranking" data-style="numbered"><i class="icon-star"></i><span translate>RANKING</span></li>
+			<li data-type="tvshows" data-action="all" data-style="normal"><i class="icon-layout"></i><span translate>ALL_TVSHOWS</span></li>
 		</ul>
 	</div>
 
@@ -50,7 +49,7 @@
 		<!-- Searchbox -->
 		<div id="searchbox">
 			<i class="icon-search"></i>
-			<input id="q" type="text" placeholder="Buscar por título, actor, director, género...">
+			<input id="q" type="text" translate-placeholder="SEARCH_PLACEHOLDER">
 		</div>
 
 		<!-- Featured -->
@@ -64,25 +63,25 @@
 
 		<!-- Grid -->
 		<div class="top-buttons history-buttons clearfix">
-			<a id="clean-history" class="grid-button">Limpiar historial</a>
+			<a id="clean-history" class="grid-button" translate>CLEAN_HISTORY</a>
 		</div>
 		<div class="top-buttons movie-buttons clearfix">
-			<a id="select-genre" class="grid-button menu-handler" data-menu="genre"><span class="arrow"></span><span class="text">Género</span></a>
+			<a id="select-genre" class="grid-button menu-handler" data-menu="genre"><span class="arrow"></span><span class="text" translate>GENRE</span></a>
 			<ul class="orderby">
-				<li class="default">Ordenar por</li>
-				<li data-type="name" class="name asc"><span class="arrow"></span><span class="text">Nombre</span></li>
-				<li data-type="score" class="score"><span class="arrow"></span><span class="text">Puntaje</span></li>
-				<li data-type="year" class="year"><span class="arrow"></span><span class="text">Año</span></li>
-				<li data-type="duration" class="duration"><span class="arrow"></span><span class="text">Duración</span></li>
+				<li class="default" translate>ORDER_BY</li>
+				<li data-type="name" class="name asc"><span class="arrow"></span><span class="text" translate>TITLE</span></li>
+				<li data-type="score" class="score"><span class="arrow"></span><span class="text" translate>SCORE</span></li>
+				<li data-type="year" class="year"><span class="arrow"></span><span class="text" translate>YEAR</span></li>
+				<li data-type="duration" class="duration"><span class="arrow"></span><span class="text" translate>DURATION</span></li>
 			</ul>
 		</div>
 		<div class="top-buttons featured-buttons clearfix">
-			<a class="grid-tab sel" data-type="movies">Películas</a>
-			<a class="grid-tab" data-type="tvshows">Series</a>
+			<a class="grid-tab sel" data-type="movies" translate>MOVIES</a>
+			<a class="grid-tab" data-type="tvshows" translate>TVSHOWS</a>
 		</div>
 		<div id="history-noitems" class="mainview-msg" style="display:none">
-			<h1>No se encontraron elementos en tu historial</h1>
-			<p>Elige una opción del menú de la izquierda para ver contenidos disponibles para su reproducción.</p>
+			<h1 translate>NO_HISTORY</h1>
+			<p translate>NO_HISTORY_MSG</p>
 		</div>
 		<div id="grid-container" class="scrollbar big gap">
 			<ul class="grid-example">
@@ -109,7 +108,7 @@
 						<h2 class="year"></h2>
 
 						<div class="episode-info">
-							<span>Temporada <span class="season"></span></span><span>Episodio <span class="episode"></span></span>
+							<span><span translate>SEASON</span> <span class="season"></span></span><span><span translate>EPISODE</span> <span class="episode"></span></span>
 						</div>
 
 						<div class="rating-score clearfix">
@@ -122,13 +121,13 @@
 						<div class="tags clearfix">
 							<span class="genre tag"></span>
 							<span class="language tag"></span>
-							<span class="tag"><span class="duration"></span> min</span>
+							<span class="tag"><span class="duration"></span> <span translate>MIN</span></span>
 						</div>
 					</div>
 				</div>
 				<div class="seasons">
 					<div class="example">
-						<h3>Temporada <span class="number"></span></h3>
+						<h3><span translate>SEASON</span> <span class="number"></span></h3>
 						<ul>
 							<li class="example">
 								<div class="rating small">
@@ -140,21 +139,21 @@
 					</div>
 				</div>
 				<div class="nextprevious clearfix">
-					<a class="prev"><i class="icon-left-open-big"></i>Anterior episodio</a>
-					<a class="gotoshow">Ir a serie</a>
-					<a class="next">Siguiente episodio<i class="icon-right-open-big"></i></a>
+					<a class="prev"><i class="icon-left-open-big"></i><span translate>PREV_EPISODE</span></a>
+					<a class="gotoshow" translate>GO_TO_TVSHOW</a>
+					<a class="next"><span translate>NEXT_EPISODE</span><i class="icon-right-open-big"></i></a>
 				</div>
 				<div class="action_buttons">
 					<ul class="clearfix">
-						<li class="play-button green">Reproducir</li>
+						<li class="play-button green" translate>PLAY</li>
 						<li class="source-audio half menu-handler" data-menu="audio"><span><i class="arrow"></i><span class="text"></span></span></li>
 						<li class="source-def half menu-handler" data-menu="def"><span><i class="arrow"></i><span class="text"></span></span></li>
 					</ul>
 				</div>
 				<div class="separator"></div>
 				<div class="show_info">
-					<div class="info"><span class="label">Reparto:</span> <span class="cast"></span></div>
-					<div class="info"><span class="label">Director:</span> <span class="director"></span></div>
+					<div class="info"><span class="label" translate>CAST</span> <span class="cast"></span></div>
+					<div class="info"><span class="label" translate>DIRECTOR</span> <span class="director"></span></div>
 				</div>
 				<div class="separator"></div>
 				<div class="plot show_info"></div>
@@ -177,14 +176,13 @@
 		<div class="head"></div>
 		<div class="msg"></div>
 		<div class="bar"><span></span></div>
-		<div class="slow">Parece que la carga está demorando más de lo habitual. <a>Recargar</a>.</div>
-		<div class="foot"><button class="button cancel grey">Cancelar</button><span class="download-info"></span></div>
+		<div class="foot"><button class="button cancel grey" translate>CANCEL</button><span class="download-info"></span></div>
 	</div>
 
 	<div id="alert-msg" class="popup-window">
 		<div class="head"></div>
 		<div class="msg"></div>
-		<div class="foot"><button class="button close grey">Cerrar</button></div>
+		<div class="foot"><button class="button close grey" translate>CLOSE</button></div>
 	</div>
 
 
@@ -192,13 +190,13 @@
 	<div id="menu_audio" class="menu-drop audio fittowidth right">
 		<div class="arrow"><span></span></div>
 		<ul>
-			<li class="title">Idioma de audio</li>
+			<li class="title" translate>AUDIO_LANGUAGE</li>
 		</ul>
 	</div>
 	<div id="menu_def" class="menu-drop def fittowidth right">
 		<div class="arrow"><span></span></div>
 		<ul>
-			<li class="title">Definición</li>
+			<li class="title" translate>RESOLUTION</li>
 		</ul>
 	</div>
 	<div id="menu_genre" class="menu-drop fittowidth withscroll">
@@ -218,6 +216,7 @@
 	<script src="/js/vendor/5.2.mejs-feature-fontawesome.js"></script>
 	<script src="/js/vendor/5.3.mep-feature-torrentinfo.js"></script>
 	<script src="/js/vendor/5.4.mejs-feature-customtracks.js"></script>
+	<script src="/js/localization.js"></script>
 	<script src="/js/main.js"></script>
 	<script src="/js/playtorrent.js"></script>
 	<script src="/js/winstate.js"></script>

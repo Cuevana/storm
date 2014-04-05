@@ -4,8 +4,6 @@ var request = require('request'),
 	path = require('path'),
     os = require('os'),
     moment = require('moment'),
-    express = require('express'),
-    i18n = require("i18n"),
     gui = require('nw.gui');
 
 // Window
@@ -119,7 +117,7 @@ function preventDragDrop(win) {
 }
 preventDragDrop(win);
 
-var Cuevana = function() {
+var Storm = function() {
 	t = this,
 	t.config = {
 		version: '0.1b',
@@ -324,7 +322,7 @@ var Cuevana = function() {
 			return this.close(true);
 
 			if (t.ajaxcalls.length > 0) {
-				if (confirm('Hay solicitudes pendientes con el servidor. ¿Aún así deseas salir?')) {
+				if (confirm(i18n.__('PENDING_REQUESTS'))) {
 					this.close(true);
 				} else {
 					this.show();
@@ -341,7 +339,7 @@ var Cuevana = function() {
 		  return a.name.localeCompare(b.name);
 		});
 		var mg = $('#menu_genre').children('ul');
-		mg.append('<li data-id="">Todos los géneros</li>');
+		mg.append('<li data-id="">'+i18n.__('ALL_GENRES')+'</li>');
 		for (var i in genres) {
 			mg.append('<li data-id="'+genres[i].key+'">'+genres[i].name+'</li>');
 		}
@@ -764,12 +762,12 @@ var Cuevana = function() {
 			if (moment(data[i].date).isAfter(today)) {
 				var titleli = grid.find('.title.today');
 				if (!titleli.length) {
-					titleli = $('<li class="title today">Hoy</li>').appendTo(grid);
+					titleli = $('<li class="title today">'+i18n.__('TODAY')+'</li>').appendTo(grid);
 				}
 			} else if (moment(data[i].date).isAfter(yesterday)) {
 				var titleli = grid.find('.title.yesterday');
 				if (!titleli.length) {
-					titleli = $('<li class="title yesterday">Ayer</li>').appendTo(grid);
+					titleli = $('<li class="title yesterday">'+i18n.__('YESTERDAY')+'</li>').appendTo(grid);
 				}
 			} else {
 				var week = moment(data[i].date).fromNow();
@@ -1113,10 +1111,9 @@ var Cuevana = function() {
 	    }
 
     	// Loadbar
-    	$('#loading-bar').find('.head').html('Cargando video');
-    	$('#loading-bar').find('.msg').html('Por favor espera, cargando torrent para iniciar la reproducción');
-    	$('#loading-bar').find('.slow').hide();
-    	t.loadBarInfo.html('Cargando torrent...');
+    	$('#loading-bar').find('.head').html(i18n.__('LOADING_VIDEO'));
+    	$('#loading-bar').find('.msg').html(i18n.__('PLEASE_WAIT_PLAY'));
+    	t.loadBarInfo.html(i18n.__('LOADING_TORRENT'));
     	t.loadingBar(0);
 
     	// Load cancel
@@ -1132,7 +1129,7 @@ var Cuevana = function() {
     	readTorrent(source.url, function(err, torrent) {
 			if (err) {
 				t.cancelLoadingVideo();
-    			t.popupAlert('Archivo no válido','Lo sentimos, el archivo torrent no pudo ser cargado.');
+    			t.popupAlert(i18n.__('INVALID_FILE'),i18n.__('TORRENT_NOT_LOADED'));
     			return;
 			}
 
@@ -1145,7 +1142,7 @@ var Cuevana = function() {
     	playTorrent(torrent, function(err, href) {
     		if (err) {
     			t.cancelLoadingVideo();
-    			t.popupAlert('Archivo no válido','Lo sentimos, el archivo torrent no pudo ser cargado.');
+    			t.popupAlert(i18n.__('INVALID_FILE'),i18n.__('TORRENT_NOT_LOADED'));
     		} else {
 	    		// Hide loading bar
 	    		t.loadingBarHide();
@@ -1160,7 +1157,7 @@ var Cuevana = function() {
     		} else {
 	    		// Loading bar
 	    		t.loadingBar(percent);
-	            t.loadBarInfo.html( seeds>0 ? speed+'/s - '+active+' de '+seeds+' clientes' : 'Buscando clientes...');
+	            t.loadBarInfo.html( seeds>0 ? speed+'/s - '+active+' '+i18n.__('OF')+' '+seeds+' '+i18n.__('SEEDS') : i18n.__('LOOKING_FOR_SEEDS'));
 
 	            // If download is stalled, restart
 	            if (timeout) {
@@ -1219,8 +1216,8 @@ var Cuevana = function() {
     	});
 
     	new_window.on('loaded', function() {
-        if (isDebug) addDeveloperTools(new_window);
-        preventDragDrop(new_window);
+        	if (isDebug) addDeveloperTools(new_window);
+        	preventDragDrop(new_window);
     		new_window.window.videoData = videoData;
     		new_window.window.mainWindow = win;
     		new_window.window.player = new new_window.window.Player();
@@ -1248,7 +1245,7 @@ var Cuevana = function() {
 
     // Clean history
     t.cleanHistory = function() {
-    	if (confirm('Se borrará todo tu historial de reproducción. ¿Seguro que deseas continuar?')) {
+    	if (confirm(i18n.__('HISTORY_DELETE_ALERT'))) {
 	    	if (localStorage.getItem('history') != null) {
 	    		localStorage.removeItem('history');
 	    	}
@@ -1276,14 +1273,14 @@ var Cuevana = function() {
     	var er = $('#alert-msg').show(), msg = '';
     	switch (act) {
     		case 'noconnection':
-    			msg = 'No se pudo conectar al servidor. Asegúrate de tener una conexión a internet.'
+    			msg = 'NO_CONNECTION'
     			break;
     		default:
-    			msg = 'Algo salió mal, aunque no pudimos identificar el error. Si tienes problemas, contáctanos.'
+    			msg = 'ERROR_OCURRED'
     			break;
     	}
 
-    	t.popupAlert('Error', msg);
+    	t.popupAlert(i18n.__('ERROR'), i18n.__(msg));
     }
 
     // Open popup alert
@@ -1402,5 +1399,5 @@ var Cuevana = function() {
 var c;
 
 $(document).ready(function() {
-	c = new Cuevana();
+	c = new Storm();
 });
