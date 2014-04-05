@@ -1,7 +1,7 @@
 {
   "name": "Cuevana",
   "version": "0.2.0",
-  "main": "app://cuevana/index.html",
+  "main": "app://cuevana/assets/index.html",
   "window": {
     "title": "Cuevana Storm",
     "toolbar": false,
