@@ -1,6 +1,6 @@
 {
   "name": "Cuevana",
-  "version": "0.2",
+  "version": "0.2.0",
   "main": "app://cuevana/index.html",
   "window": {
     "title": "Cuevana Storm",
