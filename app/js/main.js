@@ -498,7 +498,7 @@ var Storm = function() {
 			if (typeof scrollcallback == 'function') {
 				scrollcallback();
 			}
-    	}, time = (id != null) ? 86400000 : 3600000;
+    	}, time = 3600000;
 
     	// Load cached view data
 		if (t.isCached(url,time,callback)) return;
@@ -1202,11 +1202,11 @@ var Storm = function() {
 
     // Create player window
     t.createPlayerWindow = function(title, videoData) {
-    	var new_window = gui.Window.open('app://cuevana/assets/player.html', {
+    	var new_window = gui.Window.open('app://cuevana/app/views/player.html', {
     		title: title,
     		frame: (!isDebug && isWin) ? false : true,
     		toolbar: false,
-		    icon: "icons/512x512.png",
+		    icon: "./assets/icons/512x512.png",
     		position: 'center',
     		width: 1280,
     		height: 720,

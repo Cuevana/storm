@@ -49,5 +49,6 @@
 	"HISTORY_DELETE_ALERT": "Se borrará todo tu historial de reproducción. ¿Seguro que deseas continuar?",
 	"NO_CONNECTION": "No se pudo conectar al servidor. Asegúrate de tener una conexión a internet.",
 	"ERROR": "Error",
-	"ERROR_OCURRED": "Algo salió mal, aunque no pudimos identificar el error. Si tienes problemas, contáctanos."
+	"ERROR_OCURRED": "Algo salió mal, aunque no pudimos identificar el error. Si tienes problemas, contáctanos.",
+	"LOAD_SUBS_FILE": "Cargar desde archivo"
 }
