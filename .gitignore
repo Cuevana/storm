@@ -2,8 +2,3 @@
 
 # Sublime Text Files
 *.sublime-*
-
-# Gulp Generated Files
-/css
-/js
-/assets/tmp
