@@ -1202,7 +1202,7 @@ var Storm = function() {
 
     // Create player window
     t.createPlayerWindow = function(title, videoData) {
-    	var new_window = gui.Window.open('app://cuevana/player.html', {
+    	var new_window = gui.Window.open('app://cuevana/assets/player.html', {
     		title: title,
     		frame: (!isDebug && isWin) ? false : true,
     		toolbar: false,

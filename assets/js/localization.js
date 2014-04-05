@@ -9,7 +9,7 @@ var defaultLanguage = 'en';
 
 i18n.configure({
     locales: allLanguages,
-    directory: './locales',
+    directory: './assets/locales',
     defaultLocale: defaultLanguage
 });
 
