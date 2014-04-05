@@ -3,7 +3,7 @@ var gulp	= require('gulp'),
 	concat	= require('gulp-concat'),
     inject	= require("gulp-inject");
 
-var basePath = './assets/';
+var basePath = './app/assets/';
 
 var paths = {
 	less: 		basePath+'less/',

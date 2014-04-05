@@ -1206,7 +1206,7 @@ var Storm = function() {
     		title: title,
     		frame: (!isDebug && isWin) ? false : true,
     		toolbar: false,
-		    icon: "./assets/icons/512x512.png",
+		    icon: "./app/assets/icons/512x512.png",
     		position: 'center',
     		width: 1280,
     		height: 720,
