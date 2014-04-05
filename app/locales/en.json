@@ -49,5 +49,6 @@
 	"HISTORY_DELETE_ALERT": "Your entire history will be deleted. Are you sure?",
 	"NO_CONNECTION": "The server is unreachable. Make sure you are connected to the internet.",
 	"ERROR": "Error",
-	"ERROR_OCURRED": "Something went wrong, but we were unable to identify the error. If the trouble persists, contact us."
+	"ERROR_OCURRED": "Something went wrong, but we were unable to identify the error. If the trouble persists, contact us.",
+	"LOAD_SUBS_FILE": "Load from file"
 }
