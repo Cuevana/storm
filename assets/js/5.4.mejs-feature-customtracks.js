@@ -1,5 +1,10 @@
 (function($) {
 
+  // Modify default option to always show captions button (even if there are no subs loaded yet)
+  $.extend(mejs.MepDefaults, {
+    hideCaptionsButtonWhenEmpty: false
+  });
+
   $.extend(MediaElementPlayer.prototype, {
 
     buildcustomtracks: function(player, controls, layers, media) {
@@ -55,6 +60,7 @@
       // ensure a different srclang for each file
       track.srclang =+ t.tracks.push(track)-1 
       t.addTrackButton(track.srclang, track.label)
+      t.checkForTracks()
 
       var reader = new FileReader();
       reader.readAsText(file, charset);
