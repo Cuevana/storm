@@ -47,7 +47,7 @@
     "SEEDS": "seeds",
     "LOOKING_FOR_SEEDS": "Recherche de seeds...",
     "HISTORY_DELETE_ALERT": "Votre historique va être complètement supprimé. Vous êtes sûr ?",
-    "NO_CONNECTION": "Le serveur est injoignable. Assurez-vous d'être connecter à Internet.The server is unreachable.",
+    "NO_CONNECTION": "Le serveur est injoignable. Assurez-vous d'être connecter à Internet.",
     "ERROR": "Erreur",
     "ERROR_OCURRED": "Quelque chose s'est mal passé, mais nous n'avons pas pu identifier l'erreur. Si le problème persiste, contactez-nous.",
     "LOAD_SUBS_FILE": "Charger à partir d'un fichier"
