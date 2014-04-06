@@ -553,10 +553,11 @@ var Storm = function() {
 		}
 
 		// OrderBy
+		var lastURL = t.lastURL;
 		t.topButtons.find('.orderby li:not(.default)').off('click').on('click', function(event) {
 			var $this = $(this);
 			t.setOrderBy($this.attr('data-type'),$this.hasClass('asc') ? 'desc' : 'asc');
-			t.loadView(t.lastURL.type, t.lastURL.action, null, t.lastURL.vars);
+			t.loadView(lastURL.type, lastURL.action, null, lastURL.vars);
 		});
 
 		var number = data.from;
