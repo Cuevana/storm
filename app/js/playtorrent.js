@@ -22,6 +22,10 @@ var bytes = function(num) {
     return numeral(num).format('0.0b');
 };
 
+function randomPortNumber(min,max) {
+    return Math.floor(Math.random()*(max-min+1)+min);
+}
+
 var playTorrent = function (torrent, callback, statsCallback) {
 
     var infoHash = torrent.infoHash;
@@ -39,7 +43,7 @@ var playTorrent = function (torrent, callback, statsCallback) {
         // Set the custom temp file
         path: tmpFile,
         buffer: (1.5 * 1024 * 1024).toString(),
-        port: 8284,
+        port: randomPortNumber(49152,65534),
         connections: 100
     });
     var hotswaps = 0;
