@@ -180,7 +180,7 @@ var Player = function() {
 	t.loadVideoStats = function() {
 		var infodiv = $('#mejs-torrent-info');
 		mainWindow.window.$(mainWindow.window.document).on('videoLoading'+t.videoId, function(event, percent, speed, active, seeds) {
-			infodiv.html(speed+'/s - '+active+' '+i18n.__('OF')+' '+seeds+' '+i18n.__('SEEDS') : i18n.__('LOOKING_FOR_SEEDS');
+			infodiv.html(seeds>0 ? speed+'/s - '+active+' '+i18n.__('OF')+' '+seeds+' '+i18n.__('SEEDS') : i18n.__('LOOKING_FOR_SEEDS'));
 		});
 	}
 
