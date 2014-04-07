@@ -35,7 +35,7 @@
 	"AUDIO_LANGUAGE": "Audio language",
 	"RESOLUTION": "Resolution",
 	"ALL_GENRES": "All genres",
-	"PENDING_REQUESTS": "There are pending requests with the server. Sure you want to exit?",
+	"PENDING_REQUESTS": "There are pending requests with the server. Are you sure you want to quit?",
 	"TODAY": "Today",
 	"YESTERDAY": "Yesterday",
 	"LOADING_VIDEO": "Loading video",
@@ -50,5 +50,7 @@
 	"NO_CONNECTION": "The server is unreachable. Make sure you are connected to the internet.",
 	"ERROR": "Error",
 	"ERROR_OCURRED": "Something went wrong, but we were unable to identify the error. If the trouble persists, contact us.",
-	"LOAD_SUBS_FILE": "Load from file"
+	"LOAD_SUBS_FILE": "Load from file",
+	"CLOSE_VIDEO_ALERT": "The video will stop. Are you sure want to close the window?",
+	"VIDEO_LOAD_ERROR": "The video couldn't be loaded."
 }

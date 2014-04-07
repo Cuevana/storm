@@ -33,7 +33,7 @@ var Player = function() {
     	if (videoData != null) {
     		var href = videoData.url, subtitles = videoData.subtitles, source = videoData.source;
     	} else {
-    		alert('El video no se ha podido cargar correctamente.');
+    		alert(i18n.__('VIDEO_LOAD_ERROR'));
     		t.closeVideo();
     		t.win.close(true);
     		return;
@@ -66,7 +66,7 @@ var Player = function() {
 		}
 
     	t.win.on('close', function() {
-			if (confirm('¿Seguro que deseas salir? El video actual se cerrará.')) {
+			if (confirm(i18n.__('CLOSE_VIDEO_ALERT'))) {
 				t.closeVideo();
 				this.close(true);
 			} else {
@@ -86,10 +86,6 @@ var Player = function() {
 		}
 
     	$('<video id="player" width="100%" height="100%" preload autoplay><source src="'+href+'" type="video/mp4" />'+tracks+'</video>').appendTo(player_container);
-
-    	if (!document.createElement('video').canPlayType('video/mp4')) {
-	    	return alert('La aplicación no soporta reproducir mp4');
-	    }
 
 	    var video = $('video');
 
@@ -184,7 +180,7 @@ var Player = function() {
 	t.loadVideoStats = function() {
 		var infodiv = $('#mejs-torrent-info');
 		mainWindow.window.$(mainWindow.window.document).on('videoLoading'+t.videoId, function(event, percent, speed, active, seeds) {
-			infodiv.html(speed+'/s - '+active+' de '+seeds+' clientes');
+			infodiv.html(speed+'/s - '+active+' '+i18n.__('OF')+' '+seeds+' '+i18n.__('SEEDS') : i18n.__('LOOKING_FOR_SEEDS');
 		});
 	}
 
