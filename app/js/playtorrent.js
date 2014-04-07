@@ -39,11 +39,14 @@ var playTorrent = function (torrent, callback, statsCallback) {
     videos_last_id++;
     var video_id = videos_last_id;
 
+    // Set random port
+    var port = randomPortNumber(49152,65534);
+
     var engine = peerflix(torrent, {
         // Set the custom temp file
         path: tmpFile,
         buffer: (1.5 * 1024 * 1024).toString(),
-        port: randomPortNumber(49152,65534),
+        port: port,
         connections: 100
     });
     var hotswaps = 0;
@@ -111,7 +114,7 @@ var playTorrent = function (torrent, callback, statsCallback) {
     });
 
     engine.on('ready', function() {
-        engine.server.listen(8284);
+        engine.server.listen(port);
     });
 
     engine.on('error', function() {
