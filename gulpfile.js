@@ -20,7 +20,7 @@ gulp.task('inject-index', ['styles'], function() {
 			paths.css+'*.css', 
 			paths.scripts+'*.js', 
 			paths.appScripts+'*.js', 
-			'!'+paths.scripts+'player.js'
+			'!'+paths.appScripts+'player.js'
 		], {read:false})))
 		.pipe(gulp.dest(paths.views));
 })
@@ -29,8 +29,9 @@ gulp.task('inject-player', ['styles'], function() {
 	return gulp.src(paths.views+'player.html')
 		.pipe(inject(gulp.src([
 			paths.css+'*.css', 
-			paths.scripts+'vendor/*.js', 
-			paths.scripts+'player.js'
+			paths.scripts+'*.js',
+			paths.appScripts+'localization.js',
+			paths.appScripts+'player.js'
 		], {read:false})))
 		.pipe(gulp.dest(paths.views));
 })

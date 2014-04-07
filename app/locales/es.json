@@ -50,5 +50,7 @@
 	"NO_CONNECTION": "No se pudo conectar al servidor. Asegúrate de tener una conexión a internet.",
 	"ERROR": "Error",
 	"ERROR_OCURRED": "Algo salió mal, aunque no pudimos identificar el error. Si tienes problemas, contáctanos.",
-	"LOAD_SUBS_FILE": "Cargar desde archivo"
+	"LOAD_SUBS_FILE": "Cargar desde archivo",
+	"CLOSE_VIDEO_ALERT": "¿Seguro que deseas salir? El video actual se cerrará.",
+	"VIDEO_LOAD_ERROR": "El video no se ha podido cargar correctamente."
 }
