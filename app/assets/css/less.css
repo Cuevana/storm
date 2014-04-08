@@ -2002,7 +2002,7 @@ textarea {
   text-align: center;
   font-size: 180%;
   color: #fff;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6), -1px -1px 3px rgba(0, 0, 0, 0.6);
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6), -1px -1px 3px rgba(0, 0, 0, 0.6), 0.1em 0.1em 0.1em rgba(0, 0, 0, 0.6);
   width: 100%;
   height: 100% !important;
   font-family: 'Source Sans Pro', 'Open Sans', Helvetica, Arial, sans-serif;
