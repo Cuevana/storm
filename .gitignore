@@ -2,3 +2,7 @@
 
 # Sublime Text Files
 *.sublime-*
+
+# Debugging Purposes
+*.mp4
+*.srt

@@ -2006,7 +2006,6 @@ textarea {
   width: 100%;
   height: 100% !important;
   font-family: 'Source Sans Pro', 'Open Sans', Helvetica, Arial, sans-serif;
-  cursor: default;
   font-weight: 600;
 }
 .mejs-captions-layer a {
