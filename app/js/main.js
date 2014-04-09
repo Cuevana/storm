@@ -394,7 +394,7 @@ var Storm = function() {
 		var he = $(window).height();
 		$('#menu, #main').height(he-$('#menu').offset().top);
 		$('#menu ul').height(he-$('#menu ul').offset().top);
-		$('#grid-container').height(he-$('#grid-container').offset().top).trigger('scroll');
+		$('#grid-container').height(he-$('#grid-container').offset().top);
 		$('.scrollbar').jScrollPane(scrollbarOptions);
 	}
 
@@ -626,6 +626,9 @@ var Storm = function() {
 
 		// if window.height es mayor al grid.height, sigue cargando más...
 		gridcontainer.trigger('jsp-scroll-y', [api.getContentPositionX()]);
+
+		// Also check on window resizing.
+		$(window).off('resize.infinite').on('resize.infinite', function() { gridcontainer.trigger('jsp-scroll-y', [api.getContentPositionX()]) });
 	}
 
 	// Load featured list
