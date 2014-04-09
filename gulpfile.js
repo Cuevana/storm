@@ -1,7 +1,7 @@
 var gulp	= require('gulp'),
 	less	= require('gulp-less'),
 	concat	= require('gulp-concat'),
-    inject	= require("gulp-inject");
+    inject	= require('gulp-inject')
 
 var basePath = './app/assets/';
 
@@ -13,43 +13,78 @@ var paths = {
 	views: 		'./app/views/' 
 };
 
-// Inyectar referencias al HTML
-gulp.task('inject-index', ['styles'], function() {
-	return gulp.src(paths.views+'index.html')
-		.pipe(inject(gulp.src([
-			paths.css+'*.css', 
-			paths.scripts+'*.js', 
-			paths.appScripts+'*.js', 
-			'!'+paths.appScripts+'player.js'
-		], {read:false})))
-		.pipe(gulp.dest(paths.views));
+/* ------------------------------
+ * Background tasks to developers
+ * ------------------------------ */
+
+// Inject HTML dependencies
+gulp.task('inject-html', ['styles'], function() {
+	gulp.src(paths.views+'index.html')
+	.pipe(inject(gulp.src([
+		paths.css+'*.css', 
+		paths.scripts+'*.js', 
+		paths.appScripts+'*.js', 
+		'!'+paths.appScripts+'player.js'
+	], {read:false})))
+	.pipe(gulp.dest(paths.views));
+
+	gulp.src(paths.views+'player.html')
+	.pipe(inject(gulp.src([
+		paths.css+'*.css', 
+		paths.scripts+'*.js',
+		paths.appScripts+'localization.js',
+		paths.appScripts+'player.js'
+	], {read:false})))
+	.pipe(gulp.dest(paths.views));
 })
 
-gulp.task('inject-player', ['styles'], function() {
-	return gulp.src(paths.views+'player.html')
-		.pipe(inject(gulp.src([
-			paths.css+'*.css', 
-			paths.scripts+'*.js',
-			paths.appScripts+'localization.js',
-			paths.appScripts+'player.js'
-		], {read:false})))
-		.pipe(gulp.dest(paths.views));
-})
-
-// Compilar Less
+// Compile styles
 gulp.task('styles', function() {
-	return gulp.src(paths.less+'default.less')
-		.pipe(less())
-		.pipe(concat('less.css'))
-		.pipe(gulp.dest(paths.css))
+	gulp.src(paths.less+'default.less')
+	.pipe(less())
+	.pipe(concat('less.css'))
+	.pipe(gulp.dest(paths.css))
 });
 
 // Watch
 gulp.task('watch', function() {
-	gulp.watch(	paths.less+'**/*.less', 	['inject-index', 'inject-player']);
-	gulp.watch(	paths.scripts+'**/*.js', 	['inject-index', 'inject-player']);
-	gulp.watch(	paths.appScripts+'*.js', 	['inject-index', 'inject-player']);
+	gulp.watch(	paths.less+'**/*.less', 	['compile']);
+	gulp.watch(	paths.scripts+'**/*.js', 	['compile']);
+	gulp.watch(	paths.appScripts+'*.js', 	['compile']);
 })
 
-// Default (inicia sequencia)
-gulp.task('default', ['inject-index', 'inject-player', 'watch']);
+// Compile
+gulp.task('compile', ['styles', 'inject-html'])
+
+// Default
+gulp.task('default', ['compile', 'watch']);
+
+
+/* --------------------------------------
+ * Tasks to build this app
+ * -------------------------------------- */
+
+ gulp.task('nodewebkit:ffmpeg', function() {
+ 	// Determine platform
+	if (process.platform === 'darwin') {
+  		platform = 'mac'
+	} else if (process.platform === 'win32') {
+		platform = 'win'
+	} else if (process.arch === 'ia32') {
+  		platform = 'linux32'
+	} else if (process.arch === 'x64') {
+  		platform = 'linux64'
+	}
+
+	// Copy lib
+	gulp.src('ffmpegsumo/'+platform+'/*')
+	.pipe(gulp.dest('node_modules/nodewebkit/nodewebkit/'))
+ })
+
+ gulp.task('build', ['compile', 'nodewebkit:ffmpeg'])
+
+ gulp.task('run', function() {
+ 	require('child_process').spawn('node_modules/nodewebkit/nodewebkit/nw', ['.', '--debug'], function(err, data) {
+ 		if (err) console.error(err)
+ 	})
+ })
