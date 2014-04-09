@@ -16,7 +16,7 @@ Cuevana Storm desktop app based in peerflix module, packaged with node-webkit
 
 `cp ffmpegsumo/YOUR_PLATFORM/* node_modules/nodewebkit/nodewebkit/`
 
-- Optionally, and only if you plan on modifying the code, you have to run `gulp`. It will watch for file changes and automatially compile less into css, and some other stuff. **Not neccessary nor recommended for testers.**
+- Optionally, and only if you plan on modifying the code, you have to run `gulp`. It will watch for file changes and automatically compile less into css, and some other stuff. **Not neccessary nor recommended for testers.**
 
 #### Run
 
