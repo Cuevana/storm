@@ -626,6 +626,9 @@ var Storm = function() {
 
 		// if window.height es mayor al grid.height, sigue cargando más...
 		gridcontainer.trigger('jsp-scroll-y', [api.getContentPositionX()]);
+
+		// Also check on window resizing.
+		$(window).on('resize', function() { gridcontainer.trigger('jsp-scroll-y', [api.getContentPositionX()]) });
 	}
 
 	// Load featured list
