@@ -6,11 +6,9 @@ Cuevana Storm desktop app based in peerflix module, packaged with node-webkit
 
 `npm install`
 
-`gulp build`
-
 #### Run
 
-`gulp run`
+`npm run`
 
 #### Comments
 

@@ -82,9 +82,3 @@ gulp.task('default', ['compile', 'watch']);
  })
 
  gulp.task('build', ['compile', 'nodewebkit:ffmpeg'])
-
- gulp.task('run', function() {
- 	require('child_process').spawn('node_modules/nodewebkit/nodewebkit/nw', ['.', '--debug'], function(err, data) {
- 		if (err) console.error(err)
- 	})
- })
