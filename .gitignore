@@ -6,3 +6,6 @@
 # Debugging Purposes
 *.mp4
 *.srt
+
+# Build files
+/build
