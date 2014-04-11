@@ -2450,35 +2450,6 @@ if (typeof jQuery != 'undefined') {
 								}
 							}
 						});
-						// show/hide controls with mouse for Touch & Mouse device
-						t.container
-							.bind('mouseenter mouseover', function () {
-								if (t.controlsEnabled) {
-									if (!t.options.alwaysShowControls) {
-										t.killControlsTimer('enter');
-										t.showControls();
-										t.startControlsTimer(2500);
-									}
-								}
-							})
-							.bind('mousemove', function() {
-								if (t.controlsEnabled) {
-									if (!t.controlsAreVisible) {
-										t.showControls();
-									}
-									//t.killControlsTimer('move');
-									if (!t.options.alwaysShowControls) {
-										t.startControlsTimer(2500);
-									}
-								}
-							})
-							.bind('mouseleave', function () {
-								if (t.controlsEnabled) {
-									if (!t.media.paused && !t.options.alwaysShowControls) {
-										t.startControlsTimer(1000);
-									}
-								}
-							});
 					} else {
 
 						// create callback here since it needs access to current
