@@ -79,30 +79,63 @@ if (!isDebug) {
     console.log = function () {};
 } else {
     function addDeveloperTools(win) {
-      // Developer Menu building
-      var menubar = new gui.Menu({ type: 'menubar' }),
-          developerSubmenu = new gui.Menu(),
-          developerItem = new gui.MenuItem({
-             label: 'Developer',
-             submenu: developerSubmenu
-          }),
-          debugItem = new gui.MenuItem({
-              label: 'Show developer tools',
-              click: function () {
-                  win.showDevTools();
-              }
-          });
-      menubar.append(developerItem);
-      developerSubmenu.append(debugItem);
-      win.menu = menubar;
 
-      // Developer Shortcuts
-      win.window.document.addEventListener('keydown', function(event){
-          // F12 Opens DevTools
-          if( event.keyCode == 123 ) { win.showDevTools(); }
-          // F11 Reloads
-          if( event.keyCode == 122 ) { win.reloadIgnoringCache(); }
-      });
+      	// Developer Menu building
+		var developerSubmenu = new gui.Menu()
+        var developerItem = new gui.MenuItem({
+            label: 'Developer',
+            submenu: developerSubmenu
+		})
+		var debugItem = new gui.MenuItem({
+            label: 'Show developer tools',
+            click: function () {
+               	win.showDevTools();
+            }
+        });
+        developerSubmenu.append(debugItem);
+
+        // Advanced Options Menu building
+		var optionsSubmenu = new gui.Menu()
+		var optionsItem	= new gui.MenuItem({
+			label: 'Advanced Options',
+			submenu: optionsSubmenu
+		})
+
+		var package = JSON.parse(fs.readFileSync('package.json'));
+		console.log(package["chromium-args"])
+		var upmixItem = new gui.MenuItem({
+			label: 'Upmix Stereo to 5.1',
+			type: 'checkbox',
+			checked: (package["chromium-args"] == "--try-supported-channel-layouts"),
+			click: function(e) {
+				var fs = require('fs')
+				if (this.checked) {
+					package = JSON.parse(fs.readFileSync('package.json'));
+					package["chromium-args"] = "--try-supported-channel-layouts"
+					fs.writeFileSync('package.json', JSON.stringify(package, null, 2))
+				} else {
+					package = JSON.parse(fs.readFileSync('package.json'));
+					delete package["chromium-args"]
+					fs.writeFileSync('package.json', JSON.stringify(package, null, 2))
+				}
+				alert('You will need to manually restart the app.')
+				process.exit()
+			}
+		})
+		optionsSubmenu.append(upmixItem)
+
+		var menubar = new gui.Menu({ type: 'menubar' })
+		menubar.append(developerItem);
+		menubar.append(optionsItem);
+		win.menu = menubar;
+
+		// Developer Shortcuts
+		win.window.document.addEventListener('keydown', function(event){
+			// F12 Opens DevTools
+			if( event.keyCode == 123 ) { win.showDevTools(); }
+			// F11 Reloads
+			if( event.keyCode == 122 ) { win.reloadIgnoringCache(); }
+		});
     }
     addDeveloperTools(win);
 }
