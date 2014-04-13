@@ -13,7 +13,9 @@
 							'<div class="head">VideoFit</div>' +
 						'<ul>'+
 							'<li data-style="cover" class="videofit-cover">Cover</li>'	+
+							/* comment fit, as don't keep aspect radio 
 							'<li data-style="fill" class="videofit-fill">Fill</li>'	+
+							*/
 							'<li data-style="contain" class="videofit-default selected">Default</li>'	+
 						'</ul>'+
 						'<div class="arrow"><span></span><span></span></div>' +
