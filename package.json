@@ -20,10 +20,12 @@
     "icon": "app/assets/icons/512x512.png"
   },
   "scripts": {
-    "install": 	"gulp install",
-    "start": 	  "nodewebkit . -- --debug",
-    "build": 	  "gulp build",
-    "watcher":  "gulp watch"
+    "install": "gulp install",
+    "start": "nodewebkit . -- --debug",
+    "compile": "gulp compile",
+    "watcher": "gulp watch",
+    "build": "gulp build",
+    "build-all": "gulp build --all"
   },
   "dependencies": {
     "peerflix": "~0.4.0",
@@ -42,6 +44,6 @@
     "gulp-clean": "~0.2.4",
     "gulp-concat": "~2.2.0",
     "gulp-less": "~1.2.3",
-    "gulp-zip": "^0.3.4"
+    "node-webkit-builder": "mllrsohn/node-webkit-builder"
   }
 }

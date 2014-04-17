@@ -2,8 +2,9 @@ var gulp	= require('gulp'),
 	less	= require('gulp-less'),
 	concat	= require('gulp-concat'),
     inject	= require('gulp-inject'),
-    clean	= require('gulp-clean'),
-    zip		= require('gulp-zip');
+    clean	= require('gulp-clean');
+
+var NodeWebkitBuilder = require('node-webkit-builder');
 
 var basePath = './app/assets/';
 
@@ -19,7 +20,7 @@ var paths = {
  * Background tasks to developers
  * ------------------------------ */
 
-gulp.task('inject:index', ['styles'], function() {
+gulp.task('injecthtml:index', ['styles'], function() {
 	return gulp.src(paths.views+'index.html')
 	.pipe(inject(gulp.src([
 		paths.css+'*.css', 
@@ -30,7 +31,7 @@ gulp.task('inject:index', ['styles'], function() {
 	.pipe(gulp.dest(paths.views));
 })
 
-gulp.task('inject:player', ['styles'], function() {
+gulp.task('injecthtml:player', ['styles'], function() {
 	return gulp.src(paths.views+'player.html')
 	.pipe(inject(gulp.src([
 		paths.css+'*.css', 
@@ -42,7 +43,7 @@ gulp.task('inject:player', ['styles'], function() {
 })
 
 // Inject HTML dependencies
-gulp.task('inject-html', ['inject:index', 'inject:player'])
+gulp.task('injecthtml', ['injecthtml:index', 'injecthtml:player'])
 
 // Compile styles
 gulp.task('styles', function() {
@@ -60,7 +61,7 @@ gulp.task('watch', ['compile'], function() {
 })
 
 // Compile
-gulp.task('compile', ['styles', 'inject-html'])
+gulp.task('compile', ['styles', 'injecthtml'])
 
 // Default
 gulp.task('default', ['watch']);
@@ -72,18 +73,13 @@ gulp.task('default', ['watch']);
 
 gulp.task('install:ffmpegsumo', function() {
 	// Determine platform
-	if (process.platform === 'darwin') {
-			platform = 'mac'
-	} else if (process.platform === 'win32') {
-		platform = 'win'
-	} else if (process.arch === 'ia32') {
-			platform = 'linux32'
-	} else if (process.arch === 'x64') {
-			platform = 'linux64'
-	}
+	if 		(process.platform === 'darwin') platform = 'osx'
+	else if (process.platform === 'win32')	platform = 'win'
+	else if (process.arch === 'ia32')		platform = 'linux32'
+	else if (process.arch === 'x64')		platform = 'linux64'
 
 	// Copy lib
-	return gulp.src('ffmpegsumo/'+platform+'/*')
+	return gulp.src('deps/ffmpegsumo/'+platform+'/*')
 	.pipe(gulp.dest('node_modules/nodewebkit/nodewebkit/'))
 })
 
@@ -93,69 +89,90 @@ gulp.task('install', ['compile', 'install:ffmpegsumo'])
  * Tasks to package this app
  * -------------------------------------- */
 
-var pack;
+gulp.task('build', ['compile'], function(cb) {
 
-// WIN32
+	// Read package.json
+	var package = require('./package.json')
 
-// Creates *.nw
-gulp.task('build:win32:pack', ['compile'], function() {
-	pack = JSON.parse(require('fs').readFileSync('package.json')) 
-
-	var modules = [];
-	if (pack.dependencies) {
-		modules = Object.keys(pack.dependencies)
+	// Find out which modules to include
+	var modules = []
+	if (!!package.dependencies) {
+		modules = Object.keys(package.dependencies)
 				.filter(function(m) { return m != 'nodewebkit' })
 				.map(function(m) { return 'node_modules/'+m+'/**/*' })
 	}
 
-	return gulp.src(['package.json', 'app/**/*'].concat(modules), { cwdbase: true })
-	.pipe(zip(pack.name+'.nw'))
-	.pipe(gulp.dest('build/win32'))
-})
+	// Which platforms should we build
+	var platforms = []
+	if (process.argv.indexOf('--win') > -1) 	platforms.push('win')
+	if (process.argv.indexOf('--mac') > -1) 	platforms.push('osx')
+	if (process.argv.indexOf('--linux32') > -1) platforms.push('linux32')
+	if (process.argv.indexOf('--linux64') > -1) platforms.push('linux64')
 
-// Copy nodewebkit executable files
-gulp.task('build:win32:copy-nw', ['install:ffmpegsumo'], function() {
-	return gulp.src([
-		'node_modules/nodewebkit/nodewebkit/nw.exe',
-		'node_modules/nodewebkit/nodewebkit/*.dll',
-		'node_modules/nodewebkit/nodewebkit/*.pak'
-	])
-	.pipe(gulp.dest('build/win32'))
-})
+	// Build for All platforms
+	if (process.argv.indexOf('--all') > -1) platforms = [ 'win', 'osx', 'linux32', 'linux64' ]
 
-// Merge files into a single executable
-gulp.task('build:win32', ['build:win32:pack', 'build:win32:copy-nw'], function(cb) {
-	gulp.src(['build/win32/nw.exe', 'build/win32/'+pack.name+'.nw'])
-	.pipe(concat(pack.name+'.exe'))
-	.pipe(gulp.dest('build/win32'))
-	.on('end', function() {
-		gulp.src(['build/win32/nw.exe', 'build/win32/'+pack.name+'.nw'])
-		.pipe(clean())
-		.on('end', cb)
+	// If no platform where specified, determine current platform
+	if (!platforms.length) { 
+		if 		(process.platform === 'darwin') platforms.push('osx')
+		else if (process.platform === 'win32')	platforms.push('win')
+		else if (process.arch === 'ia32')		platforms.push('linux32')
+		else if (process.arch === 'x64')		platforms.push('linux64')
+	}
+
+	// Initialize NodeWebkitBuilder
+	var nw = new NodeWebkitBuilder({
+		files: [ 'package.json', 'app/**/*' ].concat(modules),
+		version: '0.9.2',
+		cacheDir: 'build/cache',
+		platforms: platforms,
+		macIcns: 'app/assets/icons/mac.icns',
+		winIco: 'app/assets/icons/windows.ico',
+		checkVersions: false
 	})
-})
 
-// MAC
+	nw.on('log', function(msg) {
+		// Ignore 'Zipping... messages
+		if (msg.indexOf('Zipping') !== 0) console.log(msg)
+	});
 
-/* Nothing yet */
+	// Build!
+	nw.build(function(err) {
 
-// LINUX
+		if (!!err) return console.error(err)
 
-/* Nothing yet */
+		// Handle ffmpeg for Windows
+		if (platforms.indexOf('win') > -1) {
+			gulp.src('deps/ffmpegsumo/win/*')
+			.pipe(gulp.dest(
+				'./build/Cuevana/win'
+			))
+		}
 
+		// Handle ffmpeg for Mac
+		if (platforms.indexOf('osx') > -1) {
+			gulp.src('deps/ffmpegsumo/osx/*')
+			.pipe(gulp.dest(
+				'./build/Cuevana/osx/node-webkit.app/Contents/Frameworks/node-webkit Framework.framework/Libraries'
+			))
+		}
 
-// Handle build
-gulp.task('build', function() {
+		// Handle ffmpeg for Linux32
+		if (platforms.indexOf('linux32') > -1) {
+			gulp.src('deps/ffmpegsumo/linux32/*')
+			.pipe(gulp.dest(
+				'./build/Cuevana/linux32'
+			))
+		}
 
-	if (process.platform === 'darwin')
-		return console.error('Mac is not supported yet.')
+		// Handle ffmpeg for Linux64
+		if (platforms.indexOf('linux64') > -1) {
+			gulp.src('deps/ffmpegsumo/linux64/*')
+			.pipe(gulp.dest(
+				'./build/Cuevana/linux64'
+			))
+		}
 
-	if (process.platform === 'win32')
-		return gulp.start('build:win32')
-
-	if (process.arch === 'ia32')
-		return console.error('Linux32 is not supported yet.')
-
-	if (process.arch === 'x64')
-		return console.error('Linux64 is not supported yet.')
+		cb(err);
+	})
 })
