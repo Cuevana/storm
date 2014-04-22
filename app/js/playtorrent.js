@@ -47,8 +47,11 @@ var playTorrent = function (torrent, callback, statsCallback) {
         path: tmpFile,
         buffer: (1.5 * 1024 * 1024).toString(),
         port: port,
-        connections: 100
+        dht: 1000,
+        connections: 1000,
+        verify: true
     });
+
     var hotswaps = 0;
 
     var started = Date.now();

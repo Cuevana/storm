@@ -25,9 +25,9 @@ var isMaximized = false;
 // App extra variables
 var videoData = {};
 var languages = {
-	'ES': 'Español',
-	'EN': 'Inglés',
-	'PT': 'Portugués'
+	'ES': i18n.__('SPANISH'),
+	'EN': i18n.__('ENGLISH'),
+	'PT': i18n.__('PORTUGUESE')
 }
 var genres = [
 	{ key: '1', name: 'Drama'},
@@ -58,6 +58,12 @@ var genres = [
 	{ key: '27', name: 'Comedia Dramática'},
 	{ key: '28', name: 'Cortometraje'}
 ];
+
+//OpenSubtitle config
+var opensubOptions = {
+    alwaysDownload: false,
+    maxRetries: 2
+}
 
 // Scrollbar config
 var scrollbarOptions = {
@@ -128,8 +134,7 @@ var Storm = function() {
 		subtitles: {
 			show: true,
 			size: 30,
-			color: '#FFFFFF',
-			lang: 'ES'
+			color: '#FFFFFF'
 		},
 		orderBy: {
 			active: false,
@@ -1097,6 +1102,101 @@ var Storm = function() {
     	return true;
     }
 
+    // OpenSubtitles
+    t.getSubtitles = function (data, source) {
+        if (!opensubOptions.alwaysDownload) {
+            for (var i in data.subtitles) {
+                if (data.subtitles[i].def == t.config.video.def && data.subtitles[i].lang == "EN") {
+                    console.log("OpenSubtitles: Cuevana already has english subs!");
+                    return;
+                }
+            }
+        }
+
+        var title;
+        if (/^magnet:/.test(source.url)) { //This is a magnet torrent
+            var tor = magnet(source.url);
+            title = decodeURIComponent(tor.dn);
+        } else { //This is a normal torrent
+            title = decodeURIComponent(path.basename(source.url, '.torrent'));
+        }
+
+        var endsWith = function (str, suffix) {
+            return str.indexOf(suffix, str.length - suffix.length) !== -1;
+        }
+
+        if (endsWith(title, "_mp4")) title = title.replace('_mp4', '');
+
+        title = title.replace(/\+/g, '.'); //Replace + with dots.
+        title = title.replace(/(\[.*\])/g, ''); //Remove Torrent Tags
+
+        localStorage.removeItem('sub'); //Remove old subs from localStorage
+
+        //var tmpDir = process.cwd() + '\\cache\\subtitles\\';
+        var tmpFile = title;
+
+        var tmpData;
+
+        try {
+            tmpData = fs.readFileSync(tmpFile + ".srt");
+        }
+        catch (e) {
+            if (e.code === 'ENOENT') {
+                console.log('OpenSubtitles: No cached file found!');
+            }
+        }
+
+        if (tmpData !== undefined && tmpData !== null) {
+            console.log("OpenSubtitles: Detected already cached sub: " + tmpFile + '.srt');
+            localStorage.setItem("sub", tmpFile + '.srt');
+            return;
+        }
+
+        var osClient = require("opensubtitles-client/Index.js");
+        osClient.api.login()
+            .done(
+            function (token) {
+                ostoken = token;
+                console.log("OpenSubtitles: Login Token: " + token);
+                console.log("OpenSubtitles: Searching for subtitles for: " + title);
+                osClient.api.search(token, "eng", title).done(
+                    function (results) {
+                        if (typeof results === 'undefined' || typeof results[0] === 'undefined') {
+                            console.log("OpenSubtitles: No subtitles found!");
+                        } else {
+                            console.log("OpenSubtitles: Downloading subtitle...");
+                            try {
+                                osClient.downloader.download(results, 1, tmpFile + ".mp4");
+                            } catch(e) {
+                                console.log(e);
+                            }
+
+                            osClient.downloader.on("downloaded", function (info) {
+                                console.log("OpenSubtitles: Downloaded subtitle at: " + info.file);
+                                var subtitle = info.file;
+                                try {
+                                    //fs.renameSync(info.file, subtitle);
+                                    localStorage.setItem("sub", subtitle);
+                                    t.loadBarInfo.html("Grabbed a english subtitle from OpenSubtitles.org!");
+                                    osClient.api.logout(token);
+                                } catch (e) {
+                                    console.log(e);
+                                }
+                            });
+                        }
+                    }
+                );
+            }
+        );
+
+        osClient.api.on("error", function (e) {
+            console.log("Opensubtitles: Error: " + e);
+        });
+
+        //TODO: IMPLENT RETRY ON FAILURE.
+        return;
+    }
+
     // Load video from torrent
     t.loadVideo = function(data) {
     	var source = false;
@@ -1143,6 +1243,7 @@ var Storm = function() {
     }
 
     t.loadTorrent = function(torrent, data, source, title) {
+        t.getSubtitles(data, source);
     	playTorrent(torrent, function(err, href) {
     		if (err) {
     			t.cancelLoadingVideo();

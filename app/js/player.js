@@ -16,8 +16,7 @@ var Player = function() {
 		subtitles: {
 			show: true,
 			size: 30,
-			color: '#FFFFFF',
-			lang: 'ES'
+			color: '#FFFFFF'
 		}
 	},
 
@@ -79,9 +78,14 @@ var Player = function() {
     	player_container.empty();
 
 		var tracks = '';
+        //OpenSubtitles - Check if a subtitle is downloaded
+        if(typeof localStorage.getItem("sub") !== 'undefined' && localStorage.getItem("sub") !== null) {
+            tracks += '<track kind="subtitles" src="' + localStorage.getItem("sub") + '" srclang="en-US" label="OpenSubtitles - English" />';
+        }
+
 		for (var i in subtitles) {
 			if (subtitles[i].def == source.def) {
-				tracks += '<track kind="subtitles" src="' + subtitles[i].url + '" srclang="'+subtitles[i].lang.toLowerCase()+'" label="'+(mainWindow.window.languages[subtitles[i].lang]!='undefined'?mainWindow.window.languages[subtitles[i].lang]:subtitles[i].lang)+'" charset="ISO-8859-1" '+((subtitles[i].lang == t.config.subtitles.lang)?'default':'')+' />';
+				tracks += '<track kind="subtitles" src="' + subtitles[i].url + '" srclang="'+subtitles[i].lang.toLowerCase()+'" label="Cuevana - '+(mainWindow.window.languages[subtitles[i].lang]!='undefined'?mainWindow.window.languages[subtitles[i].lang]:subtitles[i].lang)+'" charset="ISO-8859-1" '+((subtitles[i].lang == t.config.subtitles.lang)?'default':'')+' />';
 			}
 		}
 

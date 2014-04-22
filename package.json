@@ -28,7 +28,7 @@
     "build-all": "gulp build --all"
   },
   "dependencies": {
-    "peerflix": "~0.4.0",
+    "peerflix": "~0.6.0",
     "network-address": "0.0.4",
     "request": "~2.34.0",
     "moment": "~2.5.1",
@@ -36,7 +36,8 @@
     "magnet-uri": "~1.1.0",
     "numeral": "^1.5.3",
     "i18n": "~0.4.1",
-    "nodewebkit": "~0.9.2"
+    "nodewebkit": "~0.9.2",
+    "opensubtitles-client": "~1.1.4"
   },
   "devDependencies": {
     "gulp": "~3.5.6",

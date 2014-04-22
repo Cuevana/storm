@@ -52,5 +52,9 @@
 	"ERROR_OCURRED": "Something went wrong, but we were unable to identify the error. If the trouble persists, contact us.",
 	"LOAD_SUBS_FILE": "Load from file",
 	"CLOSE_VIDEO_ALERT": "The video will stop. Are you sure want to close the window?",
-	"VIDEO_LOAD_ERROR": "The video couldn't be loaded."
+	"VIDEO_LOAD_ERROR": "The video couldn't be loaded.",
+    "NO_SUBTITLES": "No Subtitles",
+    "ENGLISH": "English",
+    "SPANISH": "Spanish",
+    "PORTUGUESE": "Portuguese"
 }
