@@ -113,6 +113,10 @@ var playTorrent = function (torrent, callback, statsCallback) {
         engine.server.listen(0);
     });
 
+	engine.server.on('connection', function(socket) {
+	socket.setTimeout(36000000);
+	});
+	
     engine.on('ready', function() {
         engine.server.listen(port);
     });
