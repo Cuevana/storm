@@ -25,38 +25,38 @@ var isMaximized = false;
 // App extra variables
 var videoData = {};
 var languages = {
-	'ES': 'Español',
-	'EN': 'Inglés',
-	'PT': 'Portugués'
+	'ES': i18n.__('SPANISH'),
+	'EN': i18n.__('ENGLISH'),
+	'PT': i18n.__('PORTUGUESE')
 }
 var genres = [
-	{ key: '1', name: 'Drama'},
-	{ key: '2', name: 'Comedia'},
-	{ key: '3', name: 'Suspenso'},
-	{ key: '4', name: 'Terror'},
-	{ key: '5', name: 'Acción'},
-	{ key: '6', name: 'Ciencia Ficción'},
-	{ key: '7', name: 'Animación'},
-	{ key: '8', name: 'Infantil'},
-	{ key: '9', name: 'Romance'},
-	{ key: '10', name: 'Documental'},
-	{ key: '11', name: 'Musical'},
-	{ key: '12', name: 'Humor'},
-	{ key: '13', name: 'Fantástico'},
-	{ key: '14', name: 'Aventura'},
-	{ key: '15', name: 'Comedia Musical'},
-	{ key: '16', name: 'Comedia Romántica'},
-	{ key: '18', name: 'Crimen'},
-	{ key: '19', name: 'Bélica'},
-	{ key: '20', name: 'Deporte'},
-	{ key: '21', name: 'Western'},
-	{ key: '22', name: 'Dogma'},
-	{ key: '23', name: 'Cine Negro'},
-	{ key: '24', name: 'Comedia Stand-up'},
-	{ key: '25', name: 'Intriga'},
-	{ key: '26', name: 'Comedia Negra'},
-	{ key: '27', name: 'Comedia Dramática'},
-	{ key: '28', name: 'Cortometraje'}
+	{ key: '1', name: i18n.__('GENRE_DRAMA')},
+	{ key: '2', name: i18n.__('GENRE_COMEDY')},
+	{ key: '3', name: i18n.__('GENRE_THRILLER')},
+	{ key: '4', name: i18n.__('GENRE_HORROR')},
+	{ key: '5', name: i18n.__('GENRE_ACTION')},
+	{ key: '6', name: i18n.__('GENRE_SCIFI')},
+	{ key: '7', name: i18n.__('GENRE_ANIMATION')},
+	{ key: '8', name: i18n.__('GENRE_FAMILY')},
+	{ key: '9', name: i18n.__('GENRE_ROMANCE')},
+	{ key: '10', name: i18n.__('GENRE_DOCUMENTARY')},
+	{ key: '11', name: i18n.__('GENRE_MUSICAL')},
+	{ key: '12', name: i18n.__('GENRE_HUMOUR')},
+	{ key: '13', name: i18n.__('GENRE_FANTASY')},
+	{ key: '14', name: i18n.__('GENRE_ADVENTURE')},
+	{ key: '15', name: i18n.__('GENRE_MUSICALCOMEDY')},
+	{ key: '16', name: i18n.__('GENRE_ROMANTICCOMEDY')},
+	{ key: '18', name: i18n.__('GENRE_CRIME')},
+	{ key: '19', name: i18n.__('GENRE_WAR')},
+	{ key: '20', name: i18n.__('GENRE_SPORT')},
+	{ key: '21', name: i18n.__('GENRE_WESTERN')},
+	{ key: '22', name: i18n.__('GENRE_DOGMA')},
+	{ key: '23', name: i18n.__('GENRE_FILMNOIR')},
+	{ key: '24', name: i18n.__('GENRE_STANDUP')},
+	{ key: '25', name: i18n.__('GENRE_MYSTERY')},
+	{ key: '26', name: i18n.__('GENRE_BLACKCOMEDY')},
+	{ key: '27', name: i18n.__('GENRE_DRAMATICCOMEDY')},
+	{ key: '28', name: i18n.__('GENRE_SHORTFILM')}
 ];
 
 // Scrollbar config
