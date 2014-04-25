@@ -10,7 +10,7 @@
   "window": {
     "title": "Cuevana Storm",
     "toolbar": false,
-    "frame": true,
+    "frame": false,
     "width": 960,
     "height": 645,
     "min_width": 960,
