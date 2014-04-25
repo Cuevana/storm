@@ -78,9 +78,15 @@ gulp.task('install:ffmpegsumo', function() {
 	else if (process.arch === 'ia32')		platform = 'linux32'
 	else if (process.arch === 'x64')		platform = 'linux64'
 
+	// Destination path
+	var destPath = './node_modules/nodewebkit/nodewebkit/';
+
+	// Update path for OSX
+	if (platform == 'osx') destPath += 'Contents/Frameworks/node-webkit Framework.framework/Libraries';
+	
 	// Copy lib
-	return gulp.src('deps/ffmpegsumo/'+platform+'/*')
-	.pipe(gulp.dest('node_modules/nodewebkit/nodewebkit/'))
+	return gulp.src('./deps/ffmpegsumo/'+platform+'/*')
+	.pipe(gulp.dest(destPath))
 })
 
 gulp.task('install', ['compile', 'install:ffmpegsumo'])
@@ -99,7 +105,7 @@ gulp.task('build', ['compile'], function(cb) {
 	if (!!package.dependencies) {
 		modules = Object.keys(package.dependencies)
 				.filter(function(m) { return m != 'nodewebkit' })
-				.map(function(m) { return 'node_modules/'+m+'/**/*' })
+				.map(function(m) { return './node_modules/'+m+'/**/*' })
 	}
 
 	// Which platforms should we build
@@ -122,12 +128,12 @@ gulp.task('build', ['compile'], function(cb) {
 
 	// Initialize NodeWebkitBuilder
 	var nw = new NodeWebkitBuilder({
-		files: [ 'package.json', 'app/**/*' ].concat(modules),
+		files: [ './package.json', './app/**/*' ].concat(modules),
 		version: '0.9.2',
-		cacheDir: 'build/cache',
+		cacheDir: './build/cache',
 		platforms: platforms,
-		macIcns: 'app/assets/icons/mac.icns',
-		winIco: 'app/assets/icons/windows.ico',
+		macIcns: './app/assets/icons/mac.icns',
+		winIco: './app/assets/icons/windows.ico',
 		checkVersions: false
 	})
 
@@ -143,7 +149,7 @@ gulp.task('build', ['compile'], function(cb) {
 
 		// Handle ffmpeg for Windows
 		if (platforms.indexOf('win') > -1) {
-			gulp.src('deps/ffmpegsumo/win/*')
+			gulp.src('./deps/ffmpegsumo/win/*')
 			.pipe(gulp.dest(
 				'./build/Cuevana/win'
 			))
@@ -151,7 +157,7 @@ gulp.task('build', ['compile'], function(cb) {
 
 		// Handle ffmpeg for Mac
 		if (platforms.indexOf('osx') > -1) {
-			gulp.src('deps/ffmpegsumo/osx/*')
+			gulp.src('./deps/ffmpegsumo/osx/*')
 			.pipe(gulp.dest(
 				'./build/Cuevana/osx/node-webkit.app/Contents/Frameworks/node-webkit Framework.framework/Libraries'
 			))
@@ -159,7 +165,7 @@ gulp.task('build', ['compile'], function(cb) {
 
 		// Handle ffmpeg for Linux32
 		if (platforms.indexOf('linux32') > -1) {
-			gulp.src('deps/ffmpegsumo/linux32/*')
+			gulp.src('./deps/ffmpegsumo/linux32/*')
 			.pipe(gulp.dest(
 				'./build/Cuevana/linux32'
 			))
@@ -167,7 +173,7 @@ gulp.task('build', ['compile'], function(cb) {
 
 		// Handle ffmpeg for Linux64
 		if (platforms.indexOf('linux64') > -1) {
-			gulp.src('deps/ffmpegsumo/linux64/*')
+			gulp.src('./deps/ffmpegsumo/linux64/*')
 			.pipe(gulp.dest(
 				'./build/Cuevana/linux64'
 			))

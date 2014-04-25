@@ -36,7 +36,7 @@
     "magnet-uri": "~1.1.0",
     "numeral": "^1.5.3",
     "i18n": "~0.4.1",
-    "nodewebkit": "~0.9.2"
+    "nodewebkit": "0.9.2-4"
   },
   "devDependencies": {
     "gulp": "~3.5.6",
