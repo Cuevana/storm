@@ -24,6 +24,8 @@ Use this to build the application executable.
 
 `npm run watcher` will automatically watch for file changes and compile when needed.
 
+When the app is launched with `npm start`, it runs in `--debug` mode. Press `F11` to reload or `F12` to open Developers Tools (console).
+
 #### Comments
 
 Inspired by Popcorn Time's use of peerflix module. Expanded on their idea.

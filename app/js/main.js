@@ -79,23 +79,6 @@ if (!isDebug) {
     console.log = function () {};
 } else {
     function addDeveloperTools(win) {
-      // Developer Menu building
-      var menubar = new gui.Menu({ type: 'menubar' }),
-          developerSubmenu = new gui.Menu(),
-          developerItem = new gui.MenuItem({
-             label: 'Developer',
-             submenu: developerSubmenu
-          }),
-          debugItem = new gui.MenuItem({
-              label: 'Show developer tools',
-              click: function () {
-                  win.showDevTools();
-              }
-          });
-      menubar.append(developerItem);
-      developerSubmenu.append(debugItem);
-      win.menu = menubar;
-
       // Developer Shortcuts
       win.window.document.addEventListener('keydown', function(event){
           // F12 Opens DevTools
@@ -1208,7 +1191,7 @@ var Storm = function() {
     t.createPlayerWindow = function(title, videoData) {
     	var new_window = gui.Window.open('app://cuevana/app/views/player.html', {
     		title: title,
-    		frame: (!isDebug && isWin) ? false : true,
+    		frame: false,
     		toolbar: false,
 		    icon: "./app/assets/icons/512x512.png",
     		position: 'center',
