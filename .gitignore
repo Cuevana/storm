@@ -4,6 +4,7 @@
 *.sublime-*
 
 # Debugging Purposes
+*.mkv
 *.mp4
 *.srt
 
