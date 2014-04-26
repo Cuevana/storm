@@ -69,7 +69,7 @@ var _playTorrent = function (torrent, callback, statsCallback) {
 
     engine.server.on('listening', function() {
         var href = 'http://'+address()+':'+engine.server.address().port+'/';
-        loadedTimeout ? clearTimeout(loadedTimeout) : null;
+        if (loadedTimeout) clearTimeout(loadedTimeout);
 
         var runtime = Math.floor((Date.now() - started) / 1000);
 
@@ -79,26 +79,31 @@ var _playTorrent = function (torrent, callback, statsCallback) {
                 total = engine.torrent.length,
                 targetLoadedSize = MIN_SIZE_LOADED > total ? total : MIN_SIZE_LOADED,
                 targetLoadedPercent = MIN_PERCENTAGE_LOADED * total / 100.0,
-
                 targetLoaded = Math.max(targetLoadedPercent, targetLoadedSize),
-
                 percent = now / targetLoaded * 100.0;
 
             var runtime = Math.floor((Date.now() - started) / 1000);
 
             if (now > targetLoaded && !fire_start) {
-                if (typeof callback === 'function') {
-                    callback(false, href);
-                }
+                if (typeof callback === 'function') callback(false, href);
                 fire_start = true;
             }
+
             if (now < total && !timeout) {
                 // If download choked (no peers), send timeout for restart
-                if (runtime > 40 && !wires.length) {
-                    timeout = true;
-                }
+                if (runtime > 40 && !wires.length) timeout = true;
                 // Send streaming stats callback
-                typeof statsCallback == 'function' ? statsCallback( percent, fire_start, bytes(swarm.downloadSpeed()), swarm.wires.filter(active).length, wires.length, timeout, video_id) : null;
+                if (typeof statsCallback == 'function') { 
+                    statsCallback(
+                        percent, 
+                        fire_start, 
+                        bytes(engine.swarm.downloadSpeed()), 
+                        engine.swarm.wires.filter(active).length, 
+                        engine.swarm.wires.length, 
+                        timeout, 
+                        video_id
+                    );
+                }
                 loadedTimeout = setTimeout(checkLoadingStats, 500);
             }
         };
@@ -128,7 +133,8 @@ var _playTorrent = function (torrent, callback, statsCallback) {
             }
         }
 
-        swarm.destroy();
+        engine.destroy();
+        delete engine;
 
         // Clean dir in tmp cache
         if (fs.existsSync(tmpFile)) {
@@ -151,8 +157,6 @@ var _playTorrent = function (torrent, callback, statsCallback) {
         }
         
         $(document).off('closeVideo'+video_id);
-        
-        delete engine;
     });
 
     // Add new video to array
