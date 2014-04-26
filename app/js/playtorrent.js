@@ -2,8 +2,7 @@ var peerflix = require('peerflix'),
     child_process = require('child_process'),
     address = require('network-address'),
     numeral = require('numeral'),
-    readTorrent = require('read-torrent'),
-    magnet = require('magnet-uri');
+    readTorrent = require('read-torrent');
 
 // Minimum percentage to open video
 var MIN_PERCENTAGE_LOADED = 0.5;
@@ -27,6 +26,13 @@ function randomPortNumber(min,max) {
 }
 
 var playTorrent = function (torrent, callback, statsCallback) {
+    readTorrent(torrent, function(err, torrent) {
+        if (err) { callback(err); return; }
+        _playTorrent(torrent, callback, statsCallback);
+    });
+}
+
+var _playTorrent = function (torrent, callback, statsCallback) {
 
     var infoHash = torrent.infoHash;
 
@@ -60,14 +66,6 @@ var playTorrent = function (torrent, callback, statsCallback) {
     var active = function(wire) {
         return !wire.peerChoking;
     };
-
-    engine.on('uninterested', function() {
-        engine.swarm.pause();
-    });
-
-    engine.on('interested', function() {
-        engine.swarm.resume();
-    });
 
     engine.server.on('listening', function() {
         var href = 'http://'+address()+':'+engine.server.address().port+'/';
@@ -109,16 +107,7 @@ var playTorrent = function (torrent, callback, statsCallback) {
     });
 
     engine.server.once('error', function() {
-        if (loadedTimeout) { clearTimeout(loadedTimeout); }
         engine.server.listen(0);
-    });
-
-	engine.server.on('connection', function(socket) {
-	socket.setTimeout(36000000);
-	});
-	
-    engine.on('ready', function() {
-        engine.server.listen(port);
     });
 
     engine.on('error', function() {

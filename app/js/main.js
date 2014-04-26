@@ -79,23 +79,6 @@ if (!isDebug) {
     console.log = function () {};
 } else {
     function addDeveloperTools(win) {
-      // Developer Menu building
-      var menubar = new gui.Menu({ type: 'menubar' }),
-          developerSubmenu = new gui.Menu(),
-          developerItem = new gui.MenuItem({
-             label: 'Developer',
-             submenu: developerSubmenu
-          }),
-          debugItem = new gui.MenuItem({
-              label: 'Show developer tools',
-              click: function () {
-                  win.showDevTools();
-              }
-          });
-      menubar.append(developerItem);
-      developerSubmenu.append(debugItem);
-      win.menu = menubar;
-
       // Developer Shortcuts
       win.window.document.addEventListener('keydown', function(event){
           // F12 Opens DevTools
@@ -1128,22 +1111,7 @@ var Storm = function() {
 
     	var title = data.type=='movie' ? data.name+' ('+data.year+')' : data.tvshow.name+': '+data.name;
 
-    	if (/^magnet:/.test(source.url)) return t.loadTorrent(magnet(source.url), data, source, title);
-
-    	readTorrent(source.url, function(err, torrent) {
-			if (err) {
-				t.cancelLoadingVideo();
-    			t.popupAlert(i18n.__('INVALID_FILE'),i18n.__('TORRENT_NOT_LOADED'));
-    			return;
-			}
-
-			t.loadTorrent(torrent, data, source, title);
-		});
-    	
-    }
-
-    t.loadTorrent = function(torrent, data, source, title) {
-    	playTorrent(torrent, function(err, href) {
+    	playTorrent(source.url, function(err, href) {
     		if (err) {
     			t.cancelLoadingVideo();
     			t.popupAlert(i18n.__('INVALID_FILE'),i18n.__('TORRENT_NOT_LOADED'));
@@ -1208,7 +1176,7 @@ var Storm = function() {
     t.createPlayerWindow = function(title, videoData) {
     	var new_window = gui.Window.open('app://cuevana/app/views/player.html', {
     		title: title,
-    		frame: (!isDebug && isWin) ? false : true,
+    		frame: false,
     		toolbar: false,
 		    icon: "./app/assets/icons/512x512.png",
     		position: 'center',
