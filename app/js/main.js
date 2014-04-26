@@ -20,6 +20,7 @@ var version = '0.1b';
 // Platform 
 var isWin = /^win/.test(process.platform);
 var isMac = /^darwin/.test(process.platform);
+var isLinux = (!isWin && !isMac);
 var isMaximized = false;
 
 // App extra variables
@@ -146,19 +147,14 @@ var Storm = function() {
 		// Toolbar in Windows
 		if (isWin) {
 			var toolbar = $('#toolbar');
-
-			toolbar.find('.min').click(function() {
-				win.minimize();
-			})
-			toolbar.find('.max').click(function() {
-				isMaximized ? win.unmaximize() : win.maximize();
-			})
-			toolbar.find('.close').click(function() {
-				win.close();
-			})
+			toolbar.find('.min').click(function() { win.minimize()	});
+			toolbar.find('.max').click(function() { isMaximized ? win.unmaximize() : win.maximize() });
+			toolbar.find('.close').click(function() { win.close() });
 			$('body').addClass('isWindows');
 		} else if (isMac) {
 			$('body').addClass('isMac');
+		} else if (isLinux) {
+			$('body').addclass('isLinux');
 		}
 
 		// Window height containers
@@ -1176,8 +1172,8 @@ var Storm = function() {
     t.createPlayerWindow = function(title, videoData) {
     	var new_window = gui.Window.open('app://cuevana/app/views/player.html', {
     		title: title,
-    		frame: false,
     		toolbar: false,
+    		frame: (isWin ? false : true),
 		    icon: "./app/assets/icons/512x512.png",
     		position: 'center',
     		width: 1280,
