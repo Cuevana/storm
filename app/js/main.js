@@ -1111,22 +1111,7 @@ var Storm = function() {
 
     	var title = data.type=='movie' ? data.name+' ('+data.year+')' : data.tvshow.name+': '+data.name;
 
-    	if (/^magnet:/.test(source.url)) return t.loadTorrent(magnet(source.url), data, source, title);
-
-    	readTorrent(source.url, function(err, torrent) {
-			if (err) {
-				t.cancelLoadingVideo();
-    			t.popupAlert(i18n.__('INVALID_FILE'),i18n.__('TORRENT_NOT_LOADED'));
-    			return;
-			}
-
-			t.loadTorrent(torrent, data, source, title);
-		});
-    	
-    }
-
-    t.loadTorrent = function(torrent, data, source, title) {
-    	playTorrent(torrent, function(err, href) {
+    	playTorrent(source.url, function(err, href) {
     		if (err) {
     			t.cancelLoadingVideo();
     			t.popupAlert(i18n.__('INVALID_FILE'),i18n.__('TORRENT_NOT_LOADED'));
