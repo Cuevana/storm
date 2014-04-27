@@ -154,7 +154,7 @@ var Storm = function() {
 		} else if (isMac) {
 			$('body').addClass('isMac');
 		} else if (isLinux) {
-			$('body').addclass('isLinux');
+			$('body').addClass('isLinux');
 		}
 
 		// Window height containers
