@@ -3276,3 +3276,17 @@ html[xmlns] .clearfix {
   line-height: 1.4;
   max-width: 70%;
 }
+#follow_button {
+  color: #FFFFFF;
+  background-color: #59a7e4;
+  text-align: center;
+  padding: 8px 30px;
+  display: none;
+}
+#follow_button:hover {
+  background-color: #4B8DC0;
+}
+.delete-single-history {
+  padding: 10px;
+  background-color: red;
+}

@@ -76,6 +76,9 @@ if(!fs.existsSync(tmpDir)) { fs.mkdirSync(tmpDir); }
 // Debug
 var isDebug = gui.App.argv.indexOf('--debug') > -1;
 
+// Database
+var indexedDB = window.indexedDB;
+
 if (!isDebug) {
     console.log = function () {};
 } else {
@@ -192,7 +195,10 @@ var Storm = function() {
 			    		break;
 		    		// Load history from cache
 			    	case 'history':
-			    		t.renderHistory();
+			    		t.getHistory();
+			    		break;
+			    	case 'tvshows_following':
+			    		t.renderFollowing();
 			    		break;
 			    	// Default - load view grid
 			    	default:
@@ -337,6 +343,10 @@ var Storm = function() {
 
 		// Featured
 		t.featured = t.loadFeaturedList();
+
+		// Open the connection to the history DB
+		// Open the connection to the following DB
+		indexedDB.openConnection();
 
 	}
 
@@ -542,34 +552,39 @@ var Storm = function() {
 		var number = data.from;
 
 		for (var i in data.data) {
-			var item = examplegrid.clone();
+			
+				var item = examplegrid.clone();
 
-			// Title
-			item.find('.title').html(data.data[i].name)
-			item.find('.subtitle').html((data.data[i].type=='episode') ? data.data[i].tvshow.name : data.data[i].year)
+				// Title
+				item.find('.title').html(data.data[i].name)
+				item.find('.subtitle').html((data.data[i].type=='episode') ? data.data[i].tvshow.name : data.data[i].year)
 
-			// List style
-			switch (t.gridStyle) {
-				// Numbered
-				case 'numbered':
-					item.prepend('<span class="number">'+number+'</span>');
-					item.find('.subtitle').html(data.data[i].year)
-					item.addClass('clearfix')
-					break;
-			}
+				// List style
+				switch (t.gridStyle) {
+					// Numbered
+					case 'numbered':
+						item.prepend('<span class="number">'+number+'</span>');
+						item.find('.subtitle').html(data.data[i].year)
+						item.addClass('clearfix')
+						break;
+				}
 
-			// Image
-			item.find('img').attr('src', (data.data[i].type=='episode') ? data.data[i].tvshow.cover_url : data.data[i].cover_url).on('error', function() {
-				$(this).attr('src','img/nocover.jpg')
-			})
+				// Image
+				item.find('img').attr('src', (data.data[i].type=='episode') ? data.data[i].tvshow.cover_url : data.data[i].cover_url).on('error', function() {
+					$(this).attr('src','img/nocover.jpg')
+				})
 
-			// Click event
-			item.data('savedI', i).on('click', function() {
-				t.loadView(data.data[$(this).data('savedI')].type+'s', null, data.data[$(this).data('savedI')].id);
-			});
+				// Click event
+				item.data('savedI', i).on('click', function() {
+					t.loadView(data.data[$(this).data('savedI')].type+'s', null, data.data[$(this).data('savedI')].id);
+				});
 
-			grid.append(item)
-			number++;
+				// t.checkWatched(data.data[i].id, function(result) {
+				// 	item.append("WATCHED!");
+				// });
+				
+				grid.append(item);
+				number++;
 		}
 
 
@@ -600,6 +615,79 @@ var Storm = function() {
 					// if window.height > grid.height, keeps loading...
 					$this.trigger('jsp-scroll-y', [scrollPositionY]);
 				});
+			}
+		}));
+
+		// if window.height es mayor al grid.height, sigue cargando más...
+		gridcontainer.trigger('jsp-scroll-y', [api.getContentPositionX()]);
+
+		// Also check on window resizing.
+		$(window).off('resize.infinite').on('resize.infinite', function() { gridcontainer.trigger('jsp-scroll-y', [api.getContentPositionX()]) });
+	}
+
+	// Render grid
+	t.renderGridFromDB = function(data) {
+		// Close detail view if open
+		t.closeItemView();
+
+		var grid = $('#main .grid').show(), examplegrid = $('#main .grid-example li'), gridcontainer = $('#grid-container');
+		
+		grid.empty();
+		t.topButtonBar();
+
+		if (data == null) {
+			gridcontainer.jScrollPane(scrollbarOptions);
+			return;
+		}
+		grid.addClass('tvshowslist');
+		var input = grid.prepend()
+
+		for (var i in data) {
+			var item = examplegrid.clone();
+
+			// Title
+			item.find('.title').html(data[i].name);
+			//item.find('.subtitle').html("X Episodes to watch");
+
+			// Image
+			item.find('img').attr('src', data[i].data.cover_url).on('error', function() {
+				$(this).attr('src','')
+			})
+
+			// Click event
+			item.data('savedI', i).on('click', function() {
+				t.renderItemView(data[$(this).data('savedI')].data);
+			});
+
+			grid.append(item);
+		}
+
+
+		// Reload jscrollpane
+		gridcontainer.jScrollPane(scrollbarOptions);
+
+		// Reset scroll event and scroll position
+		var api = gridcontainer.data('jsp');
+
+		gridcontainer.off('.infinite');
+		api.scrollTo(0,0);
+
+
+		var gapUpdatePage = 200, gridLoading = false, current_page = data.current_page, last_page = data.last_page;
+
+		gridcontainer.on('jsp-scroll-y.infinite', $.throttle(250, function(event, scrollPositionY, isOnTop) {
+			if (gridLoading || current_page >= last_page) return;
+			isOnTop ? t.topButtons.addClass('istop') : isOnTop!=null ? t.topButtons.removeClass('istop') : null;
+			var $this = $(this), gridHeight = grid.outerHeight(), elementHeight = $this.outerHeight();
+			var gapToBottom = gridHeight-elementHeight-scrollPositionY;
+			if (gapToBottom < gapUpdatePage) {
+				gridLoading = true;
+				current_page++;
+				//t.loadView(t.lastURL.type, t.lastURL.action, null, t.lastURL.vars, current_page, true, function() {
+				//	gridLoading = false;
+					// if window.height > grid.height, keeps loading...
+				//	$this.trigger('jsp-scroll-y', [scrollPositionY]);
+				//});
 			}
 		}));
 
@@ -705,20 +793,19 @@ var Storm = function() {
 		t.loadView(type,'featured');
 	}
 
+	t.renderFollowing = function() {
+		//t.topButtonBar(null, 'featured');
+		t.getFollowing(t.renderGridFromDB);
+	}
+
 	// Render History grid
-	t.renderHistory = function() {
+	t.renderHistory = function(data) {
 
 		// Hide initial loading screen
 		$('#init-load').hide();
 
 		// Close detail view if open
 		t.closeItemView();
-
-		var data = t.getHistory().sort(function(a,b){
-		  // Turn your strings into dates, and then subtract them
-		  // to get a value that is either negative, positive, or zero.
-		  return new Date(b.date) - new Date(a.date);
-		});
 
 		var grid = $('#main .grid').show(), examplegrid = $('#main .grid-example li'), gridcontainer = $('#grid-container');
 
@@ -735,6 +822,12 @@ var Storm = function() {
 			gridcontainer.jScrollPane(scrollbarOptions);
 			return;
 		}
+
+		data.sort(function(a,b){
+		 // Turn your strings into dates, and then subtract them
+		 // to get a value that is either negative, positive, or zero.
+		 return new Date(b.date) - new Date(a.date);
+		});
 
 		var today = moment([moment().get('year'),moment().get('month'),moment().get('date')]);
 		var yesterday = moment([moment().get('year'),moment().get('month'),moment().get('date')]).subtract('days', 1);
@@ -779,7 +872,13 @@ var Storm = function() {
 				t.renderItemView(data[$(this).data('savedI')].data);
 			});
 
-			grid.append(item)
+			item.data('timestamp', data[i].date);
+
+			var deleteButton = "<button class='delete-single-history' onclick='t.removeHistory($(this).parent().data(\"timestamp\"))'>X</button>";
+
+			item.append(deleteButton); 
+
+			grid.append(item);
 		}
 
 
@@ -788,6 +887,13 @@ var Storm = function() {
 
 	// Render item
 	t.renderItemView = function(data) {
+		if (data.type == 'tvshow' || data.type == "episode") {
+			$("#follow_button").show();
+			$("#follow_button").text("...");
+			t.updateFollowButton(data);
+		} else
+			$("#follow_button").hide();
+		
 		t.dview.removeClass('closed tvshow episode movie');
 		t.darkMain.show();
 
@@ -814,7 +920,7 @@ var Storm = function() {
 
 		// If TV Show, show seasons and episodes
 		if (data.type == 'tvshow') {
-			t.dview.find('.action_buttons').hide()
+			t.dview.find('.action_buttons').hide();
 			var seasons_div = t.dview.find('.seasons'), example_div = t.dview.find('.seasons > div.example');
 			
 			seasons_div.children('div').not(example_div).remove();
@@ -829,6 +935,11 @@ var Storm = function() {
 					li.find('.name').html(data.seasons[i].episodes[n].name)
 
 					li.find('.rating span').width(Math.round(data.seasons[i].episodes[n].rating*100/5)+'%');
+
+					t.checkWatched(data.seasons[i].episodes[n].id, function(result) {
+						li.find('.name').html(data.seasons[i].episodes[n].name + " (WATCHED)")
+						li.css('color', 'rgb(68, 68, 68)');
+					});
 
 					li.data('id', data.seasons[i].episodes[n].id).click(function(e) {
 						t.loadView('episodes', null, $(this).data('id'));
@@ -1196,30 +1307,287 @@ var Storm = function() {
     	return new_window;
     }
 
+    //History Database
+
+	/**
+	* Opens a connection to the db. It creates one if necessary.
+	*
+	* @param databaseName the name of the database to open or create
+	* @param keyname the key of the database to create
+	*/
+	indexedDB.openConnection = function() {
+		var version = 1;
+		// Open a connection to the db.
+		var request1 = indexedDB.open("StormDatabase1", version);
+
+		// Triggered if store doesn't exists (or version changes)
+		request1.onupgradeneeded = function(eventData) {
+			var db = eventData.target.result;
+			//Error Handling
+			eventData.target.transaction.onerror = indexedDB.onerror; 
+
+			// Create a new datastore.
+			var objectStore1 = db.createObjectStore("history", {keyPath: "date"});
+			var objectStore2 = db.createObjectStore("following", {keyPath: "name"});
+
+			objectStore1.createIndex("id","data.id", {unique:true});
+			objectStore2.createIndex("id","data.id", {unique:true});
+		};
+
+		// Handle successful datastore access.
+		request1.onsuccess = function(e) {
+			// Get a reference to the DB.
+			indexedDB.db = e.target.result;
+		};
+
+		// Handle errors when opening the datastore.
+		request1.onerror = function(e) {
+			console.log(e);
+		};
+	};
+
+	/**
+	* Fetch all of the contents for databaseName
+	* 
+	* @param databaseName the name of the database to fetch
+	* @param callback a function that receives the objects fetched as parameter 
+	*/
+	indexedDB.fetchAll = function(databaseName, callback) {
+		var transaction = indexedDB.db.transaction([databaseName]);
+		var objectStore = transaction.objectStore(databaseName);
+
+		var keyRange = IDBKeyRange.lowerBound(0);
+		var cursorRequest = objectStore.openCursor(keyRange);
+
+		ret = new Array();
+
+		transaction.oncomplete = function(e) {
+			callback(ret);
+		};
+
+		cursorRequest.onsuccess = function(e) {
+			var result = e.target.result;
+			if (!!result == false) 
+				return;
+			ret.push(result.value);
+			result.continue();
+		};
+
+		cursorRequest.onerror = function(e) {
+			console.log(e);
+		};
+	};
+
+	/**
+	* Fetchs an element from databaseName
+	* 
+	* @param databaseName the name of the database to fetch
+	* @param key of the object to fetch
+	* @param callback a function that receives the object fetched as parameter
+	*/
+	indexedDB.fetch = function(databaseName, key, callback) {
+		var transaction = indexedDB.db.transaction([databaseName], 'readonly');
+		var objectStore = transaction.objectStore(databaseName);
+
+		var request = objectStore.get(key);
+		var result;
+
+		request.onerror = function(e) {
+			console.log(e);
+		}
+
+		request.onsuccess = function(e) {			
+			result = e.target.result;		
+		}
+
+		transaction.oncomplete = function(e) {
+			callback(result);
+		};
+	};
+
+	indexedDB.fetchByIndex = function(databaseName, indexValue, callback) {
+		var transaction = indexedDB.db.transaction([databaseName], 'readonly');
+		var objectStore = transaction.objectStore(databaseName);
+		var index = objectStore.index("id");
+
+		var request = index.get(indexValue);
+		var result;
+
+		request.onerror = function(e) {
+			console.log(e);
+		}
+
+		request.onsuccess = function(e) {			
+			result = e.target.result;
+		}
+
+		transaction.oncomplete = function(e) {
+			if (!!result)
+				callback(result);
+		};
+	}
+
+	
+	/**
+	* Delete everything from the database
+	*
+	* @param databaseName the name of the database to clear
+	*/
+	indexedDB.deleteAll = function(databaseName) {
+		var transaction = indexedDB.db.transaction([databaseName], 'readwrite');
+		var objectStore = transaction.objectStore(databaseName);
+
+		var request = objectStore.clear();
+
+		request.onerror = function(e) {
+				console.log(e);
+		}
+	};
+
+	/**
+	* Delete an entry 
+	*
+	* @param databaseName the name of the database 
+	* @param key of the object to delete
+	* @param callback (optional) a function that receives the object fetched as parameter
+	*/
+	indexedDB.delete = function(databaseName, key, callback) {
+		var transaction = indexedDB.db.transaction([databaseName], 'readwrite');
+		var objectStore = transaction.objectStore(databaseName);
+
+		var request = objectStore.delete(key);
+
+		request.onerror = function(e) {
+			console.log(e);
+		}
+
+		transaction.oncomplete = function(e) {
+			if (callback != null) 
+				callback();
+		};
+	};
+
+	/**
+	* Creates an entry 
+	* @param data the entry to add to the database
+	* @param databaseName the name of the database to add an element
+	* @param callback (optional) a function that receives the object fetched as parameter
+	*/
+	indexedDB.add = function(databaseName, data, callback) {
+		if (data != null) {
+			var transaction = indexedDB.db.transaction([databaseName], 'readwrite');
+			var objectStore = transaction.objectStore(databaseName);
+
+			var request = objectStore.put(data);
+
+			request.onerror = function(e) {
+				console.log(e);
+			}
+			
+			transaction.oncomplete = function(e) {
+				if (callback != null) 
+					callback();
+			};
+		}
+	};
+
+
+    t.checkWatched = function(id, callback) {
+		indexedDB.fetchByIndex("history", id, callback);
+    };
+
+
     // Add to history
     t.addHistory = function(data) {
-    	var history = t.getHistory();
-		history.push({date:moment(), data:data});
-		localStorage.setItem('history', JSON.stringify(history));
-    }
+    	var historyToAdd = {
+				'data': data,
+				'date': Date.now()
+		};
+		indexedDB.add("history", historyToAdd);
+    };
 
     // Get history
     t.getHistory = function() {
-    	if (localStorage.getItem('history') != null) {
-			return JSON.parse(localStorage.getItem('history'));
-		}
-		return [];
-    }
+		indexedDB.fetchAll("history", t.renderHistory);
+    };
 
     // Clean history
     t.cleanHistory = function() {
     	if (confirm(i18n.__('HISTORY_DELETE_ALERT'))) {
-	    	if (localStorage.getItem('history') != null) {
-	    		localStorage.removeItem('history');
-	    	}
-	    	t.renderHistory();
+	    	indexedDB.deleteAll("history");
+	    	t.renderHistory(null);
 	    }
-    }
+    };
+
+     // Delete a history
+    t.removeHistory = function(key) {
+		indexedDB.delete("history", key, t.getHistory );
+    };
+
+
+    //Following DB
+
+
+    // Add to following
+    t.addFollowing = function(data, callback) {
+    	if (data.type == "episode"){
+    		tvshowId = data.tvshow.id;
+    		var url = "http://api.cuevana.tv/tvshows/"+tvshowId;
+
+    		$.getJSON(url,function(result){ //AJAX query to cuevana API to get tvshow info
+				var showToAdd = {
+					'data': result,
+					'name': result.name
+				};
+				indexedDB.add("following", showToAdd, callback);
+			});
+
+    	} else {
+    		var showToAdd = {
+				'data': data,
+				'name': data.name
+			};
+			indexedDB.add("following", showToAdd, callback);
+    	}
+    		
+    	
+    };
+
+    // Get following
+    t.getFollowing = function(callback) {
+		indexedDB.fetchAll("following", callback );
+    };
+
+     // Delete a following
+    t.removeFollowing = function(key, callback) {
+		indexedDB.delete("following", key, callback );
+    };
+
+    // checks if the show exists and updates the button text and click action
+    t.updateFollowButton = function(data) {
+    	if (data.type == "tvshow")
+			var tvshowName = data.name;
+		else
+			var tvshowName = data.tvshow.name;
+
+		var updateButton = function(dataFollowing) {
+								if (dataFollowing == null){
+									$("#follow_button").text("FOLLOW");
+									$("#follow_button")[0].onclick = function() { 
+											t.addFollowing(data, function(){t.updateFollowButton(data)}); 
+										};
+								} else {
+									$("#follow_button").text("UNFOLLOW");
+									$("#follow_button")[0].onclick = function() { 
+											t.removeFollowing(tvshowName, function(){t.updateFollowButton(data)});
+										};
+								}
+							}
+		indexedDB.fetch("following", tvshowName, updateButton);
+    };
+
+ 
+
 
     // Loading bar
     t.loadingBar = function(percent) {
@@ -1368,4 +1736,9 @@ var c;
 
 $(document).ready(function() {
 	c = new Storm();
+});
+
+//log unhandled errors
+process.on('uncaughtException', function(err) {
+	console.error('Caught exception: ' + err);
 });

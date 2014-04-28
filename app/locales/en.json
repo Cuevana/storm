@@ -53,6 +53,9 @@
 	"LOAD_SUBS_FILE": "Load from file",
 	"CLOSE_VIDEO_ALERT": "The video will stop. Are you sure want to close the window?",
 	"VIDEO_LOAD_ERROR": "The video couldn't be loaded.",
+	"FOLLOWING": "Following",
+	"FOLLOW": "Follow",
+	"UNFOLLOW": "Unfollow",
 	"SPANISH": "Spanish",
 	"ENGLISH": "English",
 	"PORTUGUESE": "Portuguese",
@@ -81,5 +84,7 @@
 	"GENRE_MISTERY": "Mistery",
 	"GENRE_BLACKCOMEDY": "Black Comedy",
 	"GENRE_DRAMATICCOMEDY": "Dramatic Comedy",
-	"GENRE_SHORTFILM": "Short"
+	"GENRE_SHORTFILM": "Short",
+	"GENRE_FAMILY": "GENRE_FAMILY",
+	"GENRE_MYSTERY": "GENRE_MYSTERY"
 }
