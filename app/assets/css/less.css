@@ -1935,6 +1935,11 @@ textarea {
 .mejs-controls .mejs-captions-button .mejs-captions-selector .size .bar span.handle:focus {
   background-color: #226da7;
 }
+.mejs-controls .mejs-captions-button .mejs-captions-selector .color {
+	display: block;
+	background: white;
+	height: 32px;
+}
 /*
 .mejs-controls .mejs-captions-button:hover  .mejs-captions-selector {
 	visibility: visible;
