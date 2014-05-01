@@ -4192,6 +4192,7 @@ if (typeof jQuery != 'undefined') {
 						'<div class="mejs-captions-selector">'+
 							'<div class="head">Subtítulos</div>' +
 							'<div class="size clearfix"><i class="small fa fa-font"></i><span id="mejs-subtitles-size" class="bar"><span class="track"></span><span class="handle"></span></span><i class="big fa fa-font"></i></div>' +
+							'<div class="color clearfix" title="Click to make subs yellow"><span class="colorpicker"></span></div>' +
 							'<ul>'+
 								'<li class="' + player.id + '_captions none selected" data-lang="none">'+
 									mejs.i18n.t('Ninguno') +
@@ -4226,12 +4227,20 @@ if (typeof jQuery != 'undefined') {
 					$(this).find('.mejs-captions-selector').css('visibility','visible');
 				}, function() {
 					$(this).find('.mejs-captions-selector').css('visibility','hidden');
+					player.captionsButton.find('.colorpicker').minicolors('hide');
 				})
 
 				// handle clicks to the language radio buttons
 				.on('click','li',function() {
 					lang = $(this).attr('data-lang');
 					player.setTrack(lang);
+				});
+
+				player.captionsButton.find('.colorpicker').minicolors({
+					change: function(hex, opacity) {
+						$('.mejs-captions-text').css({'color': hex, 'opacity': opacity});
+					},
+					opacity: true
 				});
 
 			}
