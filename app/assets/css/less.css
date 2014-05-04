@@ -1935,6 +1935,25 @@ textarea {
 .mejs-controls .mejs-captions-button .mejs-captions-selector .size .bar span.handle:focus {
   background-color: #226da7;
 }
+.mejs-controls .mejs-captions-button .mejs-captions-selector .color {
+  display: block;
+  background: white;
+  height: 2.4em;
+  padding: 0 0 0 10px;
+  font-size: 1.2em;
+  position: relative;
+}
+.mejs-controls .mejs-captions-button .mejs-captions-selector .color label {
+  display: inline-block;
+  line-height: 2em;
+}
+.mejs-controls .mejs-captions-button .mejs-captions-selector .color .minicolors {
+  position: absolute;
+  right: 10px;
+}
+.mejs-controls .mejs-captions-button .mejs-captions-selector .color .minicolors .minicolors-swatch-color {
+  cursor: pointer;
+}
 /*
 .mejs-controls .mejs-captions-button:hover  .mejs-captions-selector {
 	visibility: visible;

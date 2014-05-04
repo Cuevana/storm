@@ -91,7 +91,7 @@ var Player = function() {
 
 	    video.mediaelementplayer({
 			videoVolume: 'horizontal',
-			features: ['playpause','current','progress','duration','fullscreen','volume','tracks','videofit','torrentinfo','fontawesome', 'customtracks'],
+			features: ['playpause','current','progress','duration','fullscreen','volume','tracks','videofit','torrentinfo','fontawesome', 'customtracks', 'subtitlecolors'],
 			success : function(mediaElement, domObject, player) {
         		t.mePlayer = player;
         		// TODO: Move me into a mediaelement plugin?
