@@ -4189,8 +4189,12 @@ if (typeof jQuery != 'undefined') {
 			player.captionsButton = 
 					$('<div class="mejs-button mejs-captions-button">'+
 						'<button type="button" aria-controls="' + t.id + '" title="' + t.options.tracksText + '" aria-label="' + t.options.tracksText + '"></button>'+
-						'<div class="mejs-captions-selector">'+
+						'<div class="mejs-captions-selector head">'+
 							'<div class="head">Subtítulos</div>' +
+							'<div id ="mejs-captions-color" class="clearfix head">' +
+									'<div id="#FFFFFF" style="cursor: pointer; background-color:#FFFFFF; height:25px; border:1px solid #C0C0C0; width:25%; float:left;"> </div>' +
+									'<div  id="#FFFF00" style="cursor: pointer; background-color:#FFFF00; height:25px; border:1px solid #C0C0C0; width:25%; float:right;"> </div>' +
+							'</div>' +
 							'<div class="size clearfix"><i class="small fa fa-font"></i><span id="mejs-subtitles-size" class="bar"><span class="track"></span><span class="handle"></span></span><i class="big fa fa-font"></i></div>' +
 							'<ul>'+
 								'<li class="' + player.id + '_captions none selected" data-lang="none">'+
@@ -4201,6 +4205,13 @@ if (typeof jQuery != 'undefined') {
 						'</div>'+
 					'</div>')
 						.appendTo(controls);
+
+			//colores subtitulos
+			$(document).on('click', '#mejs-captions-color', function(e) {
+				t.setSubtitleColor(e.target.id);
+
+			});
+			
 
 			var subtitleCount = 0;
 			for (i=0; i<player.tracks.length; i++) {
@@ -4314,6 +4325,12 @@ if (typeof jQuery != 'undefined') {
 				player.chapters.css('visibility','hidden');
 			}
 		},
+		setSubtitleColor: function(color) {
+
+				$('.mejs-captions-layer').css('color', color)
+				
+
+			},
 		
 		setTrack: function(lang){
 		
