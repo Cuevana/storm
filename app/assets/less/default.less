@@ -210,9 +210,10 @@ input {
 	}
 }
 
-@-webkit-keyframes pop-in {
-	0% { opacity: 0; -webkit-transform: scale(0.5); }
-	100% { opacity: 1; -webkit-transform: scale(1); }
+
+@-webkit-keyframes pop-in {    
+	0% { opacity: 0; -webkit-transform: scale3d(0.5,0.5,0); } //scale3d hardware accelertion
+	100% { opacity: 1; -webkit-transform: scale3d(1,1,0); }  //scale3d hardware accelertion
 }
 @-webkit-keyframes fadeIn {
 	from {
