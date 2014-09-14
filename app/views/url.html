@@ -1,0 +1,10 @@
+<div class="load-torrent main-frame" ng-hide="playerLoading">
+	<h3 translate>PLAY_TORRENT_URL</h3>
+	<p translate>PLAY_TORRENT_URL_MSG</p>
+	<div class="text-input" st-navigatable nav-title="detail-view" nav-on="{enter: playTorrent}">
+		<input st-input-focus type="text" ng-model="torrent.url" placeholder="{{ 'TORRENT_PLACEHOLDER' | translate }}" value="">
+	</div>
+	<ul class="action-buttons">
+		<li><a class="button big" ng-click="playTorrent()" st-navigatable nav-title="play-torrent" nav-on="{enter: playTorrent}"><span translate>PLAY_TORRENT</span></a></li>
+	</ul>
+</div>

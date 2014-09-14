@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="apple-mobile-web-app-title" content="Storm Remote">
+
+	<link rel="apple-touch-icon" href="/app/assets/icons/ios.png">
+	
+	<title>Cuevana Storm Remote</title>
+	<link rel="stylesheet" href="/app/assets/remote/css/remote.css">
+</head>
+
+<body>
+	<script src="/bower/jquery/dist/jquery.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="/app/assets/remote/js/remote.js"></script>
+	
+	<!-- Connection popups -->
+	<div class="disconnected popup">
+		<div class="wrap">
+			<h2 translate>CONNECTION_LOST</h2>
+			<p translate>CONNECTION_LOST_MSG</p>
+			<a class="button text-button reconnect" translate>RECONNECT</a>
+		</div>
+	</div>
+
+	<!-- Search popup -->
+	<div class="search popup">
+		<a class="close button"><i class="icon icon-cancel-circled"></i></a>
+		<div class="wrap">
+			<h2 translate>SEARCH</h2>
+			<span class="search-input">
+				<input type="text" id="q" placeholder-translate="SEARCH_PLACEHOLDER" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+			</span>
+			<a class="button text-button close" translate>OK</a>
+		</div>
+	</div>
+
+	<!-- Subtitles popup -->
+	<div class="subtitles popup">
+		<a class="close button"><i class="icon icon-cancel-circled"></i></a>
+		<div class="wrap">
+			<h2 translate>SUBTITLES</h2>
+			<ul class="tracks-list"></ul>
+			<a class="button text-button close" translate>OK</a>
+		</div>
+	</div>
+	
+	<div class="remote">
+	
+		<!-- Head -->
+		<div class="remote-head">
+			<a class="toggle-fullscreen button right"><i class="icon icon-resize-full"></i><i class="icon icon-resize-small"></i></a>
+
+			<div class="default-title">
+				<a class="toggle-search button right"><span class="icon"></span></a>
+				<img src="/app/assets/icons/512x512.png">
+				<span>Remote</span>
+			</div>
+
+			<div class="playing-item clearfix">
+				<img>
+				<div class="info">
+					<span class="title"></span>
+					<span class="more"></span>
+				</div>
+			</div>
+		</div>
+
+		<div class="remote-body">
+			<!-- Navigation controls -->
+			<div class="nav-controls main-controls">
+				<span class="top button" data-key="up"><i class="icon icon-up-open-big"></i></span>
+				<span class="left button" data-key="left"><i class="icon icon-left-open-big"></i></span>
+				<span class="middle center" data-key="enter"><span></span></span>
+				<span class="right button" data-key="right"><i class="icon icon-right-open-big"></i></span>
+				<span class="bottom button" data-key="down"><i class="icon icon-down-open-big"></i></span>
+			</div>
+
+			<!-- Player controls -->
+			<div class="player-controls main-controls">
+				<span class="top button close-player text-button" translate>EXIT_VIDEO</span>
+				<div class="frame">
+
+					<!-- Play pause -->
+					<span class="top play-pause button" data-action="playpause">
+						<i class="icon icon-play"></i><i class="icon icon-pause"></i>
+					</span>
+
+					<!-- Playing time / backward - forward -->
+					<span class="playing-track line-icons">
+						<span class="time">
+							<span class="current-time"></span>
+							<span class="total-time"></span>
+						</span>
+						<span class="backward button" data-action="backward"><i class="icon icon-fast-backward"></i></span>
+						<span class="forward button" data-action="forward"><i class="icon icon-fast-forward"></i></span>
+					</span>
+
+					<!-- Volume controls -->
+					<span class="volume-track line-icons">
+						<span class="tracks toggle-subs button"><i class="icon icon-comment"></i></span>
+						<span class="mute toggle-mute button"><i class="icon icon-sound"></i><i class="icon icon-mute"></i></span>
+						<div class="bar">
+							<span class="handle"></span>
+							<span class="track"><span></span></span>
+						</div>
+					</span>
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>

@@ -16,7 +16,7 @@ Use this to build the application executable.
 
 `npm run build` will build for your current platform.
 
-`npm run build-all` will build for all platforms.
+`npm run build --all` will build for all platforms.
 
 #### Developers
 

@@ -1,0 +1,59 @@
+<!-- Title bar -->
+<st-title-bar></st-title-bar>
+
+<!-- Update alert -->
+<div class="update-alert" ng-if="updateAvailable">
+	<a class="button right" ng-href="{{ updateUrl }}" st-navigatable nav-title="update" nav-on="{enter: goToUpdateUrl}" st-nav-if="updateAvailable" nav-focus="true" translate>UPDATE</a>
+	<span translate>NEW_UPDATE_AVAILABLE</span>
+</div>
+
+<!-- Main menu -->
+<div class="main-menu menu">
+	<ul st-menu-row menu-default-index="2" class="level-1 clearfix" st-slide-row slide-clickable="true" st-navigatable nav-title="menu" nav-focus="{{ !updateAvailable }}">
+		<li><a ng-href="/remote" class="remote" translate>REMOTE</a></li>
+		<li><a menu-child="search" ng-href="/search" class="search"><i class="icon"></i></a></li>
+		<li><a menu-child="movies" translate>MOVIES</a></li>
+		<li><a menu-child="tvshows" translate>TVSHOWS</a></li>
+		<li><a menu-child="queue" translate>PLAYING_QUEUE</a></li>
+		<li><a menu-child="history" translate>HISTORY</a></li>
+		<li><a ng-href="/url" translate>URL</a></li>
+		<li><a ng-href="/settings" translate>SETTINGS</a></li>
+	</ul>
+</div>
+
+<!-- Submenus -->
+<div class="sub-menu menu" ng-class="{visible: submenu}">
+	<div class="search-input text-input" menu-parent="search" st-navigatable nav-title="menu-search" st-nav-if="submenu==='search'">
+		<input st-search-input st-input-focus type="text" ng-model="search.q" placeholder="{{ 'SEARCH_PLACEHOLDER' | translate }}" value="">
+	</div>
+
+	<!-- Movies menu -->
+	<ul st-menu-row menu-parent="movies" class="level-2 clearfix" st-slide-row slide-clickable="true" st-navigatable nav-title="menu-movies" st-nav-if="submenu==='movies'">
+		<li><a ng-href="/movies" translate>RELEASES</a></li>
+		<li><a ng-href="/movies/popular" translate>TOP_MONTH</a></li>
+		<li><a ng-href="/movies/ranking" translate>RANKING</a></li>
+		<li><a ng-href="/movies/all" translate>ALL_MOVIES</a></li>
+	</ul>
+
+	<!-- Tv shows menu -->
+	<ul st-menu-row menu-parent="tvshows" class="level-2 clearfix" st-slide-row slide-clickable="true" st-navigatable nav-title="menu-tvshows" st-nav-if="submenu==='tvshows'">
+		<li><a ng-href="/tvshows" translate>NEW_EPISODES</a></li>
+		<li><a ng-href="/tvshows/popular" translate>TOP_MONTH</a></li>
+		<li><a ng-href="/tvshows/ranking" translate>RANKING</a></li>
+		<li><a ng-href="/tvshows/all" translate>ALL_TVSHOWS</a></li>
+	</ul>
+
+	<!-- Queue menu -->
+	<ul st-menu-row menu-parent="queue" class="level-2 clearfix" st-slide-row slide-clickable="true" st-navigatable nav-title="menu-queue" st-nav-if="submenu==='queue'">
+		<li><a ng-href="/queue" translate>LAST_ADDED</a></li>
+		<li><a ng-href="/queue/oldest" translate>FIRST_ADDED</a></li>
+		<li><a ng-href="/queue/delete" translate>DELETE_QUEUE</a></li>
+	</ul>
+
+	<!-- History menu -->
+	<ul st-menu-row menu-parent="history" class="level-2 clearfix" st-slide-row slide-clickable="true" st-navigatable nav-title="menu-history" st-nav-if="submenu==='history'">
+		<li><a ng-href="/history" translate>LAST_SEEN</a></li>
+		<li><a ng-href="/history/oldest" translate>FIRST_SEEN</a></li>
+		<li><a ng-href="/history/delete" translate>DELETE_HISTORY</a></li>
+	</ul>
+</div>

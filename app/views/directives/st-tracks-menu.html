@@ -1,0 +1,23 @@
+<div class="tracks-menu" ng-class="{'layer-visible': playerLayer, open: openTracksMenu}">
+	<div class="head" translate>SUBTITLES</div>
+	<ul class="action-buttons">
+		<li ng-repeat="track in tracks">
+			<a class="button" ng-click="selectTrack($index)" st-navigatable nav-on="{up: prevTrack, enter: selectTrack, escape: toggleTracksMenu}" nav-title="track" ng-class="{selected: track.selected}" track-index="{{ $index }}" st-nav-if="openTracksMenu">
+				<span>
+					<i ng-if="!track.error && !track.loading" class="icon right icon-comment"></i>
+					<i ng-if="track.error" class="icon right icon-attention"></i>
+					<div class="dot-spinner loading" ng-if="track.loading">
+						<div class="double-bounce1"></div>
+						<div class="double-bounce2"></div>
+					</div>
+					<span>{{ track.lang | translate }}</span></span>
+			</a>
+		</li>
+		<li>
+			<a class="button" ng-click="addTrack()" st-navigatable nav-on="{up: prevTrack, down: toggleTracksMenu, enter: addTrack, escape: toggleTracksMenu}" nav-title="add-track" st-nav-if="openTracksMenu">
+				<span><i class="icon icon-plus"></i>{{ 'ADD_SUBTITLE' | translate }}</span>
+			</a>
+		</li>
+	</ul>
+	<input type="file" accept=".srt" style="display: none;" multiple>
+</div>

@@ -1,0 +1,43 @@
+<!-- Slide row -->
+<div class="covers">
+	<ul class="clearfix" st-slide-row slide-clickable="true" scrollable="true" with-detail="true" st-navigatable nav-on="{right: checkNext, down: showDetailView, enter: showDetailView}" nav-title="main" ng-if="items.length" st-nav-if="items.length">
+		<li ng-repeat="item in items">
+			<a ng-href="{{ item.url }}" ng-click="showDetailView($index)">
+				<img st-lazy-img="{{ item.type==='episode' ? item.tvshow.covers.medium : item.covers.medium }}" />
+				<span class="cover-box">
+					<span class="title">{{ item.name }}</span>
+					<span class="more" ng-switch="item.type">
+						<span ng-switch-when="episode">{{ item.tvshow.name }}</span>
+						<span ng-switch-when="tvshow" translate translate-value-number="{{ item.total_seasons }}">{{ item.total_seasons !== 1 ? 'SEASONS_COUNT' : 'SEASON_COUNT' }}</span>
+						<span ng-switch-when="movie">{{ item.year }}</span>
+					</span>
+				</span>
+				<span class="more-icon"><i class="icon icon-down-open-big"></i></span>
+			</a>
+		</li>
+		<li class="no-item loading-box spinner" ng-show="loadingPage">
+			<div class="bounce1"></div>
+			<div class="bounce2"></div>
+			<div class="bounce3"></div>
+		</li>
+	</ul>
+</div>
+
+<!-- Detail view for transition -->
+<div class="detail-view" ng-if="detail.active || detail.transition">
+	<!-- Cover image -->
+	<div class="detail-img">
+		<a ng-click="hideDetailView()">
+			<span class="more-icon"></span>
+			<img ng-src="{{ detail.item.type==='episode' ? detail.item.tvshow.covers.medium : detail.item.covers.medium }}" />
+			<span class="cover-box">
+				<span class="title">{{ detail.item.name }}</span>
+				<span class="more" ng-switch="detail.item.type">
+					<span ng-switch-when="episode">{{ detail.item.tvshow.name }}</span>
+					<span ng-switch-when="tvshow" translate translate-value-number="{{ detail.item.total_seasons }}">{{ detail.item.total_seasons !== 1 ? 'SEASONS_COUNT' : 'SEASON_COUNT' }}</span>
+					<span ng-switch-when="movie">{{ detail.item.year }}</span>
+				</span>
+			</span>
+		</a>
+	</div>
+</div>

@@ -1,0 +1,31 @@
+<div class="settings main-frame">
+	<h3 translate>GENERAL</h3>
+
+	<!-- Animations -->
+	<div class="settings-option clearfix" st-settings-option setting-name="animations">
+		<a class="toggle" ng-class="{active: value}" ng-click="toggleSetting()"
+			st-navigatable nav-on="{enter: toggleSetting}">
+			<span></span>
+		</a>
+		<span class="label" translate>SETTINGS_ANIMATIONS</span>
+		<span class="label-info" translate>SETTINGS_ANIMATIONS_INFO</span>
+	</div>
+
+	<!-- Blur -->
+	<div class="settings-option clearfix" st-settings-option setting-name="blur">
+		<a class="toggle" ng-class="{active: value}" ng-click="toggleSetting()"
+			st-navigatable nav-on="{enter: toggleSetting}">
+			<span></span>
+		</a>
+		<span class="label" translate>SETTINGS_BLUR</span>
+		<span class="label-info" translate>SETTINGS_BLUR_INFO</span>
+	</div>
+
+	<!-- TO DO: Setting to select default subtitles / Drop-down menu with available languages -->
+	<!-- <h3 translate>PLAYBACK</h3>
+
+	<div class="settings-option clearfix">
+		<span class="label" translate>SETTINGS_SUBTITLES</span>
+		<span class="label-info" translate>SETTINGS_SUBTITLES_INFO</span>
+	</div> -->
+</div>

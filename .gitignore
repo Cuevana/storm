@@ -1,4 +1,7 @@
-/node_modules
+!.gitkeep
+node_modules/
+bower_components/
+.DS_Store
 
 # Sublime Text Files
 *.sublime-*

@@ -1,0 +1,13 @@
+<div class="cover-row" st-cover-row ng-class="{'detail-transition': detail.transition, 'detail-active': detail.active}" ng-hide="playerLoading" ng-if="!loadingState && !deleteAlert"></div>
+
+<!-- Delete popup -->
+<div class="full-popup dark-bg" ng-if="deleteAlert">
+	<div class="wrap">
+		<h2 translate>DELETE_QUEUE</h2>
+		<p translate>DELETE_QUEUE_ALERT</p>
+		<ul class="action-buttons">
+			<li><a class="button big" ng-click="delete()" st-navigatable nav-on="{up: 'preventDefault', enter: delete, escape: hideDeleteAlert}" nav-title="confirm-delete" st-nav-if="deleteAlert"><span translate>DELETE</span></a></li>
+			<li><a class="button big" ng-click="hideDeleteAlert()" st-navigatable nav-on="{enter: hideDeleteAlert, escape: hideDeleteAlert, down: 'preventDefault'}" st-nav-if="deleteAlert"><span translate>CANCEL</span></a></li>
+		</ul>
+	</div>
+</div>
