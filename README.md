@@ -2,6 +2,8 @@
 
 Cuevana Storm desktop app based in peerflix module, packaged with node-webkit
 
+Web app using AngularJS.
+
 #### Install
 
 `npm install`
@@ -23,6 +25,8 @@ Use this to build the application executable.
 `npm run compile` will compile less and update html references.
 
 `npm run watcher` will automatically watch for file changes and compile when needed.
+
+When the app is launched with `npm start`, it runs in `--debug` mode. Press `F11` to reload or `F12` to open Developers Tools (console).
 
 #### Comments
 
