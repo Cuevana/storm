@@ -1,230 +1,166 @@
 <!DOCTYPE html>
-<html>
-  <head>
+<html ng-app="storm">
+<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
 	<!-- inject:css -->
-	<link rel="stylesheet" href="/app/assets/css/font-awesome.min.css">
-	<link rel="stylesheet" href="/app/assets/css/jscrollpane.css">
 	<link rel="stylesheet" href="/app/assets/css/less.css">
-	<link rel="stylesheet" href="/app/assets/css/videofit.css">
+	<link rel="stylesheet" href="/app/assets/css/loading-bar.css">
 	<!-- endinject -->
-  </head>
-  <body>
 
-  	<div id="init-load"></div>
+	<base href="/app/views/index.html">
+</head>
+<body ng-controller="MainCtrl" st-zoom-resize="700" ng-class="{'is-win': isWin, 'is-mac': isMac, 'is-linux': isLinux, 'no-animations': !uiAnimations}">
 
-  	<div id="toolbar">
-		<ul class="icons">
-			<li class="min"></li>
-			<li class="max"></li>
-			<li class="close"></li>
-		</ul>
-  		<span>Cuevana Storm</span>
-  	</div>
-	
-	<div id="app-alert" class="app-alert">
-		<button translate>UPDATE</button> <span translate>NEW_UPDATE_AVAILABLE</span>
-	</div>
-	
-	<!-- Menu -->
-	<div id="menu" class="col_left">
-		<ul class="scrollbar scrollbar-light gap">
-			<li data-type="featured" data-action="movies" data-style="normal"><i class="icon-flash"></i><span translate>FEATURED</span></li>
-			<li data-type="history" data-action="" data-style="history"><i class="icon-clock"></i><span translate>HISTORY</span></li>
-			<li class="title" translate>MOVIES</li>
-			<li data-type="movies" data-action="releases" data-style="normal"><i class="icon-ticket"></i><span translate>RELEASES</span></li>
-			<li data-type="movies" data-action="popular" data-style="normal"><i class="icon-chart-bar"></i><span translate>TOP_MONTH</span></li>
-			<li data-type="movies" data-action="ranking" data-style="numbered"><i class="icon-star"></i><span translate>RANKING</span></li>
-			<li data-type="movies" data-action="all" data-style="normal"><i class="icon-layout"></i><span translate>ALL_MOVIES</span></li>
-			<li class="title"><span translate>TVSHOWS</span></li>
-			<li data-type="tvshows" data-action="newepisodes" data-style="normal"><i class="icon-alert"></i><span translate>NEW_EPISODES</span></li>
-			<li data-type="tvshows" data-action="popular" data-style="normal"><i class="icon-chart-bar"></i><span translate>TOP_MONTH</span></li>
-			<li data-type="tvshows" data-action="ranking" data-style="numbered"><i class="icon-star"></i><span translate>RANKING</span></li>
-			<li data-type="tvshows" data-action="all" data-style="normal"><i class="icon-layout"></i><span translate>ALL_TVSHOWS</span></li>
-		</ul>
-	</div>
+	<div class="cover-bg" st-back-img="{{ coverUrl }}" ng-if="blurBackground"></div>
+	<div class="cover-shadow"></div>
 
-	<!-- Main -->
-	<div id="main" class="col_right">
-		<div id="dark-main" class="dark-bg"></div>
+	<div ng-hide="playerActive">
+		<!-- Menu row -->
+		<div class="menu-row" st-main-menu></div>
 
-		<!-- Searchbox -->
-		<div id="searchbox">
-			<i class="icon-search"></i>
-			<input id="q" type="text" translate-placeholder="SEARCH_PLACEHOLDER">
+		<div class="main-view">
+			<!-- Main view -->
+			<div ui-view="main"></div>
+
+			<!-- Detail view -->
+			<div ui-view="detail" ng-hide="playerLoading"></div>
 		</div>
+	</div>
 
-		<!-- Featured -->
-		<div id="featured">
-			<ul class="preview"></ul>
-			<div class="main">
-				<div class="shadow"></div>
-				<div class="content"><h2></h2><p></p></div>
+	<!-- Player loader -->
+	<div class="player-loader full-popup" ng-if="playerLoading" ng-cloak>
+		<div class="wrap">
+			<p translate>PLEASE_WAIT_PLAY</p>
+			<div class="loading-bar">
+				<span ng-style="{width: playerProgress.percent + '%'}"></span>
 			</div>
-		</div>
-
-		<!-- Grid -->
-		<div class="top-buttons history-buttons clearfix">
-			<a id="clean-history" class="grid-button" translate>CLEAN_HISTORY</a>
-		</div>
-		<div class="top-buttons movie-buttons clearfix">
-			<a id="select-genre" class="grid-button menu-handler" data-menu="genre"><span class="arrow"></span><span class="text" translate>GENRE</span></a>
-			<ul class="orderby">
-				<li class="default" translate>ORDER_BY</li>
-				<li data-type="name" class="name asc"><span class="arrow"></span><span class="text" translate>TITLE</span></li>
-				<li data-type="score" class="score"><span class="arrow"></span><span class="text" translate>SCORE</span></li>
-				<li data-type="year" class="year"><span class="arrow"></span><span class="text" translate>YEAR</span></li>
-				<li data-type="duration" class="duration"><span class="arrow"></span><span class="text" translate>DURATION</span></li>
+			<div class="loading-info">
+				<span ng-if="playerProgress.peers">{{ 'DOWNLOADING_FROM' | translate }} {{ playerProgress.active }} {{ 'OF' | translate }} {{ playerProgress.peers }} {{ 'SEEDS' | translate }}. {{ 'DOWNLOAD_SPEED' | translate }}: {{ playerProgress.speed }}/s</span>
+				<span ng-if="!playerProgress.peers" translate>LOOKING_FOR_SEEDS</span>
+			</div>
+			<ul class="action-buttons">
+				<li><a class="button big" ng-click="cancelPreloading()" st-navigatable nav-on="{enter: cancelPreloading, up: 'preventDefault', down: 'preventDefault'}" nav-title="cancel-loading" st-nav-if="playerLoading"><span translate>CANCEL</span></a></li>
 			</ul>
 		</div>
-		<div class="top-buttons featured-buttons clearfix">
-			<a class="grid-tab sel" data-type="movies" translate>MOVIES</a>
-			<a class="grid-tab" data-type="tvshows" translate>TVSHOWS</a>
-		</div>
-		<div id="history-noitems" class="mainview-msg" style="display:none">
-			<h1 translate>NO_HISTORY</h1>
-			<p translate>NO_HISTORY_MSG</p>
-		</div>
-		<div id="grid-container" class="scrollbar big gap">
-			<ul class="grid-example">
-				<li>
-					<span class="over"><i class="icon-eye fa-3x"></i></span>
-					<img src="" class="poster" />
-					<span class="title"></span>
-					<span class="subtitle"></span>
-				</li>
+	</div>
+
+	<!-- Player -->
+	<div class="player" ng-controller="PlayerCtrl" ng-include src="'/app/views/player.html'" ng-if="playerActive" ng-cloak></div>
+
+	<!-- Error alert -->
+	<div class="error full-popup dark-bg" ng-if="error.status" ng-cloak>
+		<div class="wrap">
+			<h2>{{ error.title | translate }}</h2>
+			<p>{{ error.message | translate }}</p>
+			<ul class="action-buttons">
+				<li><a class="button big" ng-click="closeError()" st-navigatable nav-on="{up: 'preventDefault', down: 'preventDefault', enter: closeError}" nav-title="error-close"><span translate>OK</span></a></li>
 			</ul>
-			<ul class="grid clearfix"></ul>
 		</div>
+	</div>
 
-		<!-- Detail view -->
-		<div id="detail-view" class="closed scrollbar scrollbar-light gap">
-			<div class="wrap">
-				<div class="clearfix">
-					<div class="left">
-						<div class="poster"></div>
-					</div>
-					<div class="head_info show_info">
-						<a class="close_button"></a>
-						<h1 class="name"></h1>
-						<h2 class="year"></h2>
-
-						<div class="episode-info">
-							<span><span translate>SEASON</span> <span class="season"></span></span><span><span translate>EPISODE</span> <span class="episode"></span></span>
-						</div>
-
-						<div class="rating-score clearfix">
-							<div class="rating">
-								<span></span>
-							</div>
-							<div class="score"><span></span> / 5</div>
-						</div>
-
-						<div class="tags clearfix">
-							<span class="genre tag"></span>
-							<span class="language tag"></span>
-							<span class="tag"><span class="duration"></span> <span translate>MIN</span></span>
-						</div>
-					</div>
-				</div>
-				<div class="seasons">
-					<div class="example">
-						<h3><span translate>SEASON</span> <span class="number"></span></h3>
-						<ul>
-							<li class="example">
-								<div class="rating small">
-									<span></span>
-								</div>
-								<span class="number"></span><span class="name"></span>
-							</li>
-						</ul>
-					</div>
-				</div>
-				<div class="nextprevious clearfix">
-					<a class="prev"><i class="icon-left-open-big"></i><span translate>PREV_EPISODE</span></a>
-					<a class="gotoshow" translate>GO_TO_TVSHOW</a>
-					<a class="next"><span translate>NEXT_EPISODE</span><i class="icon-right-open-big"></i></a>
-				</div>
-				<div class="action_buttons">
-					<ul class="clearfix">
-						<li class="play-button green" translate>PLAY</li>
-						<li class="source-audio half menu-handler" data-menu="audio"><span><i class="arrow"></i><span class="text"></span></span></li>
-						<li class="source-def half menu-handler" data-menu="def"><span><i class="arrow"></i><span class="text"></span></span></li>
-					</ul>
-				</div>
-				<div class="separator"></div>
-				<div class="show_info">
-					<div class="info"><span class="label" translate>CAST</span> <span class="cast"></span></div>
-					<div class="info"><span class="label" translate>DIRECTOR</span> <span class="director"></span></div>
-				</div>
-				<div class="separator"></div>
-				<div class="plot show_info"></div>
-			</div>
+	<!-- Offline alert -->
+	<div class="error full-popup dark-bg" ng-if="offline" ng-cloak>
+		<div class="wrap">
+			<h2 translate>NO_CONNECTION</h2>
+			<p translate>NO_CONNECTION_MSG</p>
+			<ul class="action-buttons">
+				<li><a class="button big" ng-click="closeOffline()" st-navigatable nav-on="{up: 'preventDefault', down: 'preventDefault', enter: closeOffline}" nav-title="offline-close"><span translate>OK</span></a></li>
+			</ul>
 		</div>
-
-		<!-- Detail view -->
-		<div id="reviews-view" class="closed scrollbar gap">
-
-		</div>
-
 	</div>
 
-	<!-- Popup layers -->
-	<div id="dark-bg" class="dark-bg"></div>
+	<!-- TO DO: Video loop to prevent PC from sleeping when using the remote -->
+	<!-- <video ng-if="remoteActive" loop src=""></video> -->
 
-	<div id="loader"><img src="/app/assets/img/loader.gif" /></div>
-
-	<div id="loading-bar" class="popup-window">
-		<div class="head"></div>
-		<div class="msg"></div>
-		<div class="bar"><span></span></div>
-		<div class="foot"><button class="button cancel grey" translate>CANCEL</button><span class="download-info"></span></div>
-	</div>
-
-	<div id="alert-msg" class="popup-window">
-		<div class="head"></div>
-		<div class="msg"></div>
-		<div class="foot"><button class="button close grey" translate>CLOSE</button></div>
-	</div>
-
-
-	<!-- Menu drop -->
-	<div id="menu_audio" class="menu-drop audio fittowidth right">
-		<div class="arrow"><span></span></div>
-		<ul>
-			<li class="title" translate>AUDIO_LANGUAGE</li>
-		</ul>
-	</div>
-	<div id="menu_def" class="menu-drop def fittowidth right">
-		<div class="arrow"><span></span></div>
-		<ul>
-			<li class="title" translate>RESOLUTION</li>
-		</ul>
-	</div>
-	<div id="menu_genre" class="menu-drop fittowidth withscroll">
-		<div class="arrow"><span></span></div>
-		<ul class="gap"></ul>
-	</div>
-
+	<!-- inject:bower -->
+	<script src="/bower_components/jquery/dist/jquery.js"></script>
+	<script src="/bower_components/angular/angular.js"></script>
+	<script src="/bower_components/angular-animate/angular-animate.js"></script>
+	<script src="/bower_components/angular-translate/angular-translate.js"></script>
+	<script src="/bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+	<script src="/bower_components/lodash/dist/lodash.compat.js"></script>
+	<script src="/bower_components/angular-loading-bar/build/loading-bar.js"></script>
+	<script src="/bower_components/angular-cookie/angular-cookie.js"></script>
+	<script src="/bower_components/angular-media-player/dist/angular-media-player.min.js"></script>
+	<script src="/bower_components/angular-local-storage/angular-local-storage.js"></script>
+	<script src="/bower_components/pouchdb/dist/pouchdb-nightly.js"></script>
+	<script src="/bower_components/offline/offline.min.js"></script>
+	<script src="/bower_components/angulartics/src/angulartics.js"></script>
+	<script src="/bower_components/angulartics/src/angulartics-ga.js"></script>
+	<script src="/bower_components/restangular/dist/restangular.js"></script>
+	<script src="/bower_components/angular-pouchdb/angular-pouchdb.js"></script>
+	<!-- endinject -->
+	
 	<!-- inject:js -->
-	<script src="/app/assets/js/1.1.jquery-2.1.0.min.js"></script>
-	<script src="/app/assets/js/1.2.jquery-ui-1.10.4.custom.min.js"></script>
-	<script src="/app/assets/js/2.1.jquery.mousewheel.js"></script>
-	<script src="/app/assets/js/2.2.jquery.jscrollpane.min.js"></script>
-	<script src="/app/assets/js/2.3.jquery.throttle-debounce.js"></script>
-	<script src="/app/assets/js/3.moment.lang.js"></script>
-	<script src="/app/assets/js/4.md5.js"></script>
-	<script src="/app/assets/js/5.1.mediaelement-and-player.js"></script>
-	<script src="/app/assets/js/5.2.mejs-feature-fontawesome.js"></script>
-	<script src="/app/assets/js/5.3.mep-feature-torrentinfo.js"></script>
-	<script src="/app/assets/js/5.4.mejs-feature-customtracks.js"></script>
-	<script src="/app/assets/js/5.5.mejs-feature-preventtouch.js"></script>
-	<script src="/app/assets/js/5.6-mejs-feature-videofit.js"></script>
-	<script src="/app/js/localization.js"></script>
-	<script src="/app/js/main.js"></script>
-	<script src="/app/js/playtorrent.js"></script>
-	<script src="/app/js/winstate.js"></script>
+	<script src="/app/js/app.js"></script>
+	<script src="/app/js/config/localStorage.js"></script>
+	<script src="/app/js/config/restangular.js"></script>
+	<script src="/app/js/config/routes.js"></script>
+	<script src="/app/js/config/sce.js"></script>
+	<script src="/app/js/config/translate.js"></script>
+	<script src="/app/js/controllers/EpisodeCtrl.js"></script>
+	<script src="/app/js/controllers/LocalRowListCtrl.js"></script>
+	<script src="/app/js/controllers/MainCtrl.js"></script>
+	<script src="/app/js/controllers/MovieCtrl.js"></script>
+	<script src="/app/js/controllers/PlayerCtrl.js"></script>
+	<script src="/app/js/controllers/RemoteCtrl.js"></script>
+	<script src="/app/js/controllers/RowListCtrl.js"></script>
+	<script src="/app/js/controllers/SearchCtrl.js"></script>
+	<script src="/app/js/controllers/SettingsCtrl.js"></script>
+	<script src="/app/js/controllers/TvShowCtrl.js"></script>
+	<script src="/app/js/controllers/UrlCtrl.js"></script>
+	<script src="/app/js/directives/stBackImg.js"></script>
+	<script src="/app/js/directives/stCoverRow.js"></script>
+	<script src="/app/js/directives/stFullHeight.js"></script>
+	<script src="/app/js/directives/stInputFocus.js"></script>
+	<script src="/app/js/directives/stKeyScroll.js"></script>
+	<script src="/app/js/directives/stLazyImg.js"></script>
+	<script src="/app/js/directives/stListKeyScroll.js"></script>
+	<script src="/app/js/directives/stMainMenu.js"></script>
+	<script src="/app/js/directives/stMenuRow.js"></script>
+	<script src="/app/js/directives/stNavIf.js"></script>
+	<script src="/app/js/directives/stNavigatable.js"></script>
+	<script src="/app/js/directives/stPlayerControls.js"></script>
+	<script src="/app/js/directives/stSearchInput.js"></script>
+	<script src="/app/js/directives/stSeasonList.js"></script>
+	<script src="/app/js/directives/stSettingsOption.js"></script>
+	<script src="/app/js/directives/stSlideRow.js"></script>
+	<script src="/app/js/directives/stSourceSelect.js"></script>
+	<script src="/app/js/directives/stTitleBar.js"></script>
+	<script src="/app/js/directives/stTracksMenu.js"></script>
+	<script src="/app/js/directives/stVideoTracks.js"></script>
+	<script src="/app/js/directives/stVolumeSlider.js"></script>
+	<script src="/app/js/directives/stZoomWindow.js"></script>
+	<script src="/app/js/filters/nl2br.js"></script>
+	<script src="/app/js/filters/qualityLabel.js"></script>
+	<script src="/app/js/filters/timeToString.js"></script>
+	<script src="/app/js/lib/qrcode.min.js"></script>
+	<script src="/app/js/lib/ui-router.js"></script>
+	<script src="/app/js/node/playtorrent.js"></script>
+	<script src="/app/js/node/winstate.js"></script>
+	<script src="/app/js/services/CoverRow.js"></script>
+	<script src="/app/js/services/Error.js"></script>
+	<script src="/app/js/services/History.js"></script>
+	<script src="/app/js/services/Movie.js"></script>
+	<script src="/app/js/services/Navigation.js"></script>
+	<script src="/app/js/services/Player.js"></script>
+	<script src="/app/js/services/Queue.js"></script>
+	<script src="/app/js/services/Remote.js"></script>
+	<script src="/app/js/services/Search.js"></script>
+	<script src="/app/js/services/Settings.js"></script>
+	<script src="/app/js/services/TvShow.js"></script>
+	<script src="/app/js/services/Util.js"></script>
 	<!-- endinject -->
-  </body>
+	
+	<!-- Anonymous view tracking to help improve app -->
+	<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','http://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-2752072-3', 'none');
+	</script>
+	
+	</body>
 </html>

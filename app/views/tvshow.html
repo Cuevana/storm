@@ -1,0 +1,81 @@
+<!-- Detail view -->
+<div class="detail-view full">
+	<!-- Cover image -->
+	<div class="detail-img">
+		<a ng-click="goBack()">
+			<span class="more-icon"><i class="icon icon-up-open-big"></i></span>
+			<img ng-src="{{ tvshow.covers.medium }}" />
+			<span class="cover-box">
+				<span class="title">{{ tvshow.name }}</span>
+				<span class="more" translate translate-value-number="{{ tvshow.seasons.length }}">{{ tvshow.seasons.length !== 1 ? 'SEASONS_COUNT' : 'SEASON_COUNT' }}</span>
+			</span>
+		</a>
+		
+		<ul class="action-buttons">
+			<li><a class="button" ng-click="showSeasons()" st-navigatable nav-on="{escape: goBack, up: goBack, enter: showSeasons, down: 'preventDefault', right: rightColumn}" nav-title="detail-view"><span translate>SEASONS</span></a></li>
+		</ul>
+	</div>
+
+	<!-- Info -->
+	<div class="detail-info">
+
+		<div ng-hide="hideInfo">
+			<!-- Title -->
+			<h2>{{ tvshow.name }}</h2>
+			<div class="year">
+				{{ tvshow.year }}
+				<span ng-if="rating" class="rating">
+					<span class="stars"><span ng-style="{width: ratingPercent + '%'}"></span></span>
+				</span>
+			</div>
+
+			<div class="info-labels">
+				<div class="line clearfix">
+					<span class="label"><span translate>GENRE</span>{{ tvshow.genre.name }}</span>
+					<span class="label"><span translate>LANGUAGE</span>{{ tvshow.language.name }}</span>
+					<span class="label last"><span translate>DURATION</span>{{ tvshow.duration }} {{ 'MIN' | translate }}</span>
+				</div>
+				<div class="line clearfix">
+					<span class="label"><span translate>SEASONS</span>{{ tvshow.seasons.length }}</span>
+					<span class="label last"><span translate>EPISODES</span>{{ totalEpisodes() }}</span>
+				</div>
+				<div class="line clearfix">
+					<span class="label last text-overflow"><span translate>CAST</span><span class="text">{{ tvshow.cast }}</span></span>
+				</div>
+			</div>
+
+			<!-- Plot -->
+			<div class="plot scroll-container" st-navigatable nav-on="{up: 'preventDefault', down: 'preventDefault', left: 'detail-view'}" nav-title="detail-plot" st-key-scroll scroll-child="true" st-nav-if="!showSourcesList" st-full-height>
+				<div class="scroll-box">
+					<p>{{ tvshow.plot }}</p>
+				</div>
+			</div>
+		</div>
+
+		<!-- TV Show: Seasons -->
+		<div class="key-list" ng-if="showSeasonsList" st-full-height>
+			<div st-season-list seasons-list="tvshow.seasons" class="seasons-list scroll-box" st-list-key-scroll>
+				<ul class="action-buttons" ng-hide="selectedSeason!==null">
+					<!-- Seasons list -->
+					<li ng-repeat="season in seasonsList">
+						<a class="button big" season-number="{{ season.number }}" ng-click="selectSeason($index)" st-navigatable nav-on="{escape: hideSeasons, left: hideSeasons, up: prevSeason, down: nextSeason, right: selectSeason, enter: selectSeason}" nav-title="season"><span><i class="icon right icon-right-open-big"></i>{{ 'SEASON' | translate }} {{ season.number }}</span></a>
+					</li>
+					<!-- Go back -->
+					<li>
+						<a class="button big" ng-click="hideSeasons()" st-navigatable nav-on="{left: hideSeasons, enter: hideSeasons, down: 'preventDefault'}" nav-title="hide-seasons"><span><i class="icon icon-left-open-big"></i><span translate>GO_BACK</span></span></a>
+					</li>
+				</ul>
+				<ul class="action-buttons" ng-show="selectedSeason!==null">
+					<!-- Go back to seasons list -->
+					<li>
+						<a class="button big" ng-click="hideEpisodes()" st-navigatable nav-on="{left: hideEpisodes, up: 'preventDefault', enter: hideEpisodes}" nav-title="go-back-seasons"><span><i class="icon icon-left-open-big"></i><span class="number">{{ 'SEASON' | translate }} {{ seasonsList[selectedSeason].number }}</span></span></a>
+					</li>
+					<!-- Episodes list -->
+					<li ng-repeat="episode in seasonsList[selectedSeason].episodes">
+						<a class="button big" episode-number="{{ episode.number }}" ng-click="selectEpisode($index)" st-navigatable nav-on="{escape: hideEpisodes, left: hideEpisodes, up: prevEpisode, down: nextEpisode, enter: selectEpisode}" nav-title="episode"><span><span class="number">{{ episode.number }}</span>{{ episode.name }}</span></a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,120 @@
+@left-padding: 100px;
+@submenu-height: 72px;
+
+.menu-row {
+	position: relative;
+	z-index: 3;
+	margin: 0 0 30px 0;
+
+	& > div {
+		position: relative;
+		padding-left: @left-padding;
+	}
+
+	.window-title-bar {
+		background-color: @top-menu-color;
+	}
+
+	.main-menu {
+		padding-top: 12px;
+		padding-bottom: 20px;
+		background-color: @top-menu-color;
+	}
+	.sub-menu {
+		height: 0;
+		padding-top: 0;
+		padding-bottom: 0;
+		background-color: @submenu-color;
+		position: absolute;
+		box-sizing: border-box;
+		width: 100%;
+
+		&.visible {
+			height: @submenu-height;
+			padding-top: 15px;
+			padding-bottom: 15px;
+		}
+	}
+
+
+	.menu > ul {
+		position: relative;
+		width: 2000px;
+		.smooth-animations();
+		transition: transform 0.3s cubic-bezier(0.000, 0.000, 0.245, 1.000);
+
+		&.inactive {
+			display: none;
+		}
+
+		li {
+			float: left;
+			a {
+				display: block;
+				font-size: 22px;
+				font-weight: 300;
+				margin: 0 50px 0 0;
+				text-transform: uppercase;
+				text-rendering: optimizeLegibility;
+				color: #fff;
+				opacity: 0.5;
+				cursor: pointer;
+				border: 2px solid transparent;
+				box-sizing: border-box;
+				padding: 8px;
+				white-space: nowrap;
+
+				&.search .icon {
+					height: 28px;
+					width: 28px;
+					display: block;
+					background: url(../img/search.png);
+					background-size: 100%;
+					background-position: 0 0;
+					background-repeat: no-repeat;
+				}
+
+				&.remote .icon {
+					font-size: 22px;
+					height: 28px;
+					width: 28px;
+					line-height: 28px;
+					display: block;
+				}
+			}
+			&.selected a {
+				opacity: 1;
+			}
+		}
+
+		&.level-1 {
+			li a {
+				font-size: 28px;
+			}
+		}
+
+		&[nav-focus="true"] li.selected a {
+			border-color: #fff;
+		}
+	}
+
+	.search-input {
+		width: 400px;
+		padding: 3px 8px;
+		height: 42px;
+
+		input {
+			font-size: 20px;
+			padding-left: 36px;
+
+			background-image: url(../img/search.png);
+			background-size: auto 24px;
+			background-position: 2px 4px;
+			background-repeat: no-repeat;
+		}
+	}
+
+	[nav-disabled] {
+		display: none;
+	}
+}

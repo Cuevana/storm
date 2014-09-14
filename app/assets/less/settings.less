@@ -1,0 +1,50 @@
+.settings {
+	.settings-option {
+		margin: 30px 0;
+
+		& > span, & > a {
+			display: block;
+		}
+
+		.label {
+			font-size: 26px;
+			margin: 5px 0;
+		}
+		.label-info {
+			font-size: 20px;
+			color: rgba(255, 255, 255, 0.5);
+		}
+		.toggle {
+			float: right;
+			height: 40px;
+			width: 80px;
+			border: 2px solid transparent;
+			position: relative;
+			margin: 16px 0;
+			background-color: rgba(255, 255, 255, 0.1);
+
+			span {
+				position: absolute;
+				display: block;
+				width: 50%;
+				height: 100%;
+				left: 0;
+				background-color: rgba(255, 255, 255, 0.5);
+				transition: all 0.3s;
+			}
+
+			&.active {
+				background-color: @top-menu-color;
+				span {
+					left: 50%;
+					// right: 0;
+					background-color: #fff;
+				}
+			}
+
+			&[nav-focus="true"] {
+				border-color: #fff;
+			}
+		}
+	}
+}

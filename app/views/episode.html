@@ -1,0 +1,118 @@
+<!-- Detail view -->
+<div class="detail-view full">
+	<!-- Cover image -->
+	<div class="detail-img">
+		<a ng-click="goBack()">
+			<span class="more-icon"><i class="icon icon-up-open-big"></i></span>
+			<img ng-src="{{ episode.tvshow.covers.medium }}" />
+			<span class="cover-box">
+				<span class="title">{{ episode.name }}</span>
+				<span class="more">{{ episode.tvshow.name }}</span>
+			</span>
+		</a>
+		
+		<ul class="action-buttons">
+			<li>
+				<a class="play button" ng-click="showSourceSelect()" st-navigatable nav-on="{escape: goBack, up: goBack, enter: showSourceSelect, right: rightColumn}" nav-title="detail-view">
+					<span translate>PLAY</span>
+				</a>
+			</li>
+			<li>
+				<a class="watch-later button" ng-click="watchLater()" st-navigatable nav-on="{escape: goBack, enter: watchLater, down: 'preventDefault', right: rightColumn}" nav-title="watch-later" ng-class="{added: inQueue}">
+					<span><i class="icon right icon-back-in-time"></i>{{ 'WATCH_LATER' | translate }}</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+
+	<!-- Info -->
+	<div class="detail-info">
+
+		<div ng-hide="hideInfo">
+			<!-- Title -->
+			<h2>{{ episode.name }}</h2>
+			<div class="year">
+				{{ episode.tvshow.name }}
+				<span ng-if="rating" class="rating">
+					<span class="stars"><span ng-style="{width: ratingPercent + '%'}"></span></span>
+				</span>
+			</div>
+
+			<div class="info-labels">
+				<div class="line clearfix">
+					<span class="label"><span translate>SEASON</span>{{ episode.season }}</span>
+					<span class="label last"><span translate>EPISODE</span>{{ episode.number }}</span>
+				</div>
+				<div class="line clearfix">
+					<span class="label"><span translate>LANGUAGE</span>{{ episode.language.name }}</span>
+					<span class="label"><span translate>SUBTITLES</span>{{ subtitlesToString() }}</span>
+					<span class="label last"><span translate>DURATION</span>{{ episode.duration }} {{ 'MIN' | translate }}</span>
+				</div>
+			</div>
+
+			<!-- Episode (next/prev episode) -->
+			<div>
+				<ul class="action-buttons">
+					<li>
+						<a class="button big" ng-click="goToTvShow()" st-navigatable nav-on="{left: 'detail-view', up: 'preventDefault', down: 'prev-episode', enter: goToTvShow}" nav-title="goto-tvshow">
+							<span translate>GO_TO_TVSHOW</span>
+						</a>
+					</li>
+				</ul>
+				<ul class="action-buttons two-col clearfix">
+					<li>
+						<a class="button big" ng-click="prevEpisode()" st-navigatable nav-on="{left: 'detail-view', up: 'goto-tvshow', down: 'detail-plot', enter: prevEpisode, right: 'next-episode'}" nav-title="prev-episode">
+							<span><i class="icon icon-left-open-big"></i><span translate>PREV_EPISODE</span></span>
+						</a>
+					</li>
+					<li>
+						<a class="button big" ng-click="nextEpisode()" st-navigatable nav-on="{left: 'prev-episode', up: 'goto-tvshow', down: 'detail-plot', enter: nextEpisode}" nav-title="next-episode">
+							<span><i class="icon right icon-right-open-big"></i><span translate>NEXT_EPISODE</span></span>
+						</a>
+					</li>
+				</ul>
+			</div>
+
+			<!-- Plot -->
+			<div class="plot scroll-container" st-navigatable nav-on="{up: scrollUp, down: 'preventDefault', left: 'detail-view'}" nav-title="detail-plot" st-key-scroll scroll-child="true" st-nav-if="!showSourcesList" st-full-height>
+				<div class="scroll-box">
+					<p>{{ episode.plot }}</p>
+				</div>
+			</div>
+		</div>
+
+		<!-- Source select -->
+		<div class="key-list" ng-if="showSourcesList" st-full-height>
+			<div class="source-select scroll-box" st-source-select sources-list="episode.sources" st-list-key-scroll>
+				<p ng-if="!sourcesList.length" translate>NO_SOURCES_EPISODE</p>
+				<p ng-if="sourcesList.length" translate>CHOOSE_PLAY_QUALITY</p>
+				<ul class="action-buttons">
+					<!-- Sources list -->
+					<li ng-repeat="source in sourcesList">
+						<a class="button big" source-index="{{ $index }}" ng-click="playSource($index)" st-navigatable nav-on="{escape: hideSourceSelect, left: hideSourceSelect, up: prevSource, enter: playSource}" nav-title="source">
+							<span>
+								<!-- Torrent health -->
+								<span class="health" ng-class="{loading: source.healthLoading}">
+									<span class="loader" ng-if="!source.health">
+										<div class="dot-spinner">
+										  <div class="double-bounce1"></div>
+										  <div class="double-bounce2"></div>
+										</div>
+										<span class="text" translate>LOADING_HEALTH</span>
+									</span>
+									<span class="bullet" ng-if="source.health" ng-class="source.health.label"></span>
+									<span class="status" ng-if="source.health">{{ 'HEALTH_SEEDS' | translate }}: {{ source.health.seeds }} | {{ 'HEALTH_PEERS' | translate }}: {{ source.health.peers }}</span>
+								</span>
+								{{ source.def | qualityLabel }} {{ source.def }}p
+							</span>
+						</a>
+					</li>
+					<!-- Go back -->
+					<li>
+						<a class="button big" ng-click="hideSourceSelect()" st-navigatable nav-on="{left: hideSourceSelect, enter: hideSourceSelect, up: lastSource, down: 'preventDefault'}" nav-title="hide-sources"><span><i class="icon icon-left-open-big"></i><span translate>GO_BACK</span></span></a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

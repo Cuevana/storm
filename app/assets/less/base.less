@@ -1,0 +1,450 @@
+html, body {
+	height: 100%;
+	overflow: hidden;
+}
+
+body {
+	color: #fff;
+	background-color: #363636;
+	background-image: linear-gradient(#424242, #292929);
+	font-family: 'Oswald', Roboto, Arial, sans-serif;
+	letter-spacing: 0.2px;
+	min-width: 820px;
+	overflow: hidden;
+	font-weight: 300;
+	cursor: default;
+	-webkit-user-select: none;
+	text-rendering: optimizeLegibility;
+}
+
+input {
+	font-family: 'Oswald', Roboto, Arial, sans-serif;
+}
+
+a {
+	font-weight: 300;
+	text-decoration: none;
+}
+
+p {
+	font-weight: 300;
+	line-height: 1.4;
+	margin: 15px 0;
+	font-size: 22px;
+}
+
+h1 {
+	font-size: 40px;
+	font-weight: 300;
+}
+
+h2 {
+	font-size: 36px;
+	font-weight: 300;
+}
+
+h3 {
+	font-weight: 300;
+	font-size: 24px;
+	color: rgba(255, 255, 255, 0.5);
+	border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+	padding-bottom: 10px;
+	text-transform: uppercase;
+}
+
+.window-title-bar {
+	position: relative;
+	width: 100%;
+	height: 28px;
+	-webkit-user-select: none;
+	-webkit-app-region: drag;
+	zoom: reset !important;
+	top: 0;
+	left: 0;
+	right: 0;
+
+	& > ul {
+		display: none;
+	}
+}
+
+// Windows/Linux title icons
+.window-title-bar > ul {
+	&.windows-icons, &.linux-icons {
+		position: absolute;
+		right: 0;
+		display: none;
+		li {
+			width: 28px;
+			height: 28px;
+			background: url(../img/toolbar_icons.svg);
+			background-size: 90px auto;
+			background-position: 0 center;
+			background-repeat: no-repeat;
+			float: left;
+			overflow: hidden;
+			cursor: pointer;
+			opacity: 0.7;
+			-webkit-app-region: no-drag;
+			&.max {
+				background: url(../img/toolbar_icons.svg);
+				background-size: 90px auto;
+				background-position: -30px center;
+				background-repeat: no-repeat;
+			}
+			&.close {
+				background: url(../img/toolbar_icons.svg);
+				background-size: 90px auto;
+				background-position: -60px center;
+				background-repeat: no-repeat;
+			}
+			&:hover {
+				opacity: 1;
+			}
+		}
+	}
+}
+.is-win .window-title-bar > ul.windows-icons {
+	display: block;
+}
+.is-linux .window-title-bar > ul.linux-icons {
+	right: auto !important;
+	left: 0;
+	display: block;
+}
+
+// Mac title icons
+.is-mac .window-title-bar > ul.mac-icons {
+	position: absolute;
+	left: 0;
+	display: block;
+	margin: 8px;
+	li {
+		width: 12px;
+		height: 12px;
+		box-sizing: border-box;
+		border: 1px solid rgba(0, 0, 0, 0.05);
+		cursor: default;
+		float: left;
+		margin-right: 8px;
+		border-radius: 50%;
+		-webkit-app-region: no-drag;
+
+		& > span {
+			height: 8px;
+			width: 8px;
+			margin: 2px;
+			display: block;
+		}
+
+		&.full {
+			background-color: #35cd4b;
+		}
+		&.close {
+			background-color: #fc635e;
+		}
+		&.min {
+			background-color: #fdbe41;
+			& > span {
+				margin: 2px 1px;
+			}
+		}
+		&:last-child {
+			margin-right: 0;
+		}
+	}
+	&:hover li {
+		span {
+			background-image: url(../img/mac-titlebar-icons.png);
+			background-repeat: no-repeat;
+			background-size: auto 6px;
+		}
+		&.full span {
+			background-position: -40px 0;
+		}
+		&.close span {
+			background-position: 0 0;
+		}
+		&.min span {
+			background-position: -19px 0;
+		}
+	}
+}
+
+.update-alert {
+	height: 32px;
+	line-height: 32px;
+	padding: 8px 15px !important;
+	background-color: rgba(241, 78, 78, 0.8);
+	.button {
+		float: right;
+		padding: 7px 8px;
+		border-color: rgba(255, 255, 255, 0.2);
+	}
+}
+
+.clearfix:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+ 
+html[xmlns] .clearfix {
+	display: block;
+}
+ 
+* html .clearfix {
+	height: 1%;
+}
+
+.cover-bg {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: -2;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	pointer-events: none;
+	transition: all 0.3s linear;
+	filter: blur(30px);
+}
+
+// Hide blur for FF (not supported)
+@-moz-document url-prefix() { 
+	.cover-bg {
+		display: none;
+	}
+}
+
+.cover-shadow {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: -1;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.action-buttons {
+	li {
+		display: block;
+		margin: 10px 0;
+
+		a.button {
+			display: block;
+		}
+	}
+	&.two-col {
+		margin: 10px 0;
+
+		li {
+			margin: 0;
+			width: 50%;
+			float: left;
+			&:first-child a {
+				margin-right: 3px;
+			}
+			&:last-child a {
+				margin-left: 3px;
+			}
+		}
+	}
+}
+
+.button {
+	font-size: 18px;
+	color: rgba(255, 255, 255, 0.6);
+	cursor: pointer;
+	border: 2px solid transparent;
+	box-sizing: border-box;
+	margin: -2px;
+	white-space: nowrap;
+
+	& > span {
+		padding: 14px;
+		display: block;
+		background-color: rgba(255, 255, 255, 0.1);
+	}
+
+	.icon {
+		float: left;
+		font-size: 14px;
+		margin: 0 5px 0 -2px;
+
+		&.right {
+			float: right;
+			margin: 0 -2px 0 5px;
+		}
+	}
+
+	&.big {
+		.icon {
+			font-size: 17px;
+			margin: 1px 10px 0 -5px;
+
+			&.right {
+				margin: 1px -5px 0 10px;
+			}
+		}
+		& > span {
+			padding: 18px;
+			font-size: 22px;
+		}
+	}
+
+	&[nav-focus="true"] {
+		border-color: #fff;
+		color: #fff;
+		& > span {
+			background-color: rgba(255, 255, 255, 0.15);
+		}
+	}
+}
+
+.full-popup {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 20px;
+	line-height: 1.4;
+	z-index: 9999;
+
+	.wrap {
+		width: 70%;
+		margin: 0 auto;
+	}
+
+	&.dark-bg {
+		background-color: rgba(46,46,46,0.8);
+	}
+}
+
+.key-list {
+	overflow-x: hidden;
+	overflow-y: auto;
+	position: relative;
+
+	.action-buttons li:first-child {
+		margin-top: 0;
+	}
+	.action-buttons li:last-child {
+		margin-bottom: 0;
+	}
+}
+
+.detail-view {
+	.key-list {
+		margin: 0 0 40px;
+		.scroll-box {
+			padding: 2px 10px 0 2px;
+			height: 100%;
+			box-sizing: border-box;
+		}
+	}
+}
+
+.scroll-box {
+	overflow-x: hidden;
+	overflow-y: auto;
+	padding-right: 10px;
+
+	&::-webkit-scrollbar {
+		width: 6px;
+	}
+	&::-webkit-scrollbar-track {
+		background-color: rgba(255, 255, 255, 0.15);
+	}
+	&::-webkit-scrollbar-thumb {
+		background-color: #fff;
+	}
+}
+
+.scroll-container {
+	padding: 5px;
+	border: 2px solid transparent;
+	box-sizing: border-box;
+
+	&[nav-focus="true"] {
+		border-color: #fff;
+	}
+}
+
+.main-view {
+	position: relative;
+}
+
+.main-frame {
+	margin: 50px @left-padding;
+
+	h2 {
+		margin: 30px 0;
+	}
+}
+
+.remote-code {
+	p:first-child {
+		margin-top: 0;
+	}
+
+	.also {
+		text-align: center;
+		p {
+			color: rgba(255, 255, 255, 0.5);
+		}
+		.url {
+			font-size: 30px;
+			border: 2px solid #fff;
+			padding: 10px 20px;
+			display: inline-block;
+			letter-spacing: 0.5px;
+			letter-spacing: 2px;
+		}
+	}
+
+}
+
+#qr-code {
+	width: 200px;
+	margin: 15px auto;	
+}
+
+.text-input {
+	box-sizing: border-box;
+	border: 2px solid rgba(255, 255, 255, 0.3);
+	width: 100%;
+	padding: 5px 10px;
+
+	input {
+		background-color: transparent;
+		border: 0;
+		color: #fff;
+		width: 100%;
+		font-weight: 300;
+		letter-spacing: 0.5px;
+		font-size: 22px;
+
+		&::-webkit-input-placeholder {
+		    color: rgba(255, 255, 255, 0.5);
+		}
+		&:focus {
+			color: #fff;
+			outline: none;
+		}
+	}
+
+	&[nav-focus="true"] {
+		border-color: #fff;
+	}
+}
