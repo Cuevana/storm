@@ -7,6 +7,44 @@ angular.module('storm.controllers')
 .controller('MainCtrl', ['$scope', '$rootScope', '$timeout', 'Navigation', 'Player', 'Remote', 'Error', 'Settings', 
 	function($scope, $rootScope, $timeout, Navigation, Player, Remote, Error, Settings) {
 
+        var setUpScreen = function () {
+                // this is the 'do things with resolutions and size initializer
+                var screen = window.screen;
+                var width  = screen.availWidth*0.8;
+                var height = screen.availHeight*0.8;
+
+                var ScreenResolution = {
+                        get SD() {
+                                return window.screen.width < 1280 || window.screen.height < 720;
+                        },
+                        get HD() {
+                                return window.screen.width >= 1280 && window.screen.width < 1920 || window.screen.height >= 720 && window.screen.height < 1080;
+                        },
+                        get FullHD() {
+                                return window.screen.width >= 1920 && window.screen.width < 2000 || window.screen.height >= 1080 && window.screen.height < 1600;
+                        },
+                        get UltraHD() {
+                                return window.screen.width >= 2000 || window.screen.height >= 1600;
+                        },
+                        get QuadHD() {
+                                return window.screen.width >= 3000 || window.screen.height >= 1800;
+                        },
+                        get Standard() {
+                                return window.devicePixelRatio <= 1;
+                        },
+                        get Retina() {
+                                return window.devicePixelRatio > 1;
+                        }
+                };
+
+
+                window.resizeTo(width, height);
+                window.moveTo((screen.availWidth  - width )/2,
+                              (screen.availHeight - height)/2);
+        };
+
+        setUpScreen();
+
 	// Search
 	$scope.search = {
 		q: null
@@ -124,7 +162,7 @@ angular.module('storm.controllers')
 
 	$rootScope.$on('$stateChangeSuccess', function() {
 		$scope.loadingState = false;
-		
+
 		// Render grid
 		$timeout(function() {
 			Navigation.renderGrid();
