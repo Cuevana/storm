@@ -13,10 +13,10 @@ angular.module('storm.controllers')
 	// Delete alert
 	$scope.deleteAlert = $stateParams.view === 'delete' ? true : undefined;
 
-	if (!$scope.deleteAlert) {
-		// Get service dynamically from current state
-		var service = $injector.get($state.current.service);
+	// Get service dynamically from current state
+	var service = $injector.get($state.current.service);
 
+	if (!$scope.deleteAlert) {
 		service.getList(oldest).then(function(items) {
 			$scope.items = items;
 		});
