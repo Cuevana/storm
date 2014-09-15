@@ -19,12 +19,12 @@
     "icon": "app/assets/icons/512x512.png"
   },
   "scripts": {
-    "install": "gulp install",
-    "start": "nodewebkit . --debug",
-    "compile": "gulp compile",
-    "watcher": "gulp watch",
-    "build": "gulp build",
-    "build-all": "gulp build --all"
+    "install": "./node_modules/.bin/gulp install",
+    "start": "./node_modules/.bin/nodewebkit . --debug",
+    "compile": "./node_modules/.bin/gulp compile",
+    "watcher": "./node_modules/.bin/gulp watch",
+    "build": "./node_modules/.bin/gulp build",
+    "build-all": "./node_modules/.bin/gulp build --all"
   },
   "dependencies": {
     "express.io": "^1.1.13",
