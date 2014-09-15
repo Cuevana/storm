@@ -140,5 +140,10 @@
 	"SETTINGS_SUBTITLES": "Subtítulos por defecto",
 	"SETTINGS_SUBTITLES_INFO": "Elige un idioma para cargar los subtítulos automáticamente",
 	"SEASON_COUNT": "{{number}} temporada",
-	"SEASONS_COUNT": "{{number}} temporadas"
+	"SEASONS_COUNT": "{{number}} temporadas",
+	"NEWS": "Novedades",
+	"BUGFIXES": "Correción de bugs",
+	"ADD_SUBTITLE_FROM_FILE": "Agregar subtítulo desde archivo local",
+	"NEWS_MSG": "Si bien esta aplicación soporta la navegación con mouse, está optimizada para ser navegada con el teclado o conectando tu smartphone como control remoto. Para configurarlo, puedes ir a la sección Remoto a la izquierda del menu superior.",
+	"UI_MSG": "Si notas que la navegación no es tan fluida, ve a Ajustes (a la derecha del menú principal) y desactiva las animaciones y efecto blur."
 }

@@ -38,6 +38,9 @@ angular.module('storm.directives')
 				activeIndex = value;
 				firstCover = false;
 
+				// Check if more items need to be loaded
+				scope.checkNext();
+
 				// Update background image from selected item
 				$timeout(function() {
 					if (scope.items.length > 0 && activeIndex === value) {
@@ -64,9 +67,6 @@ angular.module('storm.directives')
 					// Time to delay (if cover is already active, no delay)
 					time = activeIndex === index ? 0 : rowAnimation;
 					activeIndex = index;
-
-					// Check if more items need to be loaded
-					scope.checkNext();
 
 					// Set nav focus in detail view
 					$timeout(function() {

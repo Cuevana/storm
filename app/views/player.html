@@ -13,8 +13,8 @@
 	</div>
 </div>
 
-<div class="player-subtitles" ng-show="subtitleLine" ng-class="{'layer-visible': playerLayer}">
-	<div class="text" ng-bind-html="subtitleLine | nl2br "></div>
+<div class="player-subtitles" ng-class="{'layer-visible': playerLayer}">
+	<div class="text"></div>
 </div>
 
 <video class="player-video" media-player="video" preload autoplay ng-src="{{ videoUrl }}" ng-click="video.playPause()" st-video-tracks></video>

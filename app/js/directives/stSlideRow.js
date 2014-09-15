@@ -12,7 +12,8 @@ angular.module('storm.directives')
 			var boxItems = element.children('li').not('.no-item'), 
 				activeIndex = 0,
 				animations = Settings.get('animations'),
-				rowAnimation = animations ? 300 : 0;
+				rowAnimation = animations ? 300 : 0,
+				focus = false;
 
 			// Go to previous item from active
 			function prev() {
@@ -139,20 +140,24 @@ angular.module('storm.directives')
 
 			function onScroll(e) {
 				if (e.preventDefault()) e.preventDefault();
-				var delta = e.originalEvent.deltaX;
+				var delta = (e.originalEvent.detail<0 || e.originalEvent.wheelDelta>0) ? 1 : -1;
 
 				if (delta > 0) {
 					next();
 				} else if (delta < 0) {
 					prev();
 				}
+
+				// If navigation focus isn't set on container, set it
+				Navigation.setActiveElement(attr.navTitle);
 			}
 
 			function init() {
 				// If scrollable, set events
 				if (attr.scrollable === 'true') {
+					var friction = parseInt(attr.scrollFriction) || 200;
 					// Get mouse wheel event
-					element.on('mousewheel', _.throttle(onScroll, 200, {
+					element.on('wheel', _.throttle(onScroll, friction, {
 						trailing: false
 					}));
 				}

@@ -80,9 +80,12 @@ angular.module('storm.controllers')
 
 	// Listen to player progress
 	$rootScope.$on('playerProgress', function(e, stats) {
-		$scope.$apply(function() {
-			$scope.progress = stats;
-		});
+		// Only show if player controls are visible
+		if ($scope.playerLayer) {
+			$scope.$apply(function() {
+				$scope.progress = stats;
+			});
+		}
 	});
 
 	//

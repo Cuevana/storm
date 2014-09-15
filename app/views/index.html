@@ -51,7 +51,7 @@
 	<!-- Error alert -->
 	<div class="error full-popup dark-bg" ng-if="error.status" ng-cloak>
 		<div class="wrap">
-			<h2>{{ error.title | translate }}</h2>
+			<h3>{{ error.title | translate }}</h3>
 			<p>{{ error.message | translate }}</p>
 			<ul class="action-buttons">
 				<li><a class="button big" ng-click="closeError()" st-navigatable nav-on="{up: 'preventDefault', down: 'preventDefault', enter: closeError}" nav-title="error-close"><span translate>OK</span></a></li>
@@ -60,12 +60,32 @@
 	</div>
 
 	<!-- Offline alert -->
-	<div class="error full-popup dark-bg" ng-if="offline" ng-cloak>
+	<div class="offline full-popup dark-bg" ng-if="offline" ng-cloak>
 		<div class="wrap">
-			<h2 translate>NO_CONNECTION</h2>
+			<h3 translate>NO_CONNECTION</h3>
 			<p translate>NO_CONNECTION_MSG</p>
 			<ul class="action-buttons">
 				<li><a class="button big" ng-click="closeOffline()" st-navigatable nav-on="{up: 'preventDefault', down: 'preventDefault', enter: closeOffline}" nav-title="offline-close"><span translate>OK</span></a></li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- Welcome alert -->
+	<div class="welcome full-popup dark-bg" ng-if="welcome" ng-cloak>
+		<div class="wrap">
+			<h3 translate>NEWS</h3>
+			<ul class="news">
+				<li translate>REMOTE_CONTROL</li>
+				<li translate>PLAYING_QUEUE</li>
+				<li translate>HISTORY</li>
+				<li translate>PLAY_TORRENT_URL</li>
+				<li translate>ADD_SUBTITLE_FROM_FILE</li>
+				<li translate>BUGFIXES</li>
+			</ul>
+			<p translate>NEWS_MSG</p>
+			<p translate>UI_MSG</p>
+			<ul class="action-buttons">
+				<li><a class="button big" ng-click="closeWelcome()" st-navigatable nav-on="{up: 'preventDefault', down: 'preventDefault', enter: closeWelcome}" nav-title="welcome-close"><span translate>OK</span></a></li>
 			</ul>
 		</div>
 	</div>

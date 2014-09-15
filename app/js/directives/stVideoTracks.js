@@ -11,7 +11,10 @@ angular.module('storm.directives')
 			var sub = [],
 				subLength = 0,
 				trackInterval,
-				selected;
+				selected,
+				emptyLine = true,
+				// Get DOM element where subtitles will be displayed
+				subsDiv = document.querySelector('.player-subtitles .text');
 
 			// Update when tracks change
 			scope.$watch('tracks', function(value) {
@@ -115,12 +118,19 @@ angular.module('storm.directives')
 					for (var i=0;i<subLength;i++) {
 						var ct = scope.video.currentTime * 1000;
 						if (ct >= sub[i].startTime && ct <= sub[i].endTime) {
-							scope.subtitleLine = sub[i].text;
+							// Manipulate the DOM element directly instead of the angular way
+							// For performance gain
+							subsDiv.innerHTML = sub[i].text;
+							emptyLine = false;
 							return;
 						}
 					}
 				}
-				scope.subtitleLine = null;
+				// Clean subtitles if no lines need to be shown
+				if (!emptyLine) {
+					subsDiv.innerHTML = '';
+					emptyLine = true;
+				}
 			}
 		}
 	};

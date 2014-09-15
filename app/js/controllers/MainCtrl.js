@@ -12,6 +12,14 @@ angular.module('storm.controllers')
 		q: null
 	};
 
+	// Check for welcome message the first time
+	$scope.welcome = Settings.get('welcome');
+	if ($scope.welcome) {
+		$(window).on('load', function() {
+			Navigation.setActiveElement('welcome-close');
+		});
+	}
+
 	// Check for animations settings
 	$scope.uiAnimations = Settings.get('animations');
 
@@ -94,6 +102,13 @@ angular.module('storm.controllers')
 	$scope.closeOffline = function() {
 		$scope.offline = false;
 		Navigation.setActiveElement(['menu', 'main', 'play-pause'], true);
+	};
+
+	// Close welcome alert
+	$scope.closeWelcome = function() {
+		$scope.welcome = false;
+		Settings.set('welcome', false);
+		Navigation.setActiveElement(['menu', 'main'], true);
 	};
 
 	// Watch for state change and change cover-row loading to prevent navigation issues

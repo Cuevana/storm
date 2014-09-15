@@ -2452,7 +2452,7 @@ html[xmlns] .clearfix {
   margin: 0 auto;
 }
 .full-popup.dark-bg {
-  background-color: rgba(46, 46, 46, 0.8);
+  background-color: rgba(46, 46, 46, 0.9);
 }
 .key-list {
   overflow-x: hidden;
@@ -2552,6 +2552,14 @@ html[xmlns] .clearfix {
 }
 .text-input[nav-focus="true"] {
   border-color: #fff;
+}
+.news {
+  margin: 30px 0;
+}
+.news li {
+  font-weight: 300;
+  margin: 10px 0 10px 30px;
+  list-style: disc;
 }
 .menu-row {
   position: relative;

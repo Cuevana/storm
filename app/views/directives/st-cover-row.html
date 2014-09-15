@@ -1,6 +1,6 @@
 <!-- Slide row -->
 <div class="covers">
-	<ul class="clearfix" st-slide-row slide-clickable="true" scrollable="true" with-detail="true" st-navigatable nav-on="{right: checkNext, down: showDetailView, enter: showDetailView}" nav-title="main" ng-if="items.length" st-nav-if="items.length">
+	<ul class="clearfix" st-slide-row slide-clickable="true" scrollable="true" scroll-friction="200" st-navigatable nav-on="{right: checkNext, down: showDetailView, enter: showDetailView}" nav-title="main" ng-if="items.length" st-nav-if="items.length">
 		<li ng-repeat="item in items">
 			<a ng-href="{{ item.url }}" ng-click="showDetailView($index)">
 				<img st-lazy-img="{{ item.type==='episode' ? item.tvshow.covers.medium : item.covers.medium }}" />

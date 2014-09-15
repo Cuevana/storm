@@ -9,7 +9,7 @@
 
 <!-- Main menu -->
 <div class="main-menu menu">
-	<ul st-menu-row menu-default-index="2" class="level-1 clearfix" st-slide-row slide-clickable="true" st-navigatable nav-title="menu" nav-focus="{{ !updateAvailable }}">
+	<ul st-menu-row menu-default-index="2" class="level-1 clearfix" st-slide-row slide-clickable="true" scrollable="true" scroll-friction="1000" st-navigatable nav-title="menu" nav-focus="{{ !updateAvailable }}">
 		<li><a ng-href="/remote" class="remote" translate>REMOTE</a></li>
 		<li><a menu-child="search" ng-href="/search" class="search"><i class="icon"></i></a></li>
 		<li><a menu-child="movies" translate>MOVIES</a></li>
@@ -28,7 +28,7 @@
 	</div>
 
 	<!-- Movies menu -->
-	<ul st-menu-row menu-parent="movies" class="level-2 clearfix" st-slide-row slide-clickable="true" st-navigatable nav-title="menu-movies" st-nav-if="submenu==='movies'">
+	<ul st-menu-row menu-parent="movies" class="level-2 clearfix" st-slide-row slide-clickable="true" scrollable="true" scroll-friction="1000" st-navigatable nav-title="menu-movies" st-nav-if="submenu==='movies'">
 		<li><a ng-href="/movies" translate>RELEASES</a></li>
 		<li><a ng-href="/movies/popular" translate>TOP_MONTH</a></li>
 		<li><a ng-href="/movies/ranking" translate>RANKING</a></li>
@@ -36,7 +36,7 @@
 	</ul>
 
 	<!-- Tv shows menu -->
-	<ul st-menu-row menu-parent="tvshows" class="level-2 clearfix" st-slide-row slide-clickable="true" st-navigatable nav-title="menu-tvshows" st-nav-if="submenu==='tvshows'">
+	<ul st-menu-row menu-parent="tvshows" class="level-2 clearfix" st-slide-row slide-clickable="true" scrollable="true" scroll-friction="1000" st-navigatable nav-title="menu-tvshows" st-nav-if="submenu==='tvshows'">
 		<li><a ng-href="/tvshows" translate>NEW_EPISODES</a></li>
 		<li><a ng-href="/tvshows/popular" translate>TOP_MONTH</a></li>
 		<li><a ng-href="/tvshows/ranking" translate>RANKING</a></li>

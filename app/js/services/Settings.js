@@ -6,6 +6,10 @@ angular.module('storm.services')
 	
 	// Default
 	var defaultConfig = {
+		// First time welcome message
+		welcome: true,
+
+		// UI Animations
 		animations: true,
 		blur: true,
 
