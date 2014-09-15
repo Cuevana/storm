@@ -140,5 +140,10 @@
 	"SETTINGS_SUBTITLES": "Default subtitles",
 	"SETTINGS_SUBTITLES_INFO": "Choose a language to automatically load subtitles",
 	"SEASON_COUNT": "{{number}} season",
-	"SEASONS_COUNT": "{{number}} seasons"
+	"SEASONS_COUNT": "{{number}} seasons",
+	"NEWS": "Updates",
+	"BUGFIXES": "Bug fixes",
+	"ADD_SUBTITLE_FROM_FILE": "Add subtitle from local file",
+	"NEWS_MSG": "While this application supports navigation with mouse, is optimized to be navigated with the keyboard or by connecting your smartphone as a remote control. To configure it, you can go to the Remote section of the upper left menu.",
+	"UI_MSG": "If you notice navigation is not smooth enough, go to Settings (top menu to the right) and disable UI animations and blur effect."
 }
