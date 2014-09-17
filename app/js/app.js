@@ -5,8 +5,8 @@ var request = require('request'),
 	http = require('http'),
 	fs = require('fs'),
 	path = require('path'),
-    os = require('os'),
-    gui = require('nw.gui');
+	os = require('os'),
+	gui = require('nw.gui');
 
 var appName = 'Cuevana Storm';
 var appVersion = '0.3b';
@@ -100,6 +100,7 @@ angular.module('storm', [
 	'pouchdb',
 	'angulartics',
 	'angulartics.google.analytics',
+	'once',
 
 	// App
 	'storm.filters',

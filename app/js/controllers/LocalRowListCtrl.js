@@ -3,7 +3,7 @@
 
 angular.module('storm.controllers')
 
-.controller('LocalRowListCtrl', ['$scope', '$state', '$stateParams', '$injector', 'Navigation', function($scope, $state, $stateParams, $injector, Navigation) {
+.controller('LocalRowListCtrl', ['$scope', '$state', '$stateParams', '$injector', 'Navigation', '$translate', function($scope, $state, $stateParams, $injector, Navigation, $translate) {
 	
 	$scope.items = [];
 	$scope.lastPage = true;
@@ -18,7 +18,7 @@ angular.module('storm.controllers')
 
 	if (!$scope.deleteAlert) {
 		service.getList(oldest).then(function(items) {
-			$scope.items = items;
+			$scope.items = resolveItems(items);
 		});
 	}
 
@@ -37,5 +37,22 @@ angular.module('storm.controllers')
 	$scope.hideDeleteAlert = function() {
 		$scope.deleteAlert = false;
 	};
+
+	function resolveItems(items) {
+		for (var i = 0, total = items.length;i<total;i++) {
+			// Cover url
+			items[i].cover_url = items[i].type === 'episode' ? items[i].tvshow.covers.medium : items[i].covers.medium;
+			// More text row
+			switch (items[i].type) {
+				case 'episode':
+					items[i].more = items[i].tvshow.name;
+					break;
+				case 'movie':
+					items[i].more = items[i].year;
+					break;
+			}
+		}
+		return items;
+	}
 
 }]);

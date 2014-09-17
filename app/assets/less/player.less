@@ -11,7 +11,7 @@
 	left: 0;
 	right: 0;
 	background-color: @top-menu-color;
-	z-index: 3000;
+	z-index: 100;
 	color: #fff;
 
 	.wrap {
@@ -123,6 +123,7 @@
 	right: 0;
 	padding: 10px;
 	background-color: rgba(46, 46, 46, 0.9);
+	z-index: 100;
 
 	.progress-bar {
 		position: absolute;
@@ -230,22 +231,22 @@
 	}
 }
 
-.player-layout {
-	transform: translateY(0%) translateZ(0);
-	transition: transform 0.3s;
-	z-index: 2;
+// .player-layout {
+// 	transform: translateY(0%) translateZ(0);
+// 	transition: transform 0.3s;
+// 	z-index: 2;
 
-	&.ng-hide {
-		display: block !important;
+// 	&.ng-hide {
+// 		display: block !important;
 
-		&.player-title {
-			transform: translateY(-100%) translateZ(0);
-		}
-		&.player-controls {
-			transform: translateY(130%) translateZ(0);
-		}
-	}
-}
+// 		&.player-title {
+// 			transform: translateY(-100%) translateZ(0);
+// 		}
+// 		&.player-controls {
+// 			transform: translateY(130%) translateZ(0);
+// 		}
+// 	}
+// }
 
 .tracks-menu {
 	display: none;

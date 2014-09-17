@@ -54,6 +54,7 @@ angular.module('storm.directives')
 
 					// Slide transition
 					element.css('transform', 'translateX('+ (-(item_left - menu_left)) +'px) translateZ(0)');
+
 					// Trigger slide event
 					element.trigger('slide');
 

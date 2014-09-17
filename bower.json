@@ -36,7 +36,8 @@
     "angular-local-storage": "~0.0.5",
     "angular-pouchdb": "~0.1.5",
     "offline": "~0.7.11",
-    "angulartics": "~0.16.5"
+    "angulartics": "~0.16.5",
+    "angular-once": "~0.1.8"
   },
   "overrides": {
     "angular-loading-bar": {

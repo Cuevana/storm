@@ -8,19 +8,24 @@ angular.module('storm.directives')
 
 		link: function(scope, element, attr, ngModelCtrl) {
 
-			var visibleTimeout = 3000, timeoutPromise,
+			var visibleTimeout = 3000, 
+				timeoutPromise,
 				doc = angular.element(document);
 
-			var progressBar = angular.element('.progress-bar');
+			// Wait for player scope...
+			var videoWatch = scope.$watch('video', function() {
+				
+				// Check when playing state changes
+				scope.video.on('play pause', function(e) {
+					if (e.target.paused) {
+						showLayout();
+					} else {
+						hideLayout();
+					}
+				});
 
-			// Check when playing state changes
-			scope.$watch(attr.player.playing, function(value) {
-				if (value) {
-					hideLayout();
-				} else {
-					showLayout();
-					Navigation.setActiveElement('play-pause', true);
-				}
+				// Delete watch
+				videoWatch();
 			});
 
 			// Key down event (up and down arrows for scrolling)
@@ -46,9 +51,21 @@ angular.module('storm.directives')
 			}
 
 			function showLayout() {
+				var hidden = !ngModelCtrl.$modelValue ? true : false;
+
 				// Show layout
 				ngModelCtrl.$setViewValue(true);
-				
+				ngModelCtrl.$render();
+
+				// If layout was hidden, focus navigation on play/pause button
+				if (hidden) {
+					// Run after digest cycle
+					$timeout(function() {
+						setProgressBar();
+						Navigation.setActiveElement('play-pause', true);
+					});
+				}
+
 				// Show cursor
 				angular.element('body').css('cursor','auto');
 
@@ -72,18 +89,21 @@ angular.module('storm.directives')
 			// PROGRESS BAR
 			//
 
-			progressBar.on('mouseenter', function() {
-				scope.showTimeLabel = true;
-			}).on('mouseout', function() {
-				scope.showTimeLabel = false;
-			}).on('mousemove', function(e) {
-				var zoom = parseFloat(angular.element('body').css('zoom')) || 1;
-				var percentage = (e.offsetX / e.target.offsetWidth) / zoom;
-				scope.timeLabelLeft = percentage * 100;
+			function setProgressBar() {
+				var progressBar = angular.element('.progress-bar');
+				progressBar.on('mouseenter', function() {
+					scope.showTimeLabel = true;
+				}).on('mouseout', function() {
+					scope.showTimeLabel = false;
+				}).on('mousemove', function(e) {
+					var zoom = parseFloat(angular.element('body').css('zoom')) || 1;
+					var percentage = (e.offsetX / e.target.offsetWidth) / zoom;
+					scope.timeLabelLeft = percentage * 100;
 
-				var seekTime = scope.player.duration * percentage;
-				scope.timeLabel = isNaN(seekTime) ? 0 : seekTime;
-			});
+					var seekTime = scope.player.duration * percentage;
+					scope.timeLabel = isNaN(seekTime) ? 0 : seekTime;
+				});
+			}
 
 			scope.seekPercentage = function($event) {
 				var zoom = parseFloat(angular.element('body').css('zoom')) || 1;

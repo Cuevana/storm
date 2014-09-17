@@ -3085,7 +3085,7 @@ html[xmlns] .clearfix {
   left: 0;
   right: 0;
   background-color: rgba(44, 142, 217, 0.6);
-  z-index: 3000;
+  z-index: 100;
   color: #fff;
 }
 .player-title .wrap {
@@ -3188,6 +3188,7 @@ html[xmlns] .clearfix {
   right: 0;
   padding: 10px;
   background-color: rgba(46, 46, 46, 0.9);
+  z-index: 100;
 }
 .player-controls .progress-bar {
   position: absolute;
@@ -3284,24 +3285,6 @@ html[xmlns] .clearfix {
   font-size: 14px;
   color: #fff;
   opacity: 0.5;
-}
-.player-layout {
-  -webkit-transform: translateY(0%) translateZ(0);
-          transform: translateY(0%) translateZ(0);
-  -webkit-transition: -webkit-transform 0.3s;
-          transition: transform 0.3s;
-  z-index: 2;
-}
-.player-layout.ng-hide {
-  display: block !important;
-}
-.player-layout.ng-hide.player-title {
-  -webkit-transform: translateY(-100%) translateZ(0);
-          transform: translateY(-100%) translateZ(0);
-}
-.player-layout.ng-hide.player-controls {
-  -webkit-transform: translateY(130%) translateZ(0);
-          transform: translateY(130%) translateZ(0);
 }
 .tracks-menu {
   display: none;

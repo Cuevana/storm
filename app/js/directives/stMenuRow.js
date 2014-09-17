@@ -65,7 +65,7 @@ angular.module('storm.directives')
 			}
 
 			// Watch submenu change to load first child by default
-			scope.$watch('submenu', function(value) {
+			scope.$on('submenuChange', function(e, value) {
 				if (element.attr('menu-parent') !== undefined && value === element.attr('menu-parent')) {
 					activeIndex = 0;
 					scope.updateActiveIndex(activeIndex);

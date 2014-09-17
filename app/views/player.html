@@ -1,14 +1,16 @@
-<st-player-controls ng-model="playerLayer" player="video"></st-player-controls>
+<st-player-controls ng-model="playerLayer"></st-player-controls>
 
 <!-- Player title -->
-<div class="player-title player-layout clearfix" ng-show="playerLayer">
+<div class="player-title player-layout clearfix" ng-if="playerLayer">
 	<st-title-bar></st-title-bar>
 	<div class="wrap">
 		<a class="button close" st-navigatable ng-click="showClosePlayer()" nav-on="{escape: 'preventDefault', enter: showClosePlayer, up: 'preventDefault'}" nav-title="close-button" st-nav-if="playerLayer"><span translate>EXIT_VIDEO</span></a>
-		<img ng-src="{{ item.type=='episode' ? item.tvshow.covers.medium : item.covers.medium }}" ng-if="item" />
-		<div class="info">
-			<span class="title">{{ item.name }}</span>
-			<span class="more">{{ item.type=='episode' ? item.tvshow.name : item.year }}</span>
+		<div once-if="item">
+			<img once-src="item.type=='episode' ? item.tvshow.covers.medium : item.covers.medium" />
+			<div class="info">
+				<span class="title" once-text="item.name"></span>
+				<span class="more" once-text="item.type=='episode' ? item.tvshow.name : item.year"></span>
+			</div>
 		</div>
 	</div>
 </div>
@@ -20,10 +22,10 @@
 <video class="player-video" media-player="video" preload autoplay ng-src="{{ videoUrl }}" ng-click="video.playPause()" st-video-tracks></video>
 
 <!-- Controls -->
-<div class="player-controls player-layout" ng-show="playerLayer">
+<div class="player-controls player-layout" ng-if="playerLayer">
 	<!-- Progress bar -->
 	<div class="progress-bar">
-		<span class="label" ng-show="showTimeLabel" ng-style="{left: timeLabelLeft + '%'}">{{ timeLabel | timeToString }}</span>
+		<span class="label" ng-if="showTimeLabel" ng-style="{left: timeLabelLeft + '%'}">{{ timeLabel | timeToString }}</span>
 		<div class="clickable" ng-click="seekPercentage($event)"></div>
 		<div class="played" ng-style="{ width: (video.currentTime*100/video.duration) + '%' }"></div>
 		<div class="loaded" ng-style="{ width: video.loadPercent + '%' }"></div>

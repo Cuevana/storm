@@ -10,12 +10,12 @@
 
 	<base href="/app/views/index.html">
 </head>
-<body ng-controller="MainCtrl" st-zoom-resize="700" ng-class="{'is-win': isWin, 'is-mac': isMac, 'is-linux': isLinux, 'no-animations': !uiAnimations}">
+<body ng-controller="MainCtrl" st-zoom-resize="700" st-os-check st-ui-animations>
 
-	<div class="cover-bg" st-back-img="{{ coverUrl }}" ng-if="blurBackground"></div>
+	<div class="cover-bg" st-back-img="{{ coverUrl }}" ng-if="blurBackground && !playerActive"></div>
 	<div class="cover-shadow"></div>
 
-	<div ng-hide="playerActive">
+	<div ng-show="!playerActive">
 		<!-- Menu row -->
 		<div class="menu-row" st-main-menu></div>
 
@@ -24,7 +24,7 @@
 			<div ui-view="main"></div>
 
 			<!-- Detail view -->
-			<div ui-view="detail" ng-hide="playerLoading"></div>
+			<div ui-view="detail" ng-hide="playerLoading" ng-if="!playerActive"></div>
 		</div>
 	</div>
 
@@ -108,17 +108,13 @@
 	<script src="/bower_components/offline/offline.min.js"></script>
 	<script src="/bower_components/angulartics/src/angulartics.js"></script>
 	<script src="/bower_components/angulartics/src/angulartics-ga.js"></script>
+	<script src="/bower_components/angular-once/once.js"></script>
 	<script src="/bower_components/restangular/dist/restangular.js"></script>
 	<script src="/bower_components/angular-pouchdb/angular-pouchdb.js"></script>
 	<!-- endinject -->
 	
 	<!-- inject:js -->
 	<script src="/app/js/app.js"></script>
-	<script src="/app/js/config/localStorage.js"></script>
-	<script src="/app/js/config/restangular.js"></script>
-	<script src="/app/js/config/routes.js"></script>
-	<script src="/app/js/config/sce.js"></script>
-	<script src="/app/js/config/translate.js"></script>
 	<script src="/app/js/controllers/EpisodeCtrl.js"></script>
 	<script src="/app/js/controllers/LocalRowListCtrl.js"></script>
 	<script src="/app/js/controllers/MainCtrl.js"></script>
@@ -130,6 +126,11 @@
 	<script src="/app/js/controllers/SettingsCtrl.js"></script>
 	<script src="/app/js/controllers/TvShowCtrl.js"></script>
 	<script src="/app/js/controllers/UrlCtrl.js"></script>
+	<script src="/app/js/config/localStorage.js"></script>
+	<script src="/app/js/config/restangular.js"></script>
+	<script src="/app/js/config/routes.js"></script>
+	<script src="/app/js/config/sce.js"></script>
+	<script src="/app/js/config/translate.js"></script>
 	<script src="/app/js/directives/stBackImg.js"></script>
 	<script src="/app/js/directives/stCoverRow.js"></script>
 	<script src="/app/js/directives/stFullHeight.js"></script>
@@ -141,6 +142,7 @@
 	<script src="/app/js/directives/stMenuRow.js"></script>
 	<script src="/app/js/directives/stNavIf.js"></script>
 	<script src="/app/js/directives/stNavigatable.js"></script>
+	<script src="/app/js/directives/stOsCheck.js"></script>
 	<script src="/app/js/directives/stPlayerControls.js"></script>
 	<script src="/app/js/directives/stSearchInput.js"></script>
 	<script src="/app/js/directives/stSeasonList.js"></script>
@@ -149,6 +151,7 @@
 	<script src="/app/js/directives/stSourceSelect.js"></script>
 	<script src="/app/js/directives/stTitleBar.js"></script>
 	<script src="/app/js/directives/stTracksMenu.js"></script>
+	<script src="/app/js/directives/stUiAnimations.js"></script>
 	<script src="/app/js/directives/stVideoTracks.js"></script>
 	<script src="/app/js/directives/stVolumeSlider.js"></script>
 	<script src="/app/js/directives/stZoomWindow.js"></script>

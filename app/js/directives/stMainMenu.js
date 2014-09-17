@@ -14,6 +14,7 @@ angular.module('storm.directives')
 			// Submenu update
 			scope.updateSubmenu = function(submenu) {
 				scope.submenu = submenu;
+				scope.$broadcast('submenuChange', submenu);
 			};
 
 			// Go to update url

@@ -1,7 +1,7 @@
 /* global angular */
 angular.module('storm.directives')
 
-.directive('stLazyImg', ['$q', '$timeout', function($q, $timeout) {
+.directive('stLazyImg', function() {
 	return {
 		restrict: 'A',
 		link: function(scope, element, attr) {
@@ -22,7 +22,7 @@ angular.module('storm.directives')
 			}
 
 			function loadSrc() {
-				element.attr('src', attr.stLazyImg);
+				element.attr('src', scope.$eval(attr.stLazyImg));
 				loaded = true;
 			}
 
@@ -31,13 +31,11 @@ angular.module('storm.directives')
 				var pRect = parentScroll[0].getBoundingClientRect();
 
 				return (
-					rect.top >= pRect.top &&
-					rect.left >= pRect.left &&
-					rect.bottom <= pRect.bottom && 
-					rect.right <= pRect.right + element.width() // Detect if element is partially in viewport
+					rect.left >= pRect.left - element.width() * 2 && // Add width*2 to detect if element is partially in viewport
+					rect.right <= pRect.right + element.width() // Add width to detect if element is partially in viewport
 				);
 			}
 
 		}
 	};
-}]);
+});

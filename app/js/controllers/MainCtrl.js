@@ -7,44 +7,6 @@ angular.module('storm.controllers')
 .controller('MainCtrl', ['$scope', '$rootScope', '$timeout', 'Navigation', 'Player', 'Remote', 'Error', 'Settings', 
 	function($scope, $rootScope, $timeout, Navigation, Player, Remote, Error, Settings) {
 
-        var setUpScreen = function () {
-                // this is the 'do things with resolutions and size initializer
-                var screen = window.screen;
-                var width  = screen.availWidth*0.8;
-                var height = screen.availHeight*0.8;
-
-                var ScreenResolution = {
-                        get SD() {
-                                return window.screen.width < 1280 || window.screen.height < 720;
-                        },
-                        get HD() {
-                                return window.screen.width >= 1280 && window.screen.width < 1920 || window.screen.height >= 720 && window.screen.height < 1080;
-                        },
-                        get FullHD() {
-                                return window.screen.width >= 1920 && window.screen.width < 2000 || window.screen.height >= 1080 && window.screen.height < 1600;
-                        },
-                        get UltraHD() {
-                                return window.screen.width >= 2000 || window.screen.height >= 1600;
-                        },
-                        get QuadHD() {
-                                return window.screen.width >= 3000 || window.screen.height >= 1800;
-                        },
-                        get Standard() {
-                                return window.devicePixelRatio <= 1;
-                        },
-                        get Retina() {
-                                return window.devicePixelRatio > 1;
-                        }
-                };
-
-
-                window.resizeTo(width, height);
-                window.moveTo((screen.availWidth  - width )/2,
-                              (screen.availHeight - height)/2);
-        };
-
-        setUpScreen();
-
 	// Search
 	$scope.search = {
 		q: null
@@ -53,21 +15,16 @@ angular.module('storm.controllers')
 	// Check for welcome message the first time
 	$scope.welcome = Settings.get('welcome');
 	if ($scope.welcome) {
-		$(window).on('load', function() {
+		angular.element(window).on('load', function() {
 			Navigation.setActiveElement('welcome-close');
 		});
 	}
-
-	// Check for animations settings
-	$scope.uiAnimations = Settings.get('animations');
 
 	// Check for blur settings
 	$scope.blurBackground = Settings.get('blur');
 
 	// Watch for changes in settings
 	$rootScope.$on('settingsChange', function(e, settings) {
-		// Animations update
-		$scope.uiAnimations = settings.animations;
 		// Blur update
 		$scope.blurBackground = settings.blur;
 	});
@@ -190,15 +147,6 @@ angular.module('storm.controllers')
 		});
 		win.focus();
 	});
-
-	// Detect platform
-	if (process.platform === 'darwin') {
-		$scope.isMac = true;
-	} else if (process.platform === 'win32') {
-		$scope.isWin = true;
-	} else if (process.arch === 'ia32' || process.arch === 'x64') {
-		$scope.isLinux = true;
-	}
 
 	// Check for offline/online state change
 	Offline.on('down', function() {

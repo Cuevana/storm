@@ -72,7 +72,7 @@
   left: 10px;
 }
 
-.is-mac #loading-bar-spinner {
+.is-mac #loading-bar-spinner, .is-linux #loading-bar-spinner {
   left: auto;
   right: 10px;
 }

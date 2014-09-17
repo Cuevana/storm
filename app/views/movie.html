@@ -4,10 +4,10 @@
 	<div class="detail-img">
 		<a ng-click="goBack()">
 			<span class="more-icon"><i class="icon icon-up-open-big"></i></span>
-			<img ng-src="{{ movie.covers.medium }}" />
+			<img once-src="movie.covers.medium" />
 			<span class="cover-box">
-				<span class="title">{{ movie.name }}</span>
-				<span class="more">{{ movie.year }}</span>
+				<span class="title" once-text="movie.name"></span>
+				<span class="more" once-text="movie.year"></span>
 			</span>
 		</a>
 		
@@ -19,7 +19,7 @@
 			</li>
 			<li>
 				<a class="watch-later button" ng-click="watchLater()" st-navigatable nav-on="{escape: goBack, enter: watchLater, down: 'preventDefault', right: rightColumn}" nav-title="watch-later" ng-class="{added: inQueue}">
-					<span><i class="icon right icon-back-in-time"></i>{{ 'WATCH_LATER' | translate }}</span>
+					<span><i class="icon right icon-back-in-time"></i><span translate>WATCH_LATER</span></span>
 				</a>
 			</li>
 		</ul>
@@ -30,33 +30,33 @@
 
 		<div ng-hide="hideInfo">
 			<!-- Title -->
-			<h2>{{ movie.name }}</h2>
+			<h2 once-text="movie.name"></h2>
 			<div class="year">
-				{{ movie.year }} 
+				<span once-text="movie.year"></span> 
 				<span ng-if="rating" class="rating">
-					<span class="stars"><span ng-style="{width: ratingPercent + '%'}"></span></span>
+					<span class="stars"><span once-style="{width: ratingPercent + '%'}"></span></span>
 				</span>
 			</div>
 
 			<div class="info-labels">
 				<div class="line clearfix">
-					<span class="label"><span translate>GENRE</span>{{ movie.genre.name }}</span>
-					<span class="label last"><span translate>DURATION</span>{{ movie.duration }} {{ 'MIN' | translate }}</span>
+					<span class="label"><span translate>GENRE</span><span class="text" once-text="movie.genre.name"></span></span>
+					<span class="label last"><span translate>DURATION</span><span class="text" once-text="movie.duration"></span> <span translate>MIN</span></span>
 				</div>
 				<div class="line clearfix">
-					<span class="label"><span translate>LANGUAGE</span>{{ movie.language.name }}</span>
-					<span class="label last"><span translate>SUBTITLES</span>{{ subtitlesToString() }}</span>
+					<span class="label"><span translate>LANGUAGE</span><span class="text" once-text="movie.language.name"></span></span>
+					<span class="label last"><span translate>SUBTITLES</span><span class="text" once-text="subtitlesToString()"></span></span>
 				</div>
 				<div class="line clearfix">
-					<span class="label last text-overflow"><span translate>CAST</span><span class="text">{{ movie.cast }}</span></span>
-					<span class="label last text-overflow"><span translate>DIRECTOR</span><span class="text">{{ movie.director }}</span></span>
+					<span class="label last text-overflow"><span translate>CAST</span><span class="text" once-text="movie.cast"></span></span>
+					<span class="label last text-overflow"><span translate>DIRECTOR</span><span class="text" once-text="movie.director"></span></span>
 				</div>
 			</div>
 
 			<!-- Plot -->
 			<div class="plot scroll-container" st-navigatable nav-on="{up: 'preventDefault', down: 'preventDefault', left: 'detail-view'}" nav-title="detail-plot" st-key-scroll scroll-child="true" st-nav-if="!showSourcesList" st-full-height>
 				<div class="scroll-box">
-					<p>{{ movie.plot }}</p>
+					<p once-text="movie.plot"></p>
 				</div>
 			</div>
 		</div>
@@ -81,9 +81,9 @@
 										<span class="text" translate>LOADING_HEALTH</span>
 									</span>
 									<span class="bullet" ng-if="source.health" ng-class="source.health.label"></span>
-									<span class="status" ng-if="source.health">{{ 'HEALTH_SEEDS' | translate }}: {{ source.health.seeds }} | {{ 'HEALTH_PEERS' | translate }}: {{ source.health.peers }}</span>
+									<span class="status" ng-if="source.health"><span translate>HEALTH_SEEDS</span>: {{ source.health.seeds }} | <span translate>HEALTH_PEERS</span>: {{ source.health.peers }}</span>
 								</span>
-								{{ source.def | qualityLabel }} {{ source.def }}p
+								{{ source.def | qualityLabel }} <span once-text="source.def"></span>p
 							</span>
 						</a>
 					</li>

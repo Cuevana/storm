@@ -35,9 +35,19 @@ angular.module('storm.directives')
 			}, true);
 
 			// Wait for player scope...
-			scope.$watch('video', function() {
-				// Render tracks on time update
-				scope.video.on('timeupdate', renderTracks);
+			var videoWatch = scope.$watch('video', function() {
+				// Watch for track change
+				scope.$watch('activeTrack', function(value) {
+					// Render tracks on time update
+					// Remove listener when no active track
+					scope.video[value ? 'on' : 'off']('timeupdate', renderTracks);
+
+					// If active false, run once to empty lines
+					if (!value) renderTracks();
+				});
+				
+				// Delete watch
+				videoWatch();
 			});
 
 			function loadTrack(index) {
@@ -46,8 +56,13 @@ angular.module('storm.directives')
 				track.loading = true;
 
 				getTrackFile(track).then(function(srt) {
+					// Subtitle as array
 					sub = subParser.fromSrt(srt, true);
 					subLength = sub.length;
+
+					// Replace new lines once (after load). Avoids replacing while playing.
+					replaceNewLines();
+
 					scope.activeTrack = true;
 					track.loading = false;
 				}).catch(function() {
@@ -61,6 +76,13 @@ angular.module('storm.directives')
 				sub = [];
 				subLength = 0;
 				scope.activeTrack = false;
+			}
+
+			function replaceNewLines() {
+				// Convert new line to <br>
+				for (var i = 0;i<subLength;i++) {
+					sub[i].text = sub[i].text.replace(/\n/g, '<br/>');
+				}
 			}
 
 			function getTrackFile(track) {
@@ -118,8 +140,7 @@ angular.module('storm.directives')
 					for (var i=0;i<subLength;i++) {
 						var ct = scope.video.currentTime * 1000;
 						if (ct >= sub[i].startTime && ct <= sub[i].endTime) {
-							// Manipulate the DOM element directly instead of the angular way
-							// For performance gain
+							// Manipulate the DOM element directly instead of the angular way for performance gain
 							subsDiv.innerHTML = sub[i].text;
 							emptyLine = false;
 							return;

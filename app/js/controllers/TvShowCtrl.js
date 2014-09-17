@@ -3,11 +3,16 @@
 
 angular.module('storm.controllers')
 
-.controller('TvShowCtrl', ['$scope', '$state', '$timeout', 'tvshowData', 'Navigation', 'CoverRow', function($scope, $state, $timeout, tvshowData, Navigation, CoverRow) {
+.controller('TvShowCtrl', ['$scope', '$state', '$timeout', 'tvshowData', 'Navigation', 'CoverRow', '$translate', 
+	function($scope, $state, $timeout, tvshowData, Navigation, CoverRow, $translate) {
 	
 	// Set resolved data
 	if (typeof tvshowData === 'object') {
 		$scope.tvshow = tvshowData;
+		// More text ({number} seasons)
+		$translate($scope.tvshow.seasons.length !== 1 ? 'SEASONS_COUNT' : 'SEASON_COUNT', {number: $scope.tvshow.seasons.length}).then(function(value) {
+			$scope.tvshow.more = value;
+		});
 	}
 
 	// Render grid
