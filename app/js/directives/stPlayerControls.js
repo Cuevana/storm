@@ -203,6 +203,9 @@ angular.module('storm.directives')
 			scope.$on('$destroy', function() {
 				doc.off('keydown', onKeyDown);
 				doc.off('mousemove', onMouseMove);
+
+				// Show cursor before destroying
+				angular.element('body').css('cursor','auto');
 			});
 
 		}
