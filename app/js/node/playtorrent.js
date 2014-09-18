@@ -51,7 +51,7 @@ var playTorrent = function(torrent, callback, statsCallback) {
 	// Listen on port
 	engine.server.on('listening', function() {
 		if (loadedTimeout) clearTimeout(loadedTimeout);
-		var href = 'http://'+address()+':'+engine.server.address().port+'/';
+		var href = 'http://'+engine.server.address().address+':'+engine.server.address().port+'/';
 
 		var loadingStats = function () {
 			// Downloaded (size and percentage)
