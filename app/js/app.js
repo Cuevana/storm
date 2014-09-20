@@ -9,7 +9,7 @@ var request = require('request'),
 	gui = require('nw.gui');
 
 var appName = 'Cuevana Storm';
-var appVersion = '0.3b';
+var appVersion = '0.3.2';
 
 // Window
 var win = gui.Window.get();
