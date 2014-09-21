@@ -158,7 +158,7 @@ input[type="submit"] {
 }
 input[type="search"] {
   -webkit-appearance: textfield;
-  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
   box-sizing: content-box;
 }
 input[type="search"]::-webkit-search-decoration {
@@ -1242,8 +1242,8 @@ input {
 }
 .button {
   text-align: center;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  -moz-box-sizing: border-box;
+       box-sizing: border-box;
   border: 2px solid transparent;
   color: #fff;
   opacity: 0.5;
@@ -1267,11 +1267,9 @@ input {
   height: 100%;
   width: 100%;
   z-index: 100;
-  -webkit-box-align: center;
   -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: center;
   -webkit-justify-content: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -1291,7 +1289,6 @@ input {
   margin: 15px 0;
 }
 .popup.show {
-  display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
@@ -1345,8 +1342,8 @@ input {
   background: transparent;
   border: 2px solid #fff;
   padding: 12px 12px 12px 44px;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  -moz-box-sizing: border-box;
+       box-sizing: border-box;
   width: 100%;
   color: #fff;
   background: url(/app/assets/img/search.png);
@@ -1367,8 +1364,8 @@ input {
   z-index: 1;
 }
 .remote-head {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  -moz-box-sizing: border-box;
+       box-sizing: border-box;
   height: 80px;
   padding: 10px;
   background-color: rgba(44, 142, 217, 0.6);
@@ -1533,8 +1530,8 @@ input {
   border: 3px solid #fff;
   background-color: transparent;
   opacity: 0.5;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  -moz-box-sizing: border-box;
+       box-sizing: border-box;
 }
 .nav-controls > span[data-key="enter"]:active span {
   opacity: 1;
@@ -1642,8 +1639,7 @@ input {
   top: 50%;
   border-radius: 50%;
   background-color: #fff;
-  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 .player-controls > span.volume-track .mute,
 .player-controls .frame > span.volume-track .mute {

@@ -19,6 +19,11 @@ function randomPortNumber(min,max) {
 	return Math.floor(Math.random()*(max-min+1)+min);
 }
 
+function getVideoUrl(port) {
+	var ipAddress = address().indexOf('0.0.0.0') === -1 ? address() : '127.0.0.1';
+	return 'http://'+ipAddress+':'+port+'/';
+}
+
 var playTorrent = function(torrent, callback, statsCallback) {
 
 	// Create a unique file to cache the video (with a microtimestamp) to prevent read conflicts
@@ -51,7 +56,7 @@ var playTorrent = function(torrent, callback, statsCallback) {
 	// Listen on port
 	engine.server.on('listening', function() {
 		if (loadedTimeout) clearTimeout(loadedTimeout);
-		var href = 'http://'+engine.server.address().address+':'+engine.server.address().port+'/';
+		var href = getVideoUrl(engine.server.address().port);
 
 		var loadingStats = function () {
 			// Downloaded (size and percentage)
