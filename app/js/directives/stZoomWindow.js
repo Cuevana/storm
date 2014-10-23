@@ -56,11 +56,13 @@ angular.module('storm.directives')
 				resize();
 			});
 
+			var resizeEvent = _.throttle(resize, 250);
+
 			// Listen window resize
-			angular.element(window).on('resize', _.throttle(resize, 250));
+			angular.element(window).on('resize', resizeEvent);
 
 			element.on('$destroy', function() {
-				angular.element(window).off('resize', resize);
+				angular.element(window).off('resize', resizeEvent);
 			});
 		}
 	};

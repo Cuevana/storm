@@ -157,10 +157,11 @@ angular.module('storm.directives')
 				// If scrollable, set events
 				if (attr.scrollable === 'true') {
 					var friction = parseInt(attr.scrollFriction) || 200;
-					// Get mouse wheel event
-					element.on('wheel', _.throttle(onScroll, friction, {
+					var wheelEvent = _.throttle(onScroll, friction, {
 						trailing: false
-					}));
+					});
+					// Get mouse wheel event
+					element.on('wheel', wheelEvent);
 				}
 			}
 
@@ -181,7 +182,9 @@ angular.module('storm.directives')
 			scope.$on('$destroy', function() {
 				angular.element(document).off('keydown', onKeyDown);
 				angular.element(document).off('keyup', onKeyUp);
-				element.off('mousewheel');
+				if (attr.scrollable === 'true') {
+					element.off('wheel', wheelEvent);
+				}
 			});
 
 			// Watch for updates in scope to update items
