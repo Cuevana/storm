@@ -113,8 +113,8 @@ angular.module('storm.directives')
 				if (!boxItems.length) return;
 
 				// Set width to fit one row
-				var totalWidth = 0;
-				for (var i=0, ti = boxItems.length;i<ti;i++) {
+				var totalWidth = 0, i;
+				for (i=0, ti = boxItems.length;i<ti;i++) {
 					totalWidth += angular.element(boxItems[i]).outerWidth();
 				}
 				element.width(totalWidth * 2);
@@ -122,7 +122,7 @@ angular.module('storm.directives')
 				// Add click event for item selection
 				if (attr.slideClickable) {
 					var aItems = boxItems.children('a'), total = aItems.length;
-					for (var i=0;i<total;i++) {
+					for (i=0; i<total; i++) {
 						(function(item, index) {
 							angular.element(item).off('click.slide-row').on('click.slide-row', function(e) {
 								e.preventDefault();
@@ -153,11 +153,13 @@ angular.module('storm.directives')
 				Navigation.setActiveElement(attr.navTitle);
 			}
 
+			var wheelEvent;
+
 			function init() {
 				// If scrollable, set events
 				if (attr.scrollable === 'true') {
 					var friction = parseInt(attr.scrollFriction) || 200;
-					var wheelEvent = _.throttle(onScroll, friction, {
+					wheelEvent = _.throttle(onScroll, friction, {
 						trailing: false
 					});
 					// Get mouse wheel event

@@ -1,6 +1,6 @@
 {
   "name": "Cuevana",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Cuevana Storm desktop app based in peerflix module, packaged with node-webkit",
   "repository": {
     "type": "git",
@@ -31,26 +31,26 @@
     "iconv-lite": "^0.4.4",
     "network-address": "0.0.4",
     "numeral": "^1.5.3",
-    "peerflix": "~0.16.1",
+    "peerflix": "~0.20.4",
     "q": "^1.0.1",
-    "read-torrent": "^1.0.0",
-    "request": "~2.44.0",
+    "read-torrent": "^1.1.0",
+    "request": "~2.47.0",
     "subtitles-parser": "0.0.2",
     "torrent-health": "Cuevana/torrent-health"
   },
   "devDependencies": {
-    "bower": "^1.3.11",
+    "bower": "^1.3.12",
     "event-stream": "^3.1.7",
-    "gulp": "~3.8.8",
-    "gulp-autoprefixer": "1.0.0",
+    "gulp": "~3.8.9",
+    "gulp-autoprefixer": "1.0.1",
     "gulp-clean": "~0.3.1",
     "gulp-concat": "~2.4.1",
-    "gulp-exec": "^2.1.0",
+    "gulp-exec": "^2.1.1",
     "gulp-inject": "~1.0.2",
     "gulp-less": "~1.3.6",
-    "main-bower-files": "~2.0.0",
-    "node-webkit-builder": "~0.1.3",
+    "main-bower-files": "~2.1.0",
+    "node-webkit-builder": "~0.1.4",
     "nodewebkit": "0.10.5",
-    "npm": "^2.0.0"
+    "npm": "^2.1.5"
   }
 }

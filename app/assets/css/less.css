@@ -2202,6 +2202,7 @@ h3 {
   top: 0;
   left: 0;
   right: 0;
+  z-index: 10000;
 }
 .window-title-bar > ul {
   display: none;
@@ -2521,9 +2522,7 @@ html[xmlns] .clearfix {
 #qr-code {
   width: 200px;
   margin: 15px auto;
-  border-style: solid;
-  border-width: 5px;
-  border-color: #ffffff;
+  border: 5px solid #fff;
 }
 .text-input {
   -moz-box-sizing: border-box;

@@ -151,7 +151,7 @@ angular.module('storm.services')
 				width: 200,
 				height: 200,
 				colorDark : 'transparent',
-        			colorLight : '#ffffff',
+        		colorLight : '#ffffff',
 				correctLevel : QRCode.CorrectLevel.L
 			});
 		},
