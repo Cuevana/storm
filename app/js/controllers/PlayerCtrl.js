@@ -4,7 +4,7 @@
 angular.module('storm.controllers')
 
 // Player
-.controller('PlayerCtrl', ['$scope', '$rootScope', '$timeout', '$sce', 'Player', 'Settings', 'Navigation', 'Remote', 
+.controller('PlayerCtrl', ['$scope', '$rootScope', '$timeout', '$sce', 'Player', 'Settings', 'Navigation', 'Remote',
 	function($scope, $rootScope, $timeout, $sce, Player, Settings, Navigation, Remote) {
 
 	$scope.playerLayer = true;
@@ -52,6 +52,13 @@ angular.module('storm.controllers')
 		Player.closePlayer();
 	};
 
+	$scope.save = function() {
+		var pom = win.window.document.createElement('a');
+		pom.setAttribute('href', $scope.videoUrl);
+		pom.setAttribute('download', $scope.item.name + '.mp4');
+		pom.click();
+	}
+
 	// Wait for player scope
 	var watchPlayer = $scope.$watch(function() {
 		return angular.element(document.querySelector('video')).scope();
@@ -90,7 +97,7 @@ angular.module('storm.controllers')
 
 	//
 	// REMOTE EVENTS
-	// 
+	//
 
 	// Listen to track change to notify Remote
 	$scope.$watch('tracks', function(value) {

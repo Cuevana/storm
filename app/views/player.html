@@ -5,6 +5,7 @@
 	<st-title-bar></st-title-bar>
 	<div class="wrap">
 		<a class="button close" st-navigatable ng-click="showClosePlayer()" nav-on="{escape: 'preventDefault', enter: showClosePlayer, up: 'preventDefault'}" nav-title="close-button" st-nav-if="playerLayer"><span translate>EXIT_VIDEO</span></a>
+		<a class="button close" ng-if="progress.complete" st-navigatable ng-click="save()" nav-on="{escape: 'preventDefault', enter: save, up: 'preventDefault'}" nav-title="save-button" st-nav-if="playerLayer"><span translate>SAVE</span></a>
 		<div once-if="item">
 			<img once-src="item.type=='episode' ? item.tvshow.covers.medium : item.covers.medium" />
 			<div class="info">
