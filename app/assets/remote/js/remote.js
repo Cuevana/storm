@@ -334,6 +334,6 @@ var Remote = function() {
 	}
 };
 
-$(document).ready(function() {
+$(function() {
 	var remote = new Remote();
 });
