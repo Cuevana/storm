@@ -1,4 +1,4 @@
-# Cuevana Storm
+# Cuevana Storm(An Amazing App)
 
 Cuevana Storm desktop app based in peerflix module, packaged with node-webkit
 
@@ -14,7 +14,7 @@ Web app using AngularJS.
 
 #### Build
 
-Use this to build the application executable.
+Use this to build the application excutable.
 
 `npm run build` will build for your current platform.
 
